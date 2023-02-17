@@ -1,15 +1,53 @@
 {
-  "name": "myorg",
-  "version": "0.0.0",
+  "name": "aws-practitioner-training",
+  "author": "Oleksandr Radvanskyi",
+  "version": "0.0.1",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "sls::product:test": "nx run product-service:test",
+    "sls::product:build": "nx run product-service:build",
+    "sls::product:deploy": "nx run product-service:deploy"
+  },
+  "keywords": [
+    "aws",
+    "training",
+    "serverless"
+  ],
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
   "devDependencies": {
-    "@nrwl/js": "15.7.1",
-    "@nrwl/workspace": "15.7.1",
-    "nx": "15.7.1",
+    "@aws-sdk/types": "^3.272.0",
+    "@middy/core": "^4.2.4",
+    "@middy/http-content-negotiation": "^4.2.4",
+    "@middy/http-header-normalizer": "^4.2.4",
+    "@nrwl/eslint-plugin-nx": "^15.7.1",
+    "@nrwl/jest": "^15.7.1",
+    "@nrwl/js": "^15.7.1",
+    "@nrwl/linter": "^15.7.1",
+    "@nrwl/node": "^15.7.1",
+    "@nrwl/workspace": "^15.7.1",
+    "@serverless/typescript": "^3.0.0",
+    "@types/aws-lambda": "^8.10.110",
+    "@types/jest": "^28.1.1",
+    "@types/node": "^18.13.0",
+    "@types/serverless": "^3.12.10",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
+    "eslint": "^8.34.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^28.1.1",
+    "jest-environment-jsdom": "28.1.1",
+    "json-schema-to-ts": "^2.6.2",
+    "nx": "^15.7.1",
     "prettier": "^2.6.2",
-    "typescript": "~4.8.2"
+    "serverless": "^3.27.0",
+    "serverless-esbuild": "^1.37.3",
+    "ts-jest": "^28.0.5",
+    "ts-node": "10.9.1",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.8.2"
   }
 }
