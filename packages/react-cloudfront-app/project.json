@@ -64,7 +64,9 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/react-cloudfront-app/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "packages/react-cloudfront-app/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "deploy": {
@@ -73,6 +75,14 @@
         "cwd": "packages/react-cloudfront-app",
         "color": true,
         "command": "sls client deploy --no-config-change --no-policy-change --no-cors-change --no-confirm"
+      }
+    },
+    "invalidateCloudFrontCache": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/react-cloudfront-app",
+        "color": true,
+        "command": "sls invalidateCloudFrontCache"
       }
     }
   },
