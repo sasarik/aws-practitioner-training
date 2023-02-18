@@ -1,4 +1,4 @@
-import { slsUtils } from './sls-utils';
+import { slsUtils } from './serverless-utils';
 
 describe('slsUtils', () => {
   it('should work', () => {

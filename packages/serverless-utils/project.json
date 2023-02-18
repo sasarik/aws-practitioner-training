@@ -1,21 +1,21 @@
 {
-  "name": "sls-utils",
+  "name": "serverless-utils",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/sls-utils/src",
+  "sourceRoot": "packages/serverless-utils/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/sls-utils/**/*.ts"]
+        "lintFilePatterns": ["packages/serverless-utils/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/sls-utils/jest.config.ts",
+        "jestConfig": "packages/serverless-utils/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -23,16 +23,6 @@
           "ci": true,
           "codeCoverage": true
         }
-      }
-    },
-    "build": {
-      "executor": "@nrwl/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/sls-utils",
-        "main": "packages/sls-utils/src/index.ts",
-        "tsConfig": "packages/sls-utils/tsconfig.lib.json",
-        "assets": ["packages/sls-utils/*.md"]
       }
     }
   },

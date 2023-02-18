@@ -1,5 +1,9 @@
 import mockResponse from './mock-response.json';
-import { FancyAPIGatewayProxyEvent, formatJSONResponse, withLambdaHandler } from '@aws-practitioner-training/sls-utils';
+import {
+  FancyAPIGatewayProxyEvent,
+  formatJSONResponse,
+  withLambdaHandler,
+} from '@aws-practitioner-training/serverless-utils';
 
 const handler = async (event: FancyAPIGatewayProxyEvent) => {
   const { preferredCharset, preferredEncoding, preferredLanguage, preferredMediaType } = event;
