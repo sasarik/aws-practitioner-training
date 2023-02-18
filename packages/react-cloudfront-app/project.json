@@ -7,7 +7,7 @@
     "build": {
       "executor": "@nrwl/vite:build",
       "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
+      "defaultConfiguration": "development",
       "options": {
         "outputPath": "packages/react-cloudfront-app/dist"
       },
@@ -64,9 +64,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "packages/react-cloudfront-app/**/*.{ts,tsx,js,jsx}"
-        ]
+        "lintFilePatterns": ["packages/react-cloudfront-app/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "deploy": {
@@ -83,6 +81,18 @@
         "cwd": "packages/react-cloudfront-app",
         "color": true,
         "command": "sls invalidateCloudFrontCache"
+      }
+    },
+    "publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/react-cloudfront-app",
+        "color": true,
+        "commands": [
+          "sls client deploy --no-config-change --no-policy-change --no-cors-change --no-confirm",
+          "sls invalidateCloudFrontCache"
+        ],
+        "parallel": false
       }
     }
   },

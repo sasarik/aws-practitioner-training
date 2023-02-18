@@ -4,17 +4,17 @@ import Link from '@mui/material/Link';
 import Container from '@mui/material/Container';
 import Header from '~/components/MainLayout/components/Header';
 import Box from '@mui/material/Box';
-import { BRAND_TITLE } from '~/components/App/App';
+import { TITLE, VERSION } from '~/constants/branding';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/" underline="hover">
-        {BRAND_TITLE}
+        {`${TITLE}`}
       </Link>{' '}
       {new Date().getFullYear()}
-      {'.'}
+      {`. ${VERSION}`}
     </Typography>
   );
 }

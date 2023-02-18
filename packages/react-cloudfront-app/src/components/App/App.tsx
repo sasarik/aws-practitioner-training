@@ -8,8 +8,6 @@ import PageCart from '~/components/pages/PageCart/PageCart';
 import PageProducts from '~/components/pages/PageProducts/PageProducts';
 import { Typography } from '@mui/material';
 
-export const BRAND_TITLE = 'Welcome to our "Shop Store" v.2.3';
-
 function App() {
   return (
     <MainLayout>

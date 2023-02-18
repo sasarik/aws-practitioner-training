@@ -9,7 +9,7 @@ import Menu from '@mui/material/Menu';
 import Cart from '~/components/MainLayout/components/Cart';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@mui/material/Link';
-import { BRAND_TITLE } from '~/components/App/App';
+import { TITLE, VERSION } from '~/constants/branding';
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -29,7 +29,7 @@ export default function Header() {
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           <Link component={RouterLink} sx={{ color: 'inherit' }} underline="none" to="/">
-            {BRAND_TITLE}
+            {`Welcome to our ${TITLE} ${VERSION}`}
           </Link>
         </Typography>
 
