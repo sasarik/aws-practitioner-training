@@ -13,6 +13,14 @@
 
 ---
 
+[The "Pet Shop Store" Web Application](https://d177vmkb52wotz.cloudfront.net/)
+
+```
+https://d177vmkb52wotz.cloudfront.net/
+```
+
+---
+
 ## Serverless
 
 ### Package serverless stack
