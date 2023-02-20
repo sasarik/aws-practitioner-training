@@ -1,7 +1,8 @@
 // Types
-export { FancyAPIGatewayProxyEvent } from './lib/serverless-utils';
+
+// Constants
+export { HEADERS } from './lib/headers';
 
 // Functions
-export { handlerPath } from './lib/serverless-utils';
-export { withLambdaHandler } from './lib/serverless-utils';
-export { formatJSONResponse } from './lib/serverless-utils';
+export { buildLambdaHandlerPath } from './lib/serverless-utils';
+export { formatJSONSuccessResponse } from './lib/serverless-utils';

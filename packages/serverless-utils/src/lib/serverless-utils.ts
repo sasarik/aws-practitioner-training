@@ -1,32 +1,20 @@
-import middy from '@middy/core';
-import httpHeaderNormalizer from '@middy/http-header-normalizer';
-import httpContentNegotiation, { Event as HttpContentNegotiationEvent } from '@middy/http-content-negotiation';
-import type { APIGatewayProxyEvent as GatewayProxyEvent } from 'aws-lambda';
+import { HEADERS } from './headers';
 
-export type FancyAPIGatewayProxyEvent = GatewayProxyEvent & HttpContentNegotiationEvent;
-
-export const withLambdaHandler = (handler) =>
-  middy(handler)
-    .use(httpHeaderNormalizer())
-    .use(
-      httpContentNegotiation({
-        parseCharsets: false,
-        parseEncodings: false,
-        parseLanguages: false,
-        availableMediaTypes: ['application/json', 'text/plain'],
-      })
-    );
-
-// TODO tidy up this all
-export const formatJSONResponse = (response: Record<string, unknown>) => {
+export const formatJSONSuccessResponse = (response: NonNullable<Record<string, unknown>>, message?: string) => {
   return {
+    headers: {
+      ...HEADERS.RESPONSE.CONTENT_TYPE_APP_JSON,
+    },
     statusCode: 200,
-    body: JSON.stringify(response),
+    body: JSON.stringify({
+      message: message ?? 'This is AWS APIGateway + AWS Lambda',
+      ...response,
+    }),
   };
 };
 
-export const handlerPath = (context: string) => {
-  return `${context.split(process.cwd())[1].substring(1).replace(/\\/g, '/')}`;
+export const buildLambdaHandlerPath = (workingDirectory: string, lambdaHandlerName = 'main') => {
+  return `${workingDirectory.split(process.cwd())[1].substring(1).replace(/\\/g, '/')}/handler.${lambdaHandlerName}`;
 };
 
 // TODO AR del this

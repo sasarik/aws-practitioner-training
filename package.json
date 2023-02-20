@@ -33,9 +33,6 @@
   "devDependencies": {
     "@aws-sdk/types": "^3.272.0",
     "@emotion/babel-plugin": "11.10.5",
-    "@middy/core": "^4.2.4",
-    "@middy/http-content-negotiation": "^4.2.4",
-    "@middy/http-header-normalizer": "^4.2.4",
     "@nrwl/cypress": "15.7.2",
     "@nrwl/eslint-plugin-nx": "15.7.2",
     "@nrwl/jest": "15.7.2",

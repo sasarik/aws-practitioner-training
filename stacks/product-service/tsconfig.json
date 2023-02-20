@@ -2,16 +2,11 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "lib": ["ESNext"],
-    "resolveJsonModule": true, // TODO remove this after mock response gone
+    "resolveJsonModule": true, // TODO AR remove this after mock response gone
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "target": "ES2020",
     "outDir": "lib"
-    // "baseUrl": ".",
-    //    "paths": {
-    //      "@functions/*": ["src/functions/*"],
-    //      "@libs/*": ["src/libs/*"]
-    //    }
   },
   "include": ["src/**/*.ts", "serverless.ts"],
   "exclude": ["node_modules/**/*", ".serverless/**/*", ".webpack/**/*", "_warmup/**/*", ".vscode/**/*"],

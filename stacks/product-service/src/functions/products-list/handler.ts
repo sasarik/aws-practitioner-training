@@ -1,23 +1,7 @@
 import mockResponse from './mock-response.json';
-import {
-  FancyAPIGatewayProxyEvent,
-  formatJSONResponse,
-  withLambdaHandler,
-} from '@aws-practitioner-training/serverless-utils';
+import { formatJSONSuccessResponse } from '@aws-practitioner-training/serverless-utils';
 
-const handler = async (event: FancyAPIGatewayProxyEvent) => {
-  const { preferredCharset, preferredEncoding, preferredLanguage, preferredMediaType } = event;
-
-  return formatJSONResponse({
-    triggerEvent: {
-      greetings: 'Hi,there...',
-      preferredCharset,
-      preferredEncoding,
-      preferredLanguage,
-      preferredMediaType,
-    },
-    ...mockResponse,
-  });
+export const main = async () => {
+  // TODO AR - to get populate "mockResponse" from s3:bucket ?
+  return formatJSONSuccessResponse(mockResponse);
 };
-
-export const main = withLambdaHandler(handler);
