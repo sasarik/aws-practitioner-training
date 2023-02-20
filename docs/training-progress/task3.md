@@ -4,11 +4,17 @@
 
 ### Task 3.1
 
--[x] Create a lambda function called `getProductsList` under the same Serverless config file (i.e. `serverless.yaml`) of Product Service which will be triggered by the HTTP GET method. -[x] The requested URL should be `/products`. -[x] The response from the lambda should be a _full_ array of products (mock data should be used - this mock data should be stored in Product Service). -[ ] This endpoint should be integrated with Frontend app for _PLP_ (Product List Page) representation.
+- [x] Create a lambda function called `getProductsList` under the same Serverless config file (i.e. `serverless.yaml`) of Product Service which will be triggered by the HTTP GET method.
+- [x] The requested URL should be `/products`.
+- [x] The response from the lambda should be a _full_ array of products (mock data should be used - this mock data should be stored in Product Service).
+- [x] This endpoint should be integrated with Frontend app for _PLP_ (Product List Page) representation.
 
 ### Task 3.2
 
--[ ] Create a lambda function called `getProductsById` under the same Serverless config file (i.e. `serverless.yaml`) of Product Service which will be triggered by the HTTP GET method. -[ ] The requested URL should be `/products/{productId}` (what `productId` is in your application is up to you - productName, UUID, etc.). -[ ] The response from the lambda should be 1 searched product from an array of products (mock data should be used - this mock data should be stored in Product Service). -[ ] This endpoint is not needed to be integrated with Frontend right now.
+- [ ] Create a lambda function called `getProductsById` under the same Serverless config file (i.e. `serverless.yaml`) of Product Service which will be triggered by the HTTP GET method.
+- [ ] The requested URL should be `/products/{productId}` (what `productId` is in your application is up to you - productName, UUID, etc.).
+- [ ] The response from the lambda should be 1 searched product from an array of products (mock data should be used - this mock data should be stored in Product Service).
+- [ ] This endpoint is not needed to be integrated with Frontend right now.
 
 ### Task 3.3
 
@@ -21,7 +27,7 @@
 Reviewers should verify the lambda functions by invoking them through provided URLs.
 
 - [ ] **18** - Product Service Serverless config contains configuration for 2 lambda functions, API is not working at all, but YAML configuration is correct
-- [ ] **36** - The `getProductsList` OR `getProductsById` lambda function returns a correct response (POINT1)
+- [x] **36** - The `getProductsList` OR `getProductsById` lambda function returns a correct response (POINT1)
 - [ ] **54** - The `getProductsById` AND `getProductsList` lambda functions return a correct response code (POINT2)
 - [x] **72** - Your own Frontend application is integrated with Product Service (`/products` API) and products from Product Service are represented on Frontend. AND POINT1 and POINT2 are done.
 
