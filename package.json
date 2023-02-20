@@ -4,9 +4,9 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "sls::product:test": "nx run product-service:test",
-    "sls::product:build": "nx run product-service:build",
-    "sls::product:deploy": "nx run product-service:deploy"
+    "sls::products:test": "nx run products-service:test",
+    "sls::products:build": "nx run products-service:build",
+    "sls::products:deploy": "nx run products-service:deploy"
   },
   "keywords": [
     "aws",

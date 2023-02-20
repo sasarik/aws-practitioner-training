@@ -14,17 +14,18 @@ const queryClient = new QueryClient({
   },
 });
 
-if (import.meta.env.DEV) {
-  const { worker } = await import('./mocks/browser');
-  worker
-    .start({})
-    .then((r) => {
-      console.log(r);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-}
+// if (import.meta.env.DEV) {
+// TODO AR remove all that "./mocks/browser" things when all serverless api will integrated
+const { worker } = await import('./mocks/browser');
+worker
+  .start({})
+  .then((r) => {
+    console.log(r);
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+//}
 
 const container = document.getElementById('app');
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
