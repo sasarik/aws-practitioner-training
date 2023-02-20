@@ -5,6 +5,7 @@ import { formatErrorResponse } from '@aws-practitioner-training/serverless-utils
 import * as console from 'console';
 
 export const main = async (event: APIGatewayProxyEvent) => {
+  console.log('ProxyEvent: ', event);
   try {
     const {
       pathParameters: { productId = '' },
@@ -16,6 +17,6 @@ export const main = async (event: APIGatewayProxyEvent) => {
     return formatErrorResponse(404, 'Product not found');
   } catch (error: unknown) {
     console.log('The internal error occurred: ', error);
-    return formatErrorResponse(500, 'Internal Server Error');
+    return formatErrorResponse(500, 'Server Internal Error');
   }
 };

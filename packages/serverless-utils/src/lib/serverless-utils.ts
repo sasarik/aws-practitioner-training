@@ -13,25 +13,16 @@ export const formatJSONSuccessResponse = (response: NonNullable<Record<string, u
   };
 };
 
-export const formatErrorResponse = (status: number, message?: string) => {
+export const formatErrorResponse = (statusCode: number, message?: string) => {
   return {
     headers: {
-      ...HEADERS.RESPONSE.CONTENT_TYPE_APP_JSON_WITH_PROBLEM,
+      ...HEADERS.RESPONSE.CONTENT_TYPE_APP_TEXT_PLAIN,
     },
-    status,
-    body: JSON.stringify({
-      title: 'This is AWS APIGateway + AWS Lambda',
-      status,
-      details: message ?? 'Some error occurred',
-    }),
+    statusCode,
+    body: `This is AWS APIGateway + AWS Lambda: ${message ?? 'Not Found'}`,
   };
 };
 
 export const buildLambdaHandlerPath = (workingDirectory: string, lambdaHandlerName = 'main') => {
   return `${workingDirectory.split(process.cwd())[1].substring(1).replace(/\\/g, '/')}/handler.${lambdaHandlerName}`;
 };
-
-// TODO AR del this
-export function slsUtils(): string {
-  return 'sls-utils';
-}
