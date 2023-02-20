@@ -1,9 +1,9 @@
-import { HEADERS } from './headers';
+import { Response } from './headers';
 
 export const formatJSONSuccessResponse = (response: NonNullable<Record<string, unknown>>, message?: string) => {
   return {
     headers: {
-      ...HEADERS.RESPONSE.CONTENT_TYPE_APP_JSON,
+      ...Response.ContentType.AppJSON,
     },
     statusCode: 200,
     body: JSON.stringify({
@@ -16,7 +16,7 @@ export const formatJSONSuccessResponse = (response: NonNullable<Record<string, u
 export const formatErrorResponse = (statusCode: number, message?: string) => {
   return {
     headers: {
-      ...HEADERS.RESPONSE.CONTENT_TYPE_APP_TEXT_PLAIN,
+      ...Response.ContentType.TextPlain,
     },
     statusCode,
     body: `This is AWS APIGateway + AWS Lambda: ${message ?? 'Not Found'}`,

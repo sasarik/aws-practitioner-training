@@ -1,7 +1,7 @@
 // Types
 
 // Constants
-export { HEADERS } from './lib/headers';
+export { Response } from './lib/headers';
 
 // Functions
 export { buildLambdaHandlerPath } from './lib/serverless-utils';
