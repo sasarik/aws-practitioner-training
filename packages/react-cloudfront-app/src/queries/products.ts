@@ -1,14 +1,23 @@
 import axios, { AxiosError } from 'axios';
 import API_PATHS from '~/constants/apiPaths';
-import { AvailableProduct } from '~/models/Product';
+import { AvailableProduct, Product } from '~/models/Product';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import React from 'react';
+import { apiRoutes } from '~/constants/apiRoutes';
+
+const toAvailableProducts = (product: Product, index: number) => ({
+  ...product,
+  count: index + 1,
+});
+
+export const fetchAvailableProducts = async () => {
+  const res = await axios.get<{ products: Product[] }>(apiRoutes.getAvailableProductsListUrl());
+  // TODO AR error(s) handling ?
+  return res.data.products.map(toAvailableProducts);
+};
 
 export function useAvailableProducts() {
-  return useQuery<AvailableProduct[], AxiosError>('available-products', async () => {
-    const res = await axios.get<AvailableProduct[]>(`${API_PATHS.bff}/product/available`);
-    return res.data;
-  });
+  return useQuery<AvailableProduct[], AxiosError>('available-products', fetchAvailableProducts);
 }
 
 export function useInvalidateAvailableProducts() {

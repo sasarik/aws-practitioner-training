@@ -1,7 +1,9 @@
 import mockResponse from './mock-response.json';
 import { formatJSONSuccessResponse } from '@aws-practitioner-training/serverless-utils';
+import { APIGatewayProxyEvent } from 'aws-lambda';
 
-export const main = async () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const main = async (_event: APIGatewayProxyEvent) => {
   // TODO AR - to get populate "mockResponse" from s3:bucket ?
   return formatJSONSuccessResponse(mockResponse);
 };

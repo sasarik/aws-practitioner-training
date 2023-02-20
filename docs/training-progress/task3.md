@@ -23,7 +23,7 @@ Reviewers should verify the lambda functions by invoking them through provided U
 - [ ] **18** - Product Service Serverless config contains configuration for 2 lambda functions, API is not working at all, but YAML configuration is correct
 - [ ] **36** - The `getProductsList` OR `getProductsById` lambda function returns a correct response (POINT1)
 - [ ] **54** - The `getProductsById` AND `getProductsList` lambda functions return a correct response code (POINT2)
-- [ ] **72** - Your own Frontend application is integrated with Product Service (`/products` API) and products from Product Service are represented on Frontend. AND POINT1 and POINT2 are done.
+- [x] **72** - Your own Frontend application is integrated with Product Service (`/products` API) and products from Product Service are represented on Frontend. AND POINT1 and POINT2 are done.
 
 ## Additional (optional) tasks
 
