@@ -11,10 +11,10 @@
 
 ### Task 3.2
 
-- [ ] Create a lambda function called `getProductsById` under the same Serverless config file (i.e. `serverless.yaml`) of Product Service which will be triggered by the HTTP GET method.
-- [ ] The requested URL should be `/products/{productId}` (what `productId` is in your application is up to you - productName, UUID, etc.).
-- [ ] The response from the lambda should be 1 searched product from an array of products (mock data should be used - this mock data should be stored in Product Service).
-- [ ] This endpoint is not needed to be integrated with Frontend right now.
+- [x] Create a lambda function called `getProductsById` under the same Serverless config file (i.e. `serverless.yaml`) of Product Service which will be triggered by the HTTP GET method.
+- [x] The requested URL should be `/products/{productId}` (what `productId` is in your application is up to you - productName, UUID, etc.).
+- [x] The response from the lambda should be 1 searched product from an array of products (mock data should be used - this mock data should be stored in Product Service).
+- [x] This endpoint is not needed to be integrated with Frontend right now.
 
 ### Task 3.3
 

@@ -7,9 +7,9 @@ import * as console from 'console';
 export const main = async (event: APIGatewayProxyEvent) => {
   try {
     const {
-      pathParameters: { id },
+      pathParameters: { productId = '' },
     } = event;
-    const productById = mockResponse.products.find((product) => product.id.toLowerCase() === id.toLowerCase());
+    const productById = mockResponse.products.find((product) => product.id.toLowerCase() === productId.toLowerCase());
     if (productById) {
       return formatJSONSuccessResponse(productById);
     }
