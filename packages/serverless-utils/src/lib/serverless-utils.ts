@@ -13,6 +13,20 @@ export const formatJSONSuccessResponse = (response: NonNullable<Record<string, u
   };
 };
 
+export const formatErrorResponse = (status: number, message?: string) => {
+  return {
+    headers: {
+      ...HEADERS.RESPONSE.CONTENT_TYPE_APP_JSON_WITH_PROBLEM,
+    },
+    status,
+    body: JSON.stringify({
+      title: 'This is AWS APIGateway + AWS Lambda',
+      status,
+      details: message ?? 'Some error occurred',
+    }),
+  };
+};
+
 export const buildLambdaHandlerPath = (workingDirectory: string, lambdaHandlerName = 'main') => {
   return `${workingDirectory.split(process.cwd())[1].substring(1).replace(/\\/g, '/')}/handler.${lambdaHandlerName}`;
 };

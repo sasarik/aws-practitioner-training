@@ -1,4 +1,4 @@
-import mockResponse from './mock-response.json';
+import mockResponse from '../mocks/mock-products-response.json';
 import { formatJSONSuccessResponse } from '@aws-practitioner-training/serverless-utils';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 

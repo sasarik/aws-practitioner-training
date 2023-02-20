@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 import { baseServerlessConfiguration } from '../../serverless.base';
-import { getProductsList } from './src/functions';
+import { getProductsList, getProductsById } from './src/functions';
 
 const serverlessConfiguration: AWS = {
   ...baseServerlessConfiguration,
@@ -12,7 +12,7 @@ const serverlessConfiguration: AWS = {
     runtime: 'nodejs18.x',
   },
   // import the function via paths
-  functions: { getProductsList },
+  functions: { getProductsList, getProductsById },
 };
 
 module.exports = serverlessConfiguration;
