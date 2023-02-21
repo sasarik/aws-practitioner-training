@@ -21,6 +21,46 @@ https://d177vmkb52wotz.cloudfront.net/
 
 ---
 
+## The "Pet Shop Store" Dev duties
+
+Running Front-End Application build
+
+```
+nx run react-cloudfront-app:build
+```
+
+Running Front-End Application local server
+
+```
+nx run react-cloudfront-app:serve
+```
+
+Publish Front-End Application to ASW Cloud
+
+```
+nx run react-cloudfront-app:publish
+```
+
+Running serverless services build
+
+```
+nx run products-service:build
+```
+
+Running serverless products-service build
+
+```
+nx run products-service:build
+```
+
+Running serverless products-service publishing to ASW Cloud
+
+```
+nx run products-service:deploy
+```
+
+---
+
 ## Serverless
 
 ### Package serverless stack

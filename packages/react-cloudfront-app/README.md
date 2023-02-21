@@ -32,7 +32,7 @@ Starts the project in production mode on local environment.
 
 ### `test`, `test:ui`, `test:coverage`
 
-Runs tests in console, in browser or with coverage.
+Running tests in console, in browser or with coverage.
 
 ### `lint`, `prettier`
 
