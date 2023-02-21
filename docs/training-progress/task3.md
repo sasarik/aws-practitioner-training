@@ -18,7 +18,9 @@
 
 ### Task 3.3
 
--[x] Commit all your work to separate branch (e.g. `task-3` from the latest `master`) in your own repository. -[x] Create a pull request to the `master` branch. -[ ] Submit the link to the pull request for crosscheck
+- [x] Commit all your work to separate branch (e.g. `task-3` from the latest `master`) in your own repository.
+- [x] Create a pull request to the `master` branch.
+- [x] Submit the link to the pull request for crosscheck
 
 ## Evaluation criteria (each mark includes previous mark criteria)
 
@@ -38,7 +40,7 @@ Reviewers should verify the lambda functions by invoking them through provided U
 - [x] **+4** - Async/await is used in lambda functions
 - [ ] **+4** - ES6 modules are used for Product Service implementation
 - [ ] **+4** - Custom Webpack/ESBuild/etc is manually configured for Product Service. Not applicable for preconfigured/built-in bundlers that come with templates, plugins, etc.
-- [ ] **+4** **(All languages)** - SWAGGER documentation is created for Product Service
+- [x] **+4** **(All languages)** - SWAGGER documentation is created for Product Service
 - [x] **+4** **(All languages)** - Lambda handlers are covered by basic UNIT tests (NO infrastructure logic is needed to be covered)
 - [x] **+4** **(All languages)** - Lambda handlers (`getProductsList`, `getProductsById`) code is written not in 1 single module (file) and separated in codebase.
 - [x] **+4** **(All languages)** - Main error scenarios are handled by API ("Product not found" error).

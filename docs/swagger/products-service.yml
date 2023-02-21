@@ -1,0 +1,100 @@
+openapi: 3.0.3
+info:
+  title: 'Products service: API with AWS API Gateway and AWS Lambda'
+  version: 0.0.1
+servers:
+  - url: https://c6lk4tmf1g.execute-api.eu-west-1.amazonaws.com/dev
+    description: Dev stage AWS API Gateway
+paths:
+  /products:
+    get:
+      summary: Returns list of available products
+      tags:
+        - Products
+      operationId: getProductsList
+      responses:
+        '200':
+          description: Available projects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
+        'default':
+          description: Non standard response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /products/{productId}:
+    get:
+      summary: Returns product by provided id
+      tags:
+        - Products
+      operationId: getProductsById
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The unique identifier of product
+          example: '7567ec4b-b10c-48c5-9345-fc73c48a80aa'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Product Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        'default':
+          description: Non standard response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - price
+      properties:
+        id:
+          type: string
+          example: 7567ec4b-b10c-48c5-9345-fc73c48a80aa
+        title:
+          type: string
+          example: Pet Dog Cat Food
+        description:
+          type: string
+          example: Pet Dog Cat Food Bowl with Bottle Automatic Drinking Feeder
+        price:
+          type: number
+          example: 9.99
+    Products:
+      type: object
+      required:
+        - products
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: 'Internal server error'

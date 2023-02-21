@@ -16,10 +16,12 @@ export const formatJSONSuccessResponse = (response: NonNullable<Record<string, u
 export const formatErrorResponse = (statusCode: number, message?: string) => {
   return {
     headers: {
-      ...Response.ContentType.TextPlain,
+      ...Response.ContentType.AppJSON,
     },
     statusCode,
-    body: `This is AWS APIGateway + AWS Lambda: ${message ?? 'Not Found'}`,
+    body: JSON.stringify({
+      message: `This is AWS APIGateway + AWS Lambda: ${message ?? 'Not Found'}`,
+    }),
   };
 };
 

@@ -16,7 +16,7 @@ describe('serverless-utils tests', () => {
     it('should correct format problem json response', () => {
       expect(formatErrorResponse(400)).toMatchObject({
         headers: {
-          'Content-Type': 'text/plain',
+          'Content-Type': 'application/json',
         },
         body: expect.any(String),
       });
