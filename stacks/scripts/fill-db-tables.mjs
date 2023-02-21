@@ -1,6 +1,6 @@
-const AWS = require('aws-sdk');
-const productsMockData = require('../products-service/mock-data/mock-products-response.json');
-const stocksMockData = require('../products-service/mock-data/mock-stocks.json');
+import AWS from 'aws-sdk'; // TODO it using v3 SDK and get rid off ''aws-sdk' dependency
+import productsMockData from '../products-service/mock-data/mock-products-response.json' assert { type: 'json' };
+import stocksMockData from '../products-service/mock-data/mock-stocks.json' assert { type: 'json' };
 
 AWS.config.update({ region: 'eu-west-1' });
 

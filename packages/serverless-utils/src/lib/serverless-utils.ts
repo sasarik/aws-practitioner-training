@@ -1,6 +1,6 @@
 import { Response } from './headers';
 
-export const formatJSONSuccessResponse = (response: NonNullable<Record<string, unknown>>, message?: string) => {
+export const formatJSONSuccessResponse = <T>(response: NonNullable<T>, message?: string) => {
   return {
     headers: {
       ...Response.ContentType.AppJSON,

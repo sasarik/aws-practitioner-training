@@ -3,12 +3,10 @@ import * as productsListHandler from './handler';
 describe('products-list tests', () => {
   it('should find product by id', async () => {
     const spyOn = jest.spyOn(productsListHandler, 'getAvailableProducts').mockImplementation(() =>
-      Promise.resolve({
-        products: [
-          { id: '1', title: 'Test Product 1' },
-          { id: '2', title: 'Test Product 2' },
-        ],
-      })
+      Promise.resolve([
+        { id: '1', title: 'Test Product 1' },
+        { id: '2', title: 'Test Product 2' },
+      ])
     );
     const result = await productsListHandler.main({
       body: '',
@@ -24,10 +22,19 @@ describe('products-list tests', () => {
       stageVariables: undefined,
       pathParameters: { productId: '42' },
     });
+    const resultBody = JSON.parse(result.body);
 
     expect(result).toMatchObject({
       statusCode: 200,
-      body: expect.stringContaining('{"id":"1","title":"Test Product 1"},{"id":"2","title":"Test Product 2"}'),
+      body: expect.any(String),
+    });
+
+    expect(resultBody).toMatchObject({
+      message: expect.any(String),
+      products: [
+        { id: '1', title: 'Test Product 1' },
+        { id: '2', title: 'Test Product 2' },
+      ],
     });
     spyOn.mockRestore();
   });

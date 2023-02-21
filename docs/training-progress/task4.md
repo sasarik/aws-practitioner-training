@@ -1,6 +1,6 @@
 ### Task 4.1
 
-- [ ] Use AWS Console to create two database tables in DynamoDB. Expected schemas for products and stocks:
+- [x] Use AWS Console to create two database tables in DynamoDB. Expected schemas for products and stocks:
 
 Product model:
 
@@ -20,13 +20,13 @@ Stock model:
     count - integer (Total number of products in stock, can't be exceeded)
 ```
 
-- [ ] Write a script to fill tables with test examples. Store it in your GitHub repository. Execute it for your DB to fill data.
+- [x] Write a script to fill tables with test examples. Store it in your GitHub repository. Execute it for your DB to fill data.
 
 ---
 
 ### Task 4.2
 
-- [ ] Extend your `serverless.yml` file with data about your database table and pass it to lambda’s environment variables section.
+- [x] Extend your `serverless.yml` file with data about your database table and pass it to lambda’s environment variables section.
 - [ ] Integrate the `getProductsList` lambda to return via GET `/products` request a list of products from the database (joined stocks and products tables).
 - [ ] Implement a Product model on FE side as a joined model of product and stock by `productId`. For example:
 - [ ] _BE: Separate tables in DynamoDB_
