@@ -64,9 +64,7 @@ components:
     Product:
       type: object
       required:
-        - id
         - title
-        - description
         - price
       properties:
         id:

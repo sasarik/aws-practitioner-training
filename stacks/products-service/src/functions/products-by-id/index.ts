@@ -1,4 +1,8 @@
 import { buildLambdaHandlerPath } from '@aws-practitioner-training/serverless-utils';
+import * as dotenv from 'dotenv';
+import * as process from 'process';
+
+dotenv.config();
 
 // ************* To allow Scan of DynamoDB Table *************
 // 1. IAM: Go to policies
@@ -17,6 +21,7 @@ export const getProductsById = {
   ],
   description: 'The find product by provided id function',
   environment: {
-    StocksTableName: 'aws-practitioner-training-stocks',
+    ProductsTableName: process.env.PRODUCTS_TABLE_NAME,
+    StocksTableName: process.env.STOCKS_TABLE_NAME,
   },
 };

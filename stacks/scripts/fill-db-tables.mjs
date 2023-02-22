@@ -1,8 +1,12 @@
 import AWS from 'aws-sdk'; // TODO it using v3 SDK and get rid off ''aws-sdk' dependency
 import productsMockData from '../products-service/mock-data/mock-products-response.json' assert { type: 'json' };
 import stocksMockData from '../products-service/mock-data/mock-stocks.json' assert { type: 'json' };
+import * as dotenv from 'dotenv';
+import * as process from 'process';
 
-AWS.config.update({ region: 'eu-west-1' });
+dotenv.config();
+
+AWS.config.update({ region: process.env.AWS_REGION });
 
 const ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
 
@@ -17,7 +21,7 @@ const post = (params) => {
 };
 
 const productsDbItems = productsMockData.products.map(({ id, description, title, price }) => ({
-  TableName: 'aws-practitioner-training-products',
+  TableName: process.env.PRODUCTS_TABLE_NAME,
   Item: {
     id: { S: id },
     description: { S: description },
@@ -27,7 +31,7 @@ const productsDbItems = productsMockData.products.map(({ id, description, title,
 }));
 
 const stocksDbItems = stocksMockData.stocks.map(({ productId, count }) => ({
-  TableName: 'aws-practitioner-training-stocks',
+  TableName: process.env.STOCKS_TABLE_NAME,
   Item: {
     productId: { S: productId },
     count: { N: count.toString() },
