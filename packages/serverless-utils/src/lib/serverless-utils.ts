@@ -1,5 +1,15 @@
 import { Response } from './headers';
 
+export const mapItemsById = <T extends object>(idProp: string, items: T[]) => {
+  const resultMap = new Map<string, T>();
+  items.forEach((item) => {
+    if (idProp in item) {
+      resultMap.set(item[idProp], item);
+    }
+  });
+  return resultMap;
+};
+
 export const formatJSONSuccessResponse = <T>(response: NonNullable<T>, message?: string) => {
   return {
     headers: {

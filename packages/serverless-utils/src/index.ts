@@ -7,3 +7,4 @@ export { Response } from './lib/headers';
 export { buildLambdaHandlerPath } from './lib/serverless-utils';
 export { formatJSONSuccessResponse } from './lib/serverless-utils';
 export { formatErrorResponse } from './lib/serverless-utils';
+export { mapItemsById } from './lib/serverless-utils';

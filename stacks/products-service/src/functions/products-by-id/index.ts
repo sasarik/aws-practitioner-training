@@ -17,6 +17,6 @@ export const getProductsById = {
   ],
   description: 'The find product by provided id function',
   environment: {
-    TableName: 'aws-practitioner-training-stocks',
+    StocksTableName: 'aws-practitioner-training-stocks',
   },
 };

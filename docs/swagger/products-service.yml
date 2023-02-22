@@ -81,6 +81,9 @@ components:
         price:
           type: number
           example: 9.99
+        count:
+          type: integer
+          example: 18
     Products:
       type: object
       required:
