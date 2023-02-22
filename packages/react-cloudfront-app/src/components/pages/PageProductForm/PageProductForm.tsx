@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import { AvailableProduct, AvailableProductSchema } from '~/models/Product';
+import { Product, ProductSchema } from '~/models/Product';
 import { Field, Form, Formik, FormikProps } from 'formik';
 import TextField from '~/components/Form/TextField';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -13,7 +13,7 @@ import {
   useUpsertAvailableProduct,
 } from '~/queries/products';
 
-const initialValues: AvailableProduct = AvailableProductSchema.cast({});
+const initialValues: Product = ProductSchema.cast({});
 
 export default function PageProductForm() {
   const navigate = useNavigate();
@@ -22,8 +22,8 @@ export default function PageProductForm() {
   const removeProductCache = useRemoveProductCache();
   const { data, isLoading } = useAvailableProduct(id);
   const { mutateAsync: upsertAvailableProduct } = useUpsertAvailableProduct();
-  const onSubmit = (values: AvailableProduct) => {
-    const formattedValues = AvailableProductSchema.cast(values);
+  const onSubmit = (values: Product) => {
+    const formattedValues = ProductSchema.cast(values);
     const productToSave = id
       ? {
           ...formattedValues,
@@ -47,8 +47,8 @@ export default function PageProductForm() {
       {isLoading ? (
         <>Loading...</>
       ) : (
-        <Formik initialValues={data ?? initialValues} validationSchema={AvailableProductSchema} onSubmit={onSubmit}>
-          {({ dirty, isSubmitting }: FormikProps<AvailableProduct>) => (
+        <Formik initialValues={data ?? initialValues} validationSchema={ProductSchema} onSubmit={onSubmit}>
+          {({ dirty, isSubmitting }: FormikProps<Product>) => (
             <Form autoComplete="off">
               <Grid container spacing={2}>
                 <Grid item xs={12}>

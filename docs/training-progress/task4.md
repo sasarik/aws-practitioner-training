@@ -28,7 +28,7 @@ Stock model:
 
 - [x] Extend your `serverless.yml` file with data about your database table and pass it to lambda’s environment variables section.
 - [x] Integrate the `getProductsList` lambda to return via GET `/products` request a list of products from the database (joined stocks and products tables).
-- [ ] Implement a Product model on FE side as a joined model of product and stock by `productId`. For example:
+- [x] Implement a Product model on FE side as a joined model of product and stock by `productId`. For example:
 - [x] _BE: Separate tables in DynamoDB_
 
 ```
@@ -48,7 +48,7 @@ Stock model:
   }
 ```
 
-- [ ] FE: One product model as a result of BE models join (product with stock)\_
+- [x] FE: One product model as a result of BE models join (product with stock)
 
 ```
   Product model example on Frontend side:
