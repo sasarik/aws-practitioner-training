@@ -1,25 +1,55 @@
-import mockResponse from '../../../mock-data/mock-products-response.json';
-import { formatJSONSuccessResponse } from '@aws-practitioner-training/serverless-utils';
+import { formatErrorResponse, formatJSONSuccessResponse } from '@aws-practitioner-training/serverless-utils';
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { formatErrorResponse } from '@aws-practitioner-training/serverless-utils';
-import * as console from 'console';
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
+import { omittingDbCommandsOutputAttributes } from '../lib';
 
-// TODO AR get rid off on it after data from DB populate
-export const getAvailableProducts = async (): Promise<{ products: { id: string }[] }> => Promise.resolve(mockResponse);
+const ProductsTableName = process.env.ProductsTableName;
+const StocksTableName = process.env.StocksTableName;
+const dynamo = DynamoDBDocumentClient.from(new DynamoDBClient({}));
+
+export const getProductById = async (id: string) => {
+  if (!id) return undefined;
+
+  const [product, stock] = await Promise.all([
+    dynamo.send(
+      new GetItemCommand({
+        TableName: ProductsTableName,
+        Key: {
+          id: { S: id },
+        },
+      })
+    ),
+    dynamo.send(
+      new GetItemCommand({
+        TableName: StocksTableName,
+        Key: {
+          productId: { S: id },
+        },
+      })
+    ),
+  ]);
+
+  if (!product.Item) return undefined;
+
+  return {
+    ...omittingDbCommandsOutputAttributes(product.Item),
+    count: omittingDbCommandsOutputAttributes(stock.Item)?.count ?? 0,
+  };
+};
 
 export const main = async (event: APIGatewayProxyEvent) => {
   try {
     const {
-      pathParameters: { productId = '' },
+      pathParameters: { productId },
     } = event;
-    const { products } = await getAvailableProducts();
-    const productById = products.find((product) => product.id.toLowerCase() === productId.toLowerCase());
-    if (productById) {
-      return formatJSONSuccessResponse({ product: productById });
+    const product = await getProductById(productId);
+    if (product) {
+      return formatJSONSuccessResponse({ product });
     }
     return formatErrorResponse(404, 'Product not found');
   } catch (error: unknown) {
-    console.log('The internal error occurred: ', error);
+    // console.log('The internal error occurred: ', error);
     return formatErrorResponse(500, 'Server Internal Error');
   }
 };

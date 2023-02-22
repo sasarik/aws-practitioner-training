@@ -63,7 +63,7 @@ Stock model:
 
 - [ ] _NOTE: This setup means User cannot buy more than `product.count` (no more items in stock) - but this is future functionality on FE side._
 
-- [ ] Integrate the `getProductsById` lambda to return via GET `/products/{productId}` request a single product from the database.
+- [x] Integrate the `getProductsById` lambda to return via GET `/products/{productId}` request a single product from the database.
 
 ---
 

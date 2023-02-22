@@ -7,12 +7,11 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import console from 'console';
 import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { ProductDbItem, StockDbItem } from '../lib';
 
 const ProductsTableName = process.env.ProductsTableName;
 const StocksTableName = process.env.StocksTableName;
 const dynamo = DynamoDBDocumentClient.from(new DynamoDBClient({}));
-
-type StockDbItem = { productId: string; count: number };
 
 export const getAvailableProductItems = async () => {
   const [products, stocks] = await Promise.all([
@@ -22,7 +21,7 @@ export const getAvailableProductItems = async () => {
 
   const stocksMap = mapItemsById<StockDbItem>('productId', <StockDbItem[]>stocks.Items);
 
-  return products.Items.map((product: { id: string }) => {
+  return products.Items.map((product: ProductDbItem) => {
     return {
       ...product,
       count: stocksMap.get(product.id)?.count ?? 0,

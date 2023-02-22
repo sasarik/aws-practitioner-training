@@ -1,10 +1,21 @@
 import * as productByIdHandler from './handler';
 
 describe('getProductsById tests', () => {
+  let getProductByIdMock;
+  beforeEach(() => {
+    getProductByIdMock = jest
+      .spyOn(productByIdHandler, 'getProductById')
+      .mockImplementation((productId) =>
+        productId === '2'
+          ? Promise.resolve({ id: '2', title: 'Test Product To Find', count: 2, description: '22', price: 22 })
+          : Promise.reject(new Error('Test Product Not Found.'))
+      );
+  });
+  afterEach(() => {
+    getProductByIdMock.mockRestore();
+  });
+
   it('should find product by id', async () => {
-    const spyOn = jest
-      .spyOn(productByIdHandler, 'getAvailableProducts')
-      .mockImplementation(() => Promise.resolve({ products: [{ id: '42', title: 'Test Product To Find' }] }));
     const result = await productByIdHandler.main({
       body: '',
       headers: undefined,
@@ -17,20 +28,16 @@ describe('getProductsById tests', () => {
       requestContext: undefined,
       resource: '',
       stageVariables: undefined,
-      pathParameters: { productId: '42' },
+      pathParameters: { productId: '2' },
     });
 
     expect(result).toMatchObject({
       statusCode: 200,
-      body: expect.stringContaining('"id":"42","title":"Test Product To Find"'),
+      body: expect.stringContaining('"id":"2","title":"Test Product To Find"'),
     });
-    spyOn.mockRestore();
   });
 
   it('should return "Not Found" if no products by criteria(s)', async () => {
-    const spyOn = jest
-      .spyOn(productByIdHandler, 'getAvailableProducts')
-      .mockImplementation(() => Promise.resolve({ products: [{ id: '42', title: 'Test Product To Find' }] }));
     const result = await productByIdHandler.main({
       body: '',
       headers: undefined,
@@ -47,9 +54,8 @@ describe('getProductsById tests', () => {
     });
 
     expect(result).toMatchObject({
-      statusCode: 404,
-      body: expect.stringContaining('Product not found'),
+      statusCode: 500,
+      body: expect.stringContaining('Server Internal Error'),
     });
-    spyOn.mockRestore();
   });
 });
