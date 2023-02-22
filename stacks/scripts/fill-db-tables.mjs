@@ -26,10 +26,10 @@ const productsDbItems = productsMockData.products.map(({ id, description, title,
   },
 }));
 
-const stocksDbItems = stocksMockData.stocks.map(({ product_id, count }) => ({
+const stocksDbItems = stocksMockData.stocks.map(({ productId, count }) => ({
   TableName: 'aws-practitioner-training-stocks',
   Item: {
-    product_id: { S: product_id },
+    productId: { S: productId },
     count: { N: count.toString() },
   },
 }));
