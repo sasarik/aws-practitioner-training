@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@aws-practitioner-training/models": ["packages/models/src/index.ts"],
       "@aws-practitioner-training/serverless-utils": ["packages/serverless-utils/src/index.ts"]
     },
     "noUnusedLocals": true,
