@@ -10,6 +10,11 @@ export const fetchAvailableProducts = async (): Promise<Product[]> => {
   return res.data.products;
 };
 
+export const fetchAvailableProductById = async (id: string) => {
+  const res = await axios.get<{ product: Product }>(apiRoutes.getProductById(id));
+  return res.data.product;
+};
+
 export function useAvailableProducts() {
   return useQuery<Product[], AxiosError>('available-products', fetchAvailableProducts);
 }
@@ -20,12 +25,9 @@ export function useInvalidateAvailableProducts() {
 }
 
 export function useAvailableProduct(id?: string) {
-  return useQuery<Product, AxiosError>(
+  return useQuery<Product | undefined, AxiosError>(
     ['product', { id }],
-    async () => {
-      const res = await axios.get<Product>(`${API_PATHS.bff}/product/${id}`);
-      return res.data;
-    },
+    async () => (id ? await fetchAvailableProductById(id) : undefined),
     { enabled: !!id }
   );
 }
