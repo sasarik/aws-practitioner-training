@@ -40,16 +40,14 @@ export const getProductById = async (id: string) => {
 
 export const main = async (event: APIGatewayProxyEvent) => {
   try {
-    const {
-      pathParameters: { productId },
-    } = event;
-    const product = await getProductById(productId);
+    console.log('~~~~~ Payload: ', event.pathParameters);
+    const product = await getProductById(event.pathParameters.productId);
     if (product) {
       return formatJSONSuccessResponse({ product });
     }
     return formatErrorResponse(404, 'Product not found');
   } catch (error: unknown) {
-    // console.log('The internal error occurred: ', error);
+    console.error('~~~~~ The error occurred: ', error);
     return formatErrorResponse(500, 'Server Internal Error');
   }
 };

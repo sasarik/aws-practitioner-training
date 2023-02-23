@@ -34,7 +34,7 @@ export const main = async (_event: APIGatewayProxyEvent) => {
     const productItems = await getAvailableProductItems();
     return formatJSONSuccessResponse({ products: productItems });
   } catch (error) {
-    console.log('The internal error occurred: ', error);
+    console.error('~~~~~ The error occurred: ', error);
     return formatErrorResponse(500, 'Server Internal Error');
   }
 };
