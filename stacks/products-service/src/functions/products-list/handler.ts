@@ -4,7 +4,6 @@ import {
   mapItemsById,
 } from '@aws-practitioner-training/serverless-utils';
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import console from 'console';
 import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { ProductDbItem, StockDbItem } from '../lib';

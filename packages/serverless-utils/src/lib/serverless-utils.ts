@@ -10,14 +10,20 @@ export const mapItemsById = <T extends object>(idProp: string, items: T[]) => {
   return resultMap;
 };
 
-export const formatJSONSuccessResponse = <T>(response: NonNullable<T>, message?: string) => {
+const MSG_PREFIX = 'APIGateway/AWSLambda:';
+
+export const formatJSONSuccessResponse = <T>(
+  response: NonNullable<T>,
+  statusCode: 200 | 201 = 200,
+  message?: string
+) => {
   return {
     headers: {
       ...Response.ContentType.AppJSON,
     },
-    statusCode: 200,
+    statusCode,
     body: JSON.stringify({
-      message: message ?? 'This is AWS APIGateway + AWS Lambda',
+      message: `${MSG_PREFIX} ${message ?? 'Ok'}`,
       ...response,
     }),
   };
@@ -30,7 +36,7 @@ export const formatErrorResponse = (statusCode: number, message?: string) => {
     },
     statusCode,
     body: JSON.stringify({
-      message: `This is AWS APIGateway + AWS Lambda: ${message ?? 'Not Found'}`,
+      message: `${MSG_PREFIX} ${message ?? 'Not Found'}`,
     }),
   };
 };

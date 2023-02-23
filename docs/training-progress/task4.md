@@ -61,7 +61,7 @@ Stock model:
   }
 ```
 
-- [ ] _NOTE: This setup means User cannot buy more than `product.count` (no more items in stock) - but this is future functionality on FE side._
+- [x] _NOTE: This setup means User cannot buy more than `product.count` (no more items in stock) - but this is future functionality on FE side._
 
 - [x] Integrate the `getProductsById` lambda to return via GET `/products/{productId}` request a single product from the database.
 
@@ -69,10 +69,10 @@ Stock model:
 
 ### Task 4.3
 
-- [ ] Create a lambda function called `createProduct` under the same Serverless config file (i.e. `serverless.yaml`) of Product Service which will be triggered by the HTTP POST method.
-- [ ] The requested URL should be `/products`.
+- [x] Create a lambda function called `createProduct` under the same Serverless config file (i.e. `serverless.yaml`) of Product Service which will be triggered by the HTTP POST method.
+- [x] The requested URL should be `/products`.
 - [ ] Implement its logic, so it will be creating a new item in a Products table.
-- [ ] Save the URL (API Gateway URL) to execute the implemented lambda functions for later - you'll need to provide it in the PR (e.g. in PR's description) when submitting the task.
+- [x] Save the URL (API Gateway URL) to execute the implemented lambda functions for later - you'll need to provide it in the PR (e.g. in PR's description) when submitting the task.
 
 ---
 
