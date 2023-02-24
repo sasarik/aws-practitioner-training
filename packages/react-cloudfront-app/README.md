@@ -81,9 +81,3 @@ http://aws-training-react-cloudfront-bucket.s3-website-eu-west-1.amazonaws.com
 ```
 https://d177vmkb52wotz.cloudfront.net/
 ```
-
-#### APIGateway
-
-```
-https://c6lk4tmf1g.execute-api.eu-west-1.amazonaws.com/dev
-```

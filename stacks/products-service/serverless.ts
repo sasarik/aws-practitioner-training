@@ -1,7 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 import { baseServerlessConfiguration } from '../../serverless.base';
-import { getProductsList, getProductsById } from './src/functions';
-import { createProduct } from './src/functions';
+import { getProductsList, getProductsById, createProduct, resolveCORS } from './src/functions';
 
 const SERVICE_NAME = 'aws-training-products-service';
 const STAGE = 'dev';
@@ -24,7 +23,7 @@ const serverlessConfiguration: AWS = {
     },
   },
   // import the function via paths
-  functions: { getProductsList, getProductsById, createProduct },
+  functions: { resolveCORS, getProductsList, getProductsById, createProduct },
 };
 
 module.exports = serverlessConfiguration;

@@ -24,5 +24,6 @@ export const createProduct = {
   environment: {
     ProductsTableName: process.env.PRODUCTS_TABLE_NAME,
     StocksTableName: process.env.STOCKS_TABLE_NAME,
+    publicUrls: process.env.PUBLIC_URLs,
   },
 };

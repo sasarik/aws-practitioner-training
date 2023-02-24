@@ -6,12 +6,12 @@ import React from 'react';
 import { apiRoutes } from '~/constants/apiRoutes';
 
 export const fetchAvailableProducts = async (): Promise<Product[]> => {
-  const res = await axios.get<{ products: Product[] }>(apiRoutes.getAvailableProductsListUrl());
+  const res = await axios.get<{ products: Product[] }>(apiRoutes.productsService());
   return res.data.products;
 };
 
 export const fetchAvailableProductById = async (id: string) => {
-  const res = await axios.get<{ product: Product }>(apiRoutes.getProductById(id));
+  const res = await axios.get<{ product: Product }>(apiRoutes.productById(id));
   return res.data.product;
 };
 
@@ -42,7 +42,7 @@ export function useRemoveProductCache() {
 
 export function useUpsertAvailableProduct() {
   return useMutation((values: Product) =>
-    axios.put<Product>(`${API_PATHS.bff}/product`, values, {
+    axios.post<Product>(apiRoutes.productsService(), values, {
       headers: {
         Authorization: `Basic ${localStorage.getItem('authorization_token')}`,
       },

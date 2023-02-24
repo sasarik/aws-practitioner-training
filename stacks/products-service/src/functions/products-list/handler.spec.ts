@@ -8,7 +8,7 @@ describe('products-list tests', () => {
         { id: '2', title: 'Test Product 2', count: 2, description: '22', price: 22 },
       ])
     );
-    const result = await productsListHandler.main({
+    const result = await productsListHandler.handlerImpl({
       body: '',
       headers: undefined,
       httpMethod: '',

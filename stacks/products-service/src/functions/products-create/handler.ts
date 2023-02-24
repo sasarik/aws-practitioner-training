@@ -1,8 +1,14 @@
-import { formatErrorResponse, formatJSONSuccessResponse } from '@aws-practitioner-training/serverless-utils';
+import {
+  corsConfiguration,
+  formatErrorResponse,
+  formatJSONSuccessResponse,
+  middyfy,
+  generateUUID,
+} from '@aws-practitioner-training/serverless-utils';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { DynamoDBClient, ExecuteTransactionCommand } from '@aws-sdk/client-dynamodb';
 import { assertProductIsValid, AvailableProduct, ValidationError } from '../lib';
-import crypto from 'crypto';
+
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { isString } from '@powwow-js/core';
 const ProductsTableName = process.env.ProductsTableName;
@@ -10,7 +16,7 @@ const StocksTableName = process.env.StocksTableName;
 const dynamo = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
 export const createAvailableProduct = async (product: AvailableProduct) => {
-  const productId = crypto.randomUUID();
+  const productId = generateUUID();
   const transactionalInsert = new ExecuteTransactionCommand({
     TransactStatements: [
       {
@@ -32,7 +38,7 @@ export const createAvailableProduct = async (product: AvailableProduct) => {
   return { productId, output };
 };
 
-export const main = async (event: APIGatewayProxyEvent) => {
+const handler = async (event: APIGatewayProxyEvent) => {
   try {
     console.log('~~~~~ Payload: ', event.body);
     const product = isString(event.body) ? JSON.parse(event.body) : event.body;
@@ -48,3 +54,5 @@ export const main = async (event: APIGatewayProxyEvent) => {
     return formatErrorResponse(500, 'Server Error Internal');
   }
 };
+
+export const main = middyfy(handler).use(corsConfiguration());

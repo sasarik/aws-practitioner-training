@@ -17,6 +17,9 @@
   "dependencies": {
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
+    "@middy/core": "^4.2.5",
+    "@middy/http-cors": "^4.2.5",
+    "@middy/http-json-body-parser": "^4.2.5",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.7",
     "@mui/styles": "^5.8.7",

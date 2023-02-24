@@ -10,7 +10,6 @@ import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import { formatAsPrice } from '~/utils/utils';
 import { apiRoutes } from '~/constants/apiRoutes';
 
-// TODO AR - to fix test & references below highlight
 test('Renders products list', async () => {
   const products: Product[] = [
     {
@@ -29,7 +28,7 @@ test('Renders products list', async () => {
     },
   ];
   server.use(
-    rest.get(apiRoutes.getAvailableProductsListUrl(), (_req, res, ctx) => {
+    rest.get(apiRoutes.productsService(), (_req, res, ctx) => {
       return res(ctx.status(200), ctx.delay(), ctx.json<{ products: Product[] }>({ products }));
     }),
     rest.get(`${API_PATHS.cart}/profile/cart`, (_req, res, ctx) => {
