@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'sls-utils',
+  displayName: 'serverless-utils',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -12,5 +12,5 @@ export default {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/packages/sls-utils',
+  coverageDirectory: '../../coverage/packages/serverless-utils',
 };

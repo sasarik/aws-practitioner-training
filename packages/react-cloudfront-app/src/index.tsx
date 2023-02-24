@@ -15,6 +15,7 @@ const queryClient = new QueryClient({
 });
 
 if (import.meta.env.DEV) {
+  // TODO AR remove all that "./mocks/browser" things when all serverless api will integrated
   const { worker } = await import('./mocks/browser');
   worker
     .start({})

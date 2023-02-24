@@ -4,9 +4,9 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "sls::product:test": "nx run product-service:test",
-    "sls::product:build": "nx run product-service:build",
-    "sls::product:deploy": "nx run product-service:deploy"
+    "sls::products:test": "nx run products-service:test",
+    "sls::products:build": "nx run products-service:build",
+    "sls::products:deploy": "nx run products-service:deploy"
   },
   "keywords": [
     "aws",
@@ -33,9 +33,6 @@
   "devDependencies": {
     "@aws-sdk/types": "^3.272.0",
     "@emotion/babel-plugin": "11.10.5",
-    "@middy/core": "^4.2.4",
-    "@middy/http-content-negotiation": "^4.2.4",
-    "@middy/http-header-normalizer": "^4.2.4",
     "@nrwl/cypress": "15.7.2",
     "@nrwl/eslint-plugin-nx": "15.7.2",
     "@nrwl/jest": "15.7.2",
@@ -48,6 +45,7 @@
     "@serverless/typescript": "^3.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "13.4.0",
+    "@testing-library/user-event": "^14.2.1",
     "@types/aws-lambda": "^8.10.110",
     "@types/jest": "^28.1.1",
     "@types/node": "^18.13.0",

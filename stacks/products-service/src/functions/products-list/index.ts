@@ -1,7 +1,7 @@
-import { handlerPath } from '@aws-practitioner-training/sls-utils';
+import { buildLambdaHandlerPath } from '@aws-practitioner-training/serverless-utils';
 
 export const getProductsList = {
-  handler: `${handlerPath(__dirname)}/handler.main`,
+  handler: buildLambdaHandlerPath(__dirname),
   events: [
     {
       http: {

@@ -32,7 +32,7 @@ Starts the project in production mode on local environment.
 
 ### `test`, `test:ui`, `test:coverage`
 
-Runs tests in console, in browser or with coverage.
+Running tests in console, in browser or with coverage.
 
 ### `lint`, `prettier`
 
@@ -80,4 +80,10 @@ http://aws-training-react-cloudfront-bucket.s3-website-eu-west-1.amazonaws.com
 
 ```
 https://d177vmkb52wotz.cloudfront.net/
+```
+
+#### APIGateway
+
+```
+https://c6lk4tmf1g.execute-api.eu-west-1.amazonaws.com/dev
 ```

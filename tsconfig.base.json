@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@aws-practitioner-training/sls-utils": ["packages/sls-utils/src/index.ts"]
+      "@aws-practitioner-training/serverless-utils": ["packages/serverless-utils/src/index.ts"]
     },
     "noUnusedLocals": true,
     "noUnusedParameters": true,

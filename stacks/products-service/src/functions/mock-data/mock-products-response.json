@@ -1,0 +1,40 @@
+{
+  "products": [
+    {
+      "description": "Large Capacity Cat and Dog Drinking Fountain Plastic Feeding Bowl Cat Drinking Fountain",
+      "id": "7567ec4b-b10c-48c5-9345-fc73c48a80aa",
+      "price": 17.44,
+      "title": "Pet Cat Automatic Feeder"
+    },
+    {
+      "description": "Autumn Clothing for Small Dog Four-Legged Pets",
+      "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a1",
+      "price": 23.9,
+      "title": "Autumn Clothing"
+    },
+    {
+      "description": "3In1 Pet Dog Cat Food Bowl with Bottle Automatic Drinking Feeder Fountain Portable Durable Stainless Steel 3 Bowls Pet Supplies",
+      "id": "7567ec4b-b10c-48c5-9345-fc73c48a80a3",
+      "price": 23,
+      "title": "Pet Dog Cat Food"
+    },
+    {
+      "description": "Cat Harness Adjustable Vest Walking Lead Leash for Puppy Dogs Collar Mesh Harness for Small Medium Dog Cat Pet Products",
+      "id": "7567ec4b-b10c-48c5-9345-fc73348a80a1",
+      "price": 7.47,
+      "title": "Cat Harness"
+    },
+    {
+      "description": "Balsamo Naturale per Zampe E Polpastrelli MULTIFUNZIONE 30Ml | Idrata, Nutre, Protegge, Ripara",
+      "id": "7567ec4b-b10c-48c5-9445-fc73c48a80a2",
+      "price": 8.99,
+      "title": "Balsamo Naturale"
+    },
+    {
+      "description": "Cat Water Fountain - Distributore Automatico per Animali Domestici, 1,5 L, Con 3 Filtri, 3 Set Di Velocità Dell'Acqua E Bevande Faucet Cat Drinking Fountain Electric Mute Cat Drinker for Cats Dogs",
+      "id": "7567ec4b-b10c-45c5-9345-fc73c48a80a1",
+      "price": 15,
+      "title": "Cat Water Fountain"
+    }
+  ]
+}

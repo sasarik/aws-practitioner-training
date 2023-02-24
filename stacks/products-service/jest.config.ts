@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'product-service',
+  displayName: 'products-service',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -8,5 +8,5 @@ export default {
     },
   },
   testEnvironment: 'node',
-  coverageDirectory: '../../coverage/stacks/product-service',
+  coverageDirectory: '../../coverage/stacks/products-service',
 };
