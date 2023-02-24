@@ -3,19 +3,25 @@ import { baseServerlessConfiguration } from '../../serverless.base';
 import { getProductsList, getProductsById } from './src/functions';
 import { createProduct } from './src/functions';
 
-// ************* To allow lambda's operate with DynamoDB Table **********************************
-// 1. IAM: Go to policies
-// 2. Choose the appropriate DynamoDB policy (Read or FullAccess per needs)
-// 3. From Policy Actions - Select "Attach" and Attach it to the role that is used by this Lambda
+const SERVICE_NAME = 'aws-training-products-service';
+const STAGE = 'dev';
+const REGION = 'eu-west-1';
 
 const serverlessConfiguration: AWS = {
   ...baseServerlessConfiguration,
   // overrides
-  service: 'aws-training-products-service',
+  service: SERVICE_NAME,
   provider: {
     name: 'aws',
-    region: 'eu-west-1',
+    region: REGION,
     runtime: 'nodejs18.x',
+    stage: STAGE,
+    iam: {
+      role: {
+        name: `${SERVICE_NAME}--${REGION}--${STAGE}--LambdasRole`,
+        managedPolicies: ['arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess'],
+      },
+    },
   },
   // import the function via paths
   functions: { getProductsList, getProductsById, createProduct },

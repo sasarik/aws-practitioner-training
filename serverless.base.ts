@@ -24,7 +24,6 @@ export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
     name: 'aws',
     region: 'eu-west-1',
     runtime: 'nodejs18.x',
-    stage: 'dev',
     memorySize: 128,
     apiGateway: {
       minimumCompressionSize: 1024,
