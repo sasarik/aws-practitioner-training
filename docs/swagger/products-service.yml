@@ -30,12 +30,44 @@ paths:
       tags:
         - Products
       operationId: createProduct
+      requestBody:
+        description: The product creation request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
       responses:
         '200':
           description: Success product creation response
           content:
             application/json:
-              message: string
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: successfully created
+                  href:
+                    type: string
+                    description: The URI to new create resource
+                    example: /products/77
+        404:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid Request Data
+        'default':
+          description: Non standard response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /products/{productId}:
     get:
@@ -78,6 +110,8 @@ components:
       required:
         - title
         - price
+        - description
+        - count
       properties:
         id:
           type: string
