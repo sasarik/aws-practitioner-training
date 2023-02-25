@@ -1,9 +1,6 @@
-const REGION = 'eu-west-1';
-const API_ID = '3ee91ql685';
-const STAGE = 'dev';
-const API_GATEWAY = `https://${API_ID}.execute-api.${REGION}.amazonaws.com/${STAGE}`;
+const HTTP_API_GATEWAY = 'https://3nyabazn94.execute-api.eu-west-1.amazonaws.com';
 
 export const apiRoutes = {
-  productsService: () => `${API_GATEWAY}/products`,
-  productById: (productId: string) => `${API_GATEWAY}/products/${productId}`,
+  productsService: () => `${HTTP_API_GATEWAY}/products`,
+  productById: (productId: string) => `${HTTP_API_GATEWAY}/products/${productId}`,
 };

@@ -1,9 +1,4 @@
-import {
-  corsConfiguration,
-  formatErrorResponse,
-  formatJSONSuccessResponse,
-  middyfy,
-} from '@aws-practitioner-training/serverless-utils';
+import { formatErrorResponse, formatJSONSuccessResponse, middyfy } from '@aws-practitioner-training/serverless-utils';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
@@ -57,4 +52,4 @@ export const handlerImpl = async (event: APIGatewayProxyEvent) => {
   }
 };
 
-export const main = middyfy(handlerImpl).use(corsConfiguration());
+export const main = middyfy(handlerImpl);

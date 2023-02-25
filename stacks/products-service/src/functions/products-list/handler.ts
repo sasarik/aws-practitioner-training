@@ -1,5 +1,4 @@
 import {
-  corsConfiguration,
   formatErrorResponse,
   formatJSONSuccessResponse,
   mapItemsById,
@@ -41,4 +40,4 @@ export const handlerImpl = async (_event: APIGatewayProxyEvent) => {
   }
 };
 
-export const main = middyfy(handlerImpl).use(corsConfiguration());
+export const main = middyfy(handlerImpl);

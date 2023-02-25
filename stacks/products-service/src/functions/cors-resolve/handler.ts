@@ -1,6 +1,11 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { corsConfiguration, middyfy } from '@aws-practitioner-training/serverless-utils';
+import { middyfy } from '@aws-practitioner-training/serverless-utils';
 
+/**
+ * For the cors resolving manually exercises (OPTIONS + this Lambda)
+ * @param {APIGatewayProxyEvent} event
+ * @return {Promise<{body: string, statusCode: number}>}
+ */
 export const handlerImpl = async (event: APIGatewayProxyEvent) => {
   console.log('~~~~~ ProxyEvent: ', event);
   return {
@@ -9,4 +14,4 @@ export const handlerImpl = async (event: APIGatewayProxyEvent) => {
   };
 };
 
-export const main = middyfy(handlerImpl).use(corsConfiguration());
+export const main = middyfy(handlerImpl);

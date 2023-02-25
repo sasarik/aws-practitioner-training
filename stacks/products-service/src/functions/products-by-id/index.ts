@@ -8,9 +8,9 @@ export const getProductsById = {
   handler: buildLambdaHandlerPath(__dirname),
   events: [
     {
-      http: {
-        method: 'get',
-        path: 'products/{productId}',
+      httpApi: {
+        method: 'GET',
+        path: '/products/{productId}',
       },
     },
   ],
@@ -18,6 +18,5 @@ export const getProductsById = {
   environment: {
     ProductsTableName: process.env.PRODUCTS_TABLE_NAME,
     StocksTableName: process.env.STOCKS_TABLE_NAME,
-    publicUrls: process.env.PUBLIC_DOMAINS,
   },
 };

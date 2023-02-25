@@ -1,9 +1,8 @@
 import {
-  corsConfiguration,
   formatErrorResponse,
   formatJSONSuccessResponse,
-  middyfy,
   generateUUID,
+  middyfy,
 } from '@aws-practitioner-training/serverless-utils';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { DynamoDBClient, ExecuteTransactionCommand } from '@aws-sdk/client-dynamodb';
@@ -11,6 +10,7 @@ import { assertProductIsValid, AvailableProduct, ValidationError } from '../lib'
 
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { isString } from '@powwow-js/core';
+
 const ProductsTableName = process.env.ProductsTableName;
 const StocksTableName = process.env.StocksTableName;
 const dynamo = DynamoDBDocumentClient.from(new DynamoDBClient({}));
@@ -55,4 +55,4 @@ const handler = async (event: APIGatewayProxyEvent) => {
   }
 };
 
-export const main = middyfy(handler).use(corsConfiguration());
+export const main = middyfy(handler);

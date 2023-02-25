@@ -1,6 +1,7 @@
 import type { AWS } from '@serverless/typescript';
 import { baseServerlessConfiguration } from '../../serverless.base';
-import { getProductsList, getProductsById, createProduct, resolveCORS } from './src/functions';
+import { getProductsList, getProductsById, createProduct } from './src/functions';
+import { httpApiGatewayCorsConfig } from './corsConfigs';
 
 const SERVICE_NAME = 'aws-training-products-service';
 const STAGE = 'dev';
@@ -21,9 +22,19 @@ const serverlessConfiguration: AWS = {
         managedPolicies: ['arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess'],
       },
     },
+    httpApi: {
+      ...httpApiGatewayCorsConfig,
+    },
+    logs: {
+      httpApi: true,
+    },
   },
   // import the function via paths
-  functions: { resolveCORS, getProductsList, getProductsById, createProduct },
+  functions: {
+    getProductsList,
+    getProductsById,
+    createProduct,
+  },
 };
 
 module.exports = serverlessConfiguration;
