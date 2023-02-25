@@ -71,16 +71,16 @@ Stock model:
 
 - [x] Create a lambda function called `createProduct` under the same Serverless config file (i.e. `serverless.yaml`) of Product Service which will be triggered by the HTTP POST method.
 - [x] The requested URL should be `/products`.
-- [ ] Implement its logic, so it will be creating a new item in a Products table.
+- [x] Implement its logic, so it will be creating a new item in a Products table.
 - [x] Save the URL (API Gateway URL) to execute the implemented lambda functions for later - you'll need to provide it in the PR (e.g. in PR's description) when submitting the task.
 
 ---
 
 ### Task 4.4
 
-- [ ] Commit all your work to separate branch (e.g. `task-4` from the latest `master`) in BE (backend) and if needed in FE (frontend) repositories.
-- [ ] Create a pull request to the `master` branch.
-- [ ] Submit the link to the pull request for crosscheck
+- [x] Commit all your work to separate branch (e.g. `task-4` from the latest `master`) in BE (backend) and if needed in FE (frontend) repositories.
+- [x] Create a pull request to the `master` branch.
+- [x] Submit the link to the pull request for crosscheck
 
 ## Evaluation criteria (each mark includes previous mark criteria)
 
@@ -88,36 +88,16 @@ Stock model:
 
 Reviewers should verify the lambda functions by invoking them through provided URLs.
 
-- [ ] **20** - Task 4.1 is implemented
-- [ ] **40** - Task 4.2 is implemented lambda links are provided and returns data
-- [ ] **65** - Task 4.3 is implemented lambda links are provided and products is stored in DB (call Task 4.2 to see the product)
-- [ ] **80** - Your own Frontend application is integrated with Product Service (`/products` API) and products from Product Service are represented on Frontend. Link to a working Frontend application is provided for cross-check reviewer.
+- [x] **20** - Task 4.1 is implemented
+- [x] **40** - Task 4.2 is implemented lambda links are provided and returns data
+- [x] **65** - Task 4.3 is implemented lambda links are provided and products is stored in DB (call Task 4.2 to see the product)
+- [x] **80** - Your own Frontend application is integrated with Product Service (`/products` API) and products from Product Service are represented on Frontend. Link to a working Frontend application is provided for cross-check reviewer.
 
 ## Additional (optional) tasks
 
 ---
 
-- [ ] **+4** **(All languages)** - POST `/products` lambda functions returns error 400 status code if product data is invalid
-- [ ] **+4** **(All languages)** - All lambdas return error 500 status code on any error (DB connection, any unhandled error in code)
+- [x] **+4** **(All languages)** - POST `/products` lambda functions returns error 400 status code if product data is invalid
+- [x] **+4** **(All languages)** - All lambdas return error 500 status code on any error (DB connection, any unhandled error in code)
 - [x] **+4** **(All languages)** - All lambdas do `console.log` for each incoming requests and their arguments
 - [x] **+4** **(All languages)** - Transaction based creation of product (in case stock creation is failed then related to this stock product is not created and not ready to be used by the end user and vice versa) (https://devcenter.kinvey.com/nodejs/tutorials/bl-transactional-support, https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis.html)
-
-## Description Template for PRs
-
----
-
-The following should be present in PR's description field:
-
-1. What was done?
-
-   Example:
-
-```
-   Service is done, but FE is not working...
-
-   Additional scope - logger, swagger, unit tests, transaction
-```
-
-1. Link to Product Service API - .....
-2. Link to FE PR (YOUR OWN REPOSITORY) - ...
-3. In case SWAGGER file is not provided - please provide product schema in PR description

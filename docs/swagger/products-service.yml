@@ -25,6 +25,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a product
+      tags:
+        - Products
+      operationId: createProduct
+      responses:
+        '200':
+          description: Success product creation response
+          content:
+            application/json:
+              message: string
+
   /products/{productId}:
     get:
       summary: Returns product by provided id
