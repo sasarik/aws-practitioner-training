@@ -4,6 +4,7 @@
 
 Product model:
 
+
 ```
   products:
     id -  uuid (Primary key)
