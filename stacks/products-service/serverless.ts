@@ -15,6 +15,7 @@ const serverlessConfiguration: AWS = {
     name: 'aws',
     region: REGION,
     runtime: 'nodejs18.x',
+    profile: 'training',
     stage: STAGE,
     iam: {
       role: {
