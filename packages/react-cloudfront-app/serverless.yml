@@ -7,7 +7,7 @@ provider:
   runtime: nodejs18.x
   region: eu-west-1
   # setup profile for AWS CLI.
-  # profile: node-aws
+  profile: training
 
 plugins:
   - serverless-finch
