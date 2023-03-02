@@ -14,7 +14,7 @@ export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
       target: 'node18',
       sourcemap: true,
       sourcesContent: false,
-      exclude: ['aws-sdk', '@aws-sdk/lib-dynamodb', '@aws-sdk/client-dynamodb'],
+      exclude: ['aws-sdk', '@aws-sdk/lib-dynamodb', '@aws-sdk/client-dynamodb', '@aws-sdk/util-dynamodb'],
       define: { 'require.resolve': undefined },
       platform: 'node',
       concurrency: 10,

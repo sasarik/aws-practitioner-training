@@ -1,6 +1,8 @@
 import type { FromSchema } from 'json-schema-to-ts';
 import AvailableProductSchema from './AvailableProductSchema';
 import { isNumber } from '@powwow-js/core';
+import { unmarshall } from "@aws-sdk/util-dynamodb";
+import { AttributeValue } from "@aws-sdk/client-dynamodb/dist-types/models";
 
 export type StockDbItem = {
   productId: string;
@@ -46,16 +48,10 @@ export function assertProductIsValid(product: Record<string, unknown>): asserts 
     throw validationError(`Expect to have a product.count defined as integer correctly, but got [${product.count}]`);
   }
 }
-// TODO AR try unmarshal
-export const omittingDbCommandsOutputAttributes = (item) => {
+
+export const unmarshallDbItem = (item: Record<string, AttributeValue>) => {
   if (item) {
-    const result = {};
-    const entries = Object.entries(item);
-    for (const [key, value] of entries) {
-      const newEntry = { [key]: Object.values(value)[0] };
-      Object.assign(result, newEntry);
-    }
-    return result;
+    return unmarshall(item);
   }
   return item;
 };

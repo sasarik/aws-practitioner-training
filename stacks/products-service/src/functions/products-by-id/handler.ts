@@ -2,7 +2,7 @@ import { formatErrorResponse, formatJSONSuccessResponse, middyfy } from '@aws-pr
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
-import { omittingDbCommandsOutputAttributes } from '../lib';
+import { unmarshallDbItem } from "../lib";
 
 const ProductsTableName = process.env.ProductsTableName;
 const StocksTableName = process.env.StocksTableName;
@@ -31,10 +31,9 @@ export const getProductById = async (id: string) => {
   ]);
 
   if (!product.Item) return undefined;
-
   return {
-    ...omittingDbCommandsOutputAttributes(product.Item),
-    count: omittingDbCommandsOutputAttributes(stock.Item)?.count ?? 0,
+    ...unmarshallDbItem(product.Item),
+    count: unmarshallDbItem(stock.Item)?.count ?? 0,
   };
 };
 
