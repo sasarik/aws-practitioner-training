@@ -46,7 +46,7 @@ export function assertProductIsValid(product: Record<string, unknown>): asserts 
     throw validationError(`Expect to have a product.count defined as integer correctly, but got [${product.count}]`);
   }
 }
-
+// TODO AR try unmarshal
 export const omittingDbCommandsOutputAttributes = (item) => {
   if (item) {
     const result = {};
