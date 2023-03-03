@@ -3,17 +3,20 @@ import {
   formatJSONSuccessResponse,
   generateUUID,
   middyfy,
+  ValidationError,
 } from '@aws-practitioner-training/serverless-utils';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { DynamoDBClient, ExecuteTransactionCommand } from '@aws-sdk/client-dynamodb';
-import { assertProductIsValid, AvailableProduct, ValidationError } from '../lib';
+import { assertProductIsValid, AvailableProduct } from '../lib';
 
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { isString } from '@powwow-js/core';
 
 const ProductsTableName = process.env.ProductsTableName;
 const StocksTableName = process.env.StocksTableName;
-const dynamo = DynamoDBDocumentClient.from(new DynamoDBClient({}));
+const AwsRegion = process.env.AwsRegion;
+
+const dynamo = DynamoDBDocumentClient.from(new DynamoDBClient({ region: AwsRegion }));
 
 export const createAvailableProduct = async (product: AvailableProduct) => {
   const productId = generateUUID();

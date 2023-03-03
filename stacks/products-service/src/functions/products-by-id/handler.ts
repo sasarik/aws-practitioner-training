@@ -2,11 +2,13 @@ import { formatErrorResponse, formatJSONSuccessResponse, middyfy } from '@aws-pr
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
-import { unmarshallDbItem } from "../lib";
+import { unmarshallDbItem } from '../lib';
 
 const ProductsTableName = process.env.ProductsTableName;
 const StocksTableName = process.env.StocksTableName;
-const dynamo = DynamoDBDocumentClient.from(new DynamoDBClient({}));
+const AwsRegion = process.env.AwsRegion;
+
+const dynamo = DynamoDBDocumentClient.from(new DynamoDBClient({ region: AwsRegion }));
 
 export const getProductById = async (id: string) => {
   if (!id) return undefined;

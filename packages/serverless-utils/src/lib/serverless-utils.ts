@@ -57,6 +57,20 @@ export const formatJSONSuccessResponse = <T>(
   };
 };
 
+export const errorCode = Object.freeze({
+  VALIDATION: 'validation-error',
+});
+
+export class ValidationError extends Error {
+  readonly errorCode: typeof errorCode.VALIDATION;
+
+  constructor(message: string) {
+    super(message);
+  }
+}
+
+export const validationError = (message: string): ValidationError => new ValidationError(message);
+
 export const formatErrorResponse = (statusCode: number, message?: string) => {
   return {
     headers: {

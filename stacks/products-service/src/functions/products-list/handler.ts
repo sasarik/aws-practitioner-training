@@ -11,7 +11,9 @@ import { ProductDbItem, StockDbItem } from '../lib';
 
 const ProductsTableName = process.env.ProductsTableName;
 const StocksTableName = process.env.StocksTableName;
-const dynamo = DynamoDBDocumentClient.from(new DynamoDBClient({}));
+const AwsRegion = process.env.AwsRegion;
+
+const dynamo = DynamoDBDocumentClient.from(new DynamoDBClient({ region: AwsRegion }));
 
 export const getAvailableProductItems = async () => {
   const [products, stocks] = await Promise.all([

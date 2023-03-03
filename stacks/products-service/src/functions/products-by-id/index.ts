@@ -18,5 +18,6 @@ export const getProductsById = {
   environment: {
     ProductsTableName: process.env.PRODUCTS_TABLE_NAME,
     StocksTableName: process.env.STOCKS_TABLE_NAME,
+    AwsRegion: process.env.AWS_REGION,
   },
 };

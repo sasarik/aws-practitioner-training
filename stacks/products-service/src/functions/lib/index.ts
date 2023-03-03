@@ -1,8 +1,9 @@
 import type { FromSchema } from 'json-schema-to-ts';
 import AvailableProductSchema from './AvailableProductSchema';
 import { isNumber } from '@powwow-js/core';
-import { unmarshall } from "@aws-sdk/util-dynamodb";
-import { AttributeValue } from "@aws-sdk/client-dynamodb/dist-types/models";
+import { unmarshall } from '@aws-sdk/util-dynamodb';
+import { AttributeValue } from '@aws-sdk/client-dynamodb/dist-types/models';
+import { validationError } from '@aws-practitioner-training/serverless-utils';
 
 export type StockDbItem = {
   productId: string;
@@ -15,19 +16,6 @@ export type ProductDbItem = {
   price: number;
   description: string;
 };
-
-export const errorCode = Object.freeze({
-  VALIDATION: 'validation-error',
-});
-
-export class ValidationError extends Error {
-  readonly errorCode: typeof errorCode.VALIDATION;
-  constructor(message: string) {
-    super(message);
-  }
-}
-
-export const validationError = (message: string): ValidationError => new ValidationError(message);
 
 export type AvailableProduct = FromSchema<typeof AvailableProductSchema>;
 

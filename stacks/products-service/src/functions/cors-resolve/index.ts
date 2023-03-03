@@ -17,5 +17,6 @@ export const resolveCORS = {
   description: 'Performs a products service CORS resolve',
   environment: {
     publicUrls: process.env.PUBLIC_DOMAINS,
+    AwsRegion: process.env.AWS_REGION,
   },
 };
