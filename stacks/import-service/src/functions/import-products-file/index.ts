@@ -11,11 +11,6 @@ export const importProductsFile = {
       httpApi: {
         method: 'GET',
         path: '/import',
-        request: {
-          queryStringParameters: {
-            fileName: true,
-          },
-        },
       },
     },
   ],

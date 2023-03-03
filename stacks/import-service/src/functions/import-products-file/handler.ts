@@ -14,7 +14,11 @@ const AwsRegion = process.env.AwsRegion;
 
 export const generateSignedUrl = async (fileName) => {
   const client = new S3Client({ region: AwsRegion });
-  const command = new PutObjectCommand({ Bucket: ProductsImportBucketName, Key: `uploaded/${fileName}` });
+  const command = new PutObjectCommand({
+    Bucket: ProductsImportBucketName,
+    Key: `uploaded/${fileName}`,
+    ContentType: 'text/csv',
+  });
   return await getSignedUrl(client, command, { expiresIn: 3600 });
 };
 
