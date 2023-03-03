@@ -11,6 +11,8 @@
 
 - [x] In the AWS Console **created** and **configured** a new S3 `aws-training-import-bucket` bucket with a folder
   called `uploaded`.
+- [x] Using `serverless.ts` The S3 `aws-training-products-import-bucket` bucket **created** and **configured** to use
+  for `import products` routines.
 
 ---
 
@@ -22,9 +24,9 @@
 - [x] Implemented its logic: it expects a request with a name of CSV file with products and create a new **Signed URL**
   with the following key: `uploaded/${fileName}`.
 - [x] The name is passed in a _query string_ as a `fileName` parameter
-- [ ] Updated `serverless.yml` with policies to allow lambda functions to interact with S3.
+- [x] Updated `serverless.yml` with policies to allow lambda functions to interact with S3.
 - [x] The response from the lambda created **Signed URL**.
-- [ ] The lambda endpoint integrated with the frontend by updating `import` property of the API paths configuration.
+- [x] The lambda endpoint integrated with the frontend by updating `import` property of the API paths configuration.
 
 ---
 
