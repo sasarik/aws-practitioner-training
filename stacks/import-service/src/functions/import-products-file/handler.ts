@@ -4,7 +4,6 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import {
   formatErrorResponse,
   formatJSONSuccessResponse,
-  middyfy,
   ValidationError,
 } from '@aws-practitioner-training/serverless-utils';
 import { assertFileNameIsValid } from '../lib';
@@ -22,7 +21,7 @@ export const generateSignedUrl = async (fileName) => {
   return await getSignedUrl(client, command, { expiresIn: 3600 });
 };
 
-export const handlerImpl = async (event: APIGatewayProxyEvent) => {
+export const main = async (event: APIGatewayProxyEvent) => {
   try {
     console.log('~~~~~ Payload(queryStringParameters): ', event.queryStringParameters);
     const fileName = event.queryStringParameters?.fileName;
@@ -37,5 +36,3 @@ export const handlerImpl = async (event: APIGatewayProxyEvent) => {
     return formatErrorResponse(500, 'Server Error Internal');
   }
 };
-
-export const main = middyfy(handlerImpl);

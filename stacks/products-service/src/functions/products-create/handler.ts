@@ -2,7 +2,6 @@ import {
   formatErrorResponse,
   formatJSONSuccessResponse,
   generateUUID,
-  middyfy,
   ValidationError,
 } from '@aws-practitioner-training/serverless-utils';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
@@ -41,7 +40,7 @@ export const createAvailableProduct = async (product: AvailableProduct) => {
   return { productId, output };
 };
 
-const handler = async (event: APIGatewayProxyEvent) => {
+export const main = async (event: APIGatewayProxyEvent) => {
   try {
     console.log('~~~~~ Payload: ', event.body);
     const product = isString(event.body) ? JSON.parse(event.body) : event.body;
@@ -57,5 +56,3 @@ const handler = async (event: APIGatewayProxyEvent) => {
     return formatErrorResponse(500, 'Server Error Internal');
   }
 };
-
-export const main = middyfy(handler);

@@ -2,7 +2,6 @@ import {
   formatErrorResponse,
   formatJSONSuccessResponse,
   mapItemsById,
-  middyfy,
 } from '@aws-practitioner-training/serverless-utils';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
@@ -32,7 +31,7 @@ export const getAvailableProductItems = async () => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const handlerImpl = async (_event: APIGatewayProxyEvent) => {
+export const main = async (_event: APIGatewayProxyEvent) => {
   try {
     const productItems = await getAvailableProductItems();
     return formatJSONSuccessResponse({ products: productItems });
@@ -41,5 +40,3 @@ export const handlerImpl = async (_event: APIGatewayProxyEvent) => {
     return formatErrorResponse(500, 'Server Internal Error');
   }
 };
-
-export const main = middyfy(handlerImpl);

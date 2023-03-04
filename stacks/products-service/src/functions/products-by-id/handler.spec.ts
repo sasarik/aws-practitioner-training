@@ -16,7 +16,7 @@ describe('getProductsById tests', () => {
   });
 
   it('should find product by id', async () => {
-    const result = await productByIdHandler.handlerImpl({
+    const result = await productByIdHandler.main({
       body: '',
       headers: undefined,
       httpMethod: '',
@@ -38,7 +38,7 @@ describe('getProductsById tests', () => {
   });
 
   it('should return "Not Found" if no products by criteria(s)', async () => {
-    const result = await productByIdHandler.handlerImpl({
+    const result = await productByIdHandler.main({
       body: '',
       headers: undefined,
       httpMethod: '',

@@ -1,4 +1,4 @@
-import { formatErrorResponse, formatJSONSuccessResponse, middyfy } from '@aws-practitioner-training/serverless-utils';
+import { formatErrorResponse, formatJSONSuccessResponse } from '@aws-practitioner-training/serverless-utils';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
@@ -39,7 +39,7 @@ export const getProductById = async (id: string) => {
   };
 };
 
-export const handlerImpl = async (event: APIGatewayProxyEvent) => {
+export const main = async (event: APIGatewayProxyEvent) => {
   try {
     console.log('~~~~~ Payload: ', event.pathParameters);
     const product = await getProductById(event.pathParameters.productId);
@@ -52,5 +52,3 @@ export const handlerImpl = async (event: APIGatewayProxyEvent) => {
     return formatErrorResponse(500, 'Server Internal Error');
   }
 };
-
-export const main = middyfy(handlerImpl);
