@@ -4,7 +4,7 @@ info:
   version: 0.0.1
 servers:
   - url: https://dvwtr13aob.execute-api.eu-west-1.amazonaws.com
-    description: Dev stage AWS API Gateway
+    description: Dev stage AWS Products API Gateway
 paths:
   /products:
     get:
@@ -14,7 +14,7 @@ paths:
       operationId: getProductsList
       responses:
         '200':
-          description: Available projects
+          description: Available products
           content:
             application/json:
               schema:

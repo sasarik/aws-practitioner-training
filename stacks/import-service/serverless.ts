@@ -17,7 +17,7 @@ const serverlessConfiguration = <AWS>{
         statements: [
           {
             Effect: 'Allow',
-            Action: ['s3:PutObject'],
+            Action: ['s3:PutObject'], // 's3:ListBucket' , 's3:GetObject
             Resource: [`arn:aws:s3:::${process.env.PRODUCTS_IMPORT_BUCKET_NAME}/*`],
           },
         ],

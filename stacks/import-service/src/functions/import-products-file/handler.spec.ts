@@ -1,6 +1,6 @@
 import * as productsListHandler from './handler';
 
-describe('products-list tests', () => {
+describe('importProductsFile tests', () => {
   let mockConsole;
   beforeAll(() => {
     mockConsole = jest.spyOn(console, 'log').mockImplementation(() => {
@@ -10,14 +10,11 @@ describe('products-list tests', () => {
   afterAll(() => {
     mockConsole.mockRestore();
   });
+  it('should return signed url for provided fileName', async () => {
+    const spyOn = jest
+      .spyOn(productsListHandler, 'generateSignedUrl')
+      .mockImplementation(() => Promise.resolve('https://your-signed-url.s3.com'));
 
-  it('should find product by id', async () => {
-    const spyOn = jest.spyOn(productsListHandler, 'getAvailableProductItems').mockImplementation(() =>
-      Promise.resolve([
-        { id: '1', title: 'Test Product 1', count: 1, description: '11', price: 10 },
-        { id: '2', title: 'Test Product 2', count: 2, description: '22', price: 22 },
-      ])
-    );
     const result = await productsListHandler.main({
       body: '',
       headers: undefined,
@@ -26,7 +23,7 @@ describe('products-list tests', () => {
       multiValueHeaders: undefined,
       multiValueQueryStringParameters: undefined,
       path: '',
-      queryStringParameters: undefined,
+      queryStringParameters: { fileName: 'product.csv' },
       requestContext: undefined,
       resource: '',
       stageVariables: undefined,
@@ -41,10 +38,7 @@ describe('products-list tests', () => {
 
     expect(resultBody).toMatchObject({
       message: expect.any(String),
-      products: [
-        { id: '1', title: 'Test Product 1', count: 1, description: '11', price: 10 },
-        { id: '2', title: 'Test Product 2', count: 2, description: '22', price: 22 },
-      ],
+      signedUrl: 'https://your-signed-url.s3.com',
     });
     spyOn.mockRestore();
   });

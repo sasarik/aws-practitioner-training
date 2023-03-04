@@ -1,6 +1,16 @@
 import * as productByIdHandler from './handler';
 
 describe('getProductsById tests', () => {
+  let mockConsole;
+  beforeAll(() => {
+    mockConsole = jest.spyOn(console, 'log').mockImplementation(() => {
+      // This is intentional
+    });
+  });
+  afterAll(() => {
+    mockConsole.mockRestore();
+  });
+
   let getProductByIdMock;
   beforeEach(() => {
     getProductByIdMock = jest

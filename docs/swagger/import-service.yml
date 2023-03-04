@@ -1,0 +1,47 @@
+openapi: 3.0.3
+info:
+  title: 'Import service: API with AWS API Gateway and AWS Lambda'
+  version: 0.0.1
+servers:
+  - url: https://futhkd3tn1.execute-api.eu-west-1.amazonaws.com
+    description: Dev stage AWS "Import" API Gateway
+paths:
+  /import:
+    get:
+      summary: Returns pre-signed url to use for products file upload
+      tags:
+        - Import
+      operationId: importProductsFile
+      responses:
+        '200':
+          description: Signed url reference
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: signed url successfully created
+                  signedUrl:
+                    type: string
+                    description: The URL to use for products file upload
+                    example: ""https://aws-training-products-import-bucket.s3.eu-west-1.amazonaws.com/uploaded/product1.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256"
+        'default':
+          description: Non standard response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: 'Internal server error'

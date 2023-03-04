@@ -43,10 +43,10 @@
 
 ### Task 5.4
 
-- [ ] All my work committed to separate branch (`Task-5` from the latest `master`) in my own repository.
-- [ ] Created a pull request to the `master` branch.
-- [ ] Submitted the link to the pull request for crosscheck
-- [ ] In case SWAGGER file is not provided - please provide product schema in PR description
+- [x] All my work committed to separate branch (`Task-5` from the latest `master`) in my own repository.
+- [x] Created a pull request to the `master` branch.
+- [x] Submitted the link to the pull request for crosscheck
+- [x] Find please the SWAGGER files in the `docs\swagger`
 
 ---
 
@@ -54,19 +54,18 @@
 
 Please verify the lambda functions by invoking them through provided URLs.
 
-- [ ] File `serverless.yml` contains configuration for `importProductsFile` function
-- [ ] The `importProductsFile` lambda function returns a correct response which can be used to upload a file into the S3
+- [x] File `serverless.yml` contains configuration for `importProductsFile` function
+- [x] The `importProductsFile` lambda function returns a correct response which can be used to upload a file into the S3
   bucket
-- [ ] Frontend application is integrated with `importProductsFile` lambda
+- [x] Frontend application is integrated with `importProductsFile` lambda
 - [ ] The `importFileParser` lambda function is implemented and `serverless.yml` contains configuration for the lambda
 
 ---
 
 ## Additional (optional) tasks
 
-- [ ] **+10** **(for JS only)** - **async/await** is used in lambda functions
-- [ ] **+10** **(All languages)** - `importProductsFile` lambda is covered by _unit tests_.
-  (for JS only) [aws-sdk-mock](https://www.npmjs.com/package/aws-sdk-mock) can be used to mock S3 methods
+- [x] **+10** **(for JS only)** - **async/await** is used in lambda functions
+- [x] **+10** **(All languages)** - `importProductsFile` lambda is covered by _unit tests_.
 - [ ] **+10** **(All languages)** - At the end of the stream the lambda function should move the file from
   the `uploaded` folder into the `parsed` folder (`move the file` means that file should be copied into a new folder in
   the same bucket called `parsed`, and then deleted from `uploaded` folder)
