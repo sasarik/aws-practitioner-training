@@ -36,6 +36,8 @@ testem.log
 /typings
 
 # System Files
+/.gitconfig
+/.git-credentials
 .DS_Store
 Thumbs.db
 
