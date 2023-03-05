@@ -19,7 +19,7 @@ const parseProducts = async (s3BucketProductKey: string) => {
       Key: s3BucketProductKey,
     })
   );
-  // Parsing
+  // Parsing records
   const stream = asStream(response).pipe(csvParser({}));
   for await (const record of stream) {
     console.log(' -- Product: ', record);
