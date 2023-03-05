@@ -27,7 +27,7 @@ const parseProducts = async (s3BucketProductKey: string) => {
 };
 
 const moveToOutput = async (s3BucketProductKey: string) => {
-  console.log(` -- Copying to "${outputStorage}"...`);
+  console.log(` --- Copying to "${outputStorage}"...`);
   const copyResult = await client.send(
     new CopyObjectCommand({
       Bucket: ProductsImportBucketName,
@@ -35,15 +35,15 @@ const moveToOutput = async (s3BucketProductKey: string) => {
       Key: s3BucketProductKey.replace(inputStorage, outputStorage),
     })
   );
-  console.log(` -- Done:`, copyResult);
-  console.log(` -- Removing origin one "${s3BucketProductKey}"...`);
+  console.log(` --- Done:`, copyResult);
+  console.log(` --- Removing origin one "${s3BucketProductKey}"...`);
   const removeResult = await client.send(
     new DeleteObjectCommand({
       Bucket: ProductsImportBucketName,
       Key: s3BucketProductKey,
     })
   );
-  console.log(` -- Done:`, removeResult);
+  console.log(` --- Done:`, removeResult);
   return [copyResult, removeResult];
 };
 
