@@ -3,7 +3,7 @@ info:
   title: 'Import service: API with AWS API Gateway and AWS Lambda'
   version: 0.0.1
 servers:
-  - url: https://futhkd3tn1.execute-api.eu-west-1.amazonaws.com
+  - url: https://l6oclzeiqk.execute-api.eu-west-1.amazonaws.com
     description: Dev stage AWS "Import" API Gateway
 paths:
   /import:

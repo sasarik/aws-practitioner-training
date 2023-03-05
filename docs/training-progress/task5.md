@@ -32,11 +32,11 @@
 
 ### Task 5.3
 
-- [ ] Created a lambda function called `importFileParser` under the same `serverless.yml` file which is triggered by an
+- [x] Created a lambda function called `importFileParser` under the same `serverless.yml` file which is triggered by an
   S3 event.
-- [ ] The event is `s3:ObjectCreated:*`
-- [ ] Configured event to be fired only by changes in the `uploaded` folder in S3.
-- [ ] The lambda function used a _readable stream_ to get an object from S3, parsed it using `csv-parser` package and
+- [x] The event is `s3:ObjectCreated:*`
+- [x] Configured event to be fired only by changes in the `uploaded` folder in S3.
+- [x] The lambda function used a _readable stream_ to get an object from S3, parsed it using `csv-parser` package and
   log each record to be shown in CloudWatch.
 
 ---
@@ -58,7 +58,7 @@ Please verify the lambda functions by invoking them through provided URLs.
 - [x] The `importProductsFile` lambda function returns a correct response which can be used to upload a file into the S3
   bucket
 - [x] Frontend application is integrated with `importProductsFile` lambda
-- [ ] The `importFileParser` lambda function is implemented and `serverless.yml` contains configuration for the lambda
+- [x] The `importFileParser` lambda function is implemented and `serverless.yml` contains configuration for the lambda
 
 ---
 

@@ -1,14 +1,19 @@
 import * as productByIdHandler from './handler';
 
 describe('getProductsById tests', () => {
-  let mockConsole;
+  let mockConsoleLog;
+  let mockConsoleError;
   beforeAll(() => {
-    mockConsole = jest.spyOn(console, 'log').mockImplementation(() => {
+    mockConsoleLog = jest.spyOn(console, 'log').mockImplementation(() => {
+      // This is intentional
+    });
+    mockConsoleError = jest.spyOn(console, 'error').mockImplementation(() => {
       // This is intentional
     });
   });
   afterAll(() => {
-    mockConsole.mockRestore();
+    mockConsoleLog.mockRestore();
+    mockConsoleError.mockRestore();
   });
 
   let getProductByIdMock;
@@ -47,7 +52,7 @@ describe('getProductsById tests', () => {
     });
   });
 
-  it('should return "Not Found" if no products by criteria(s)', async () => {
+  it('should return error being wrongly parametrized', async () => {
     const result = await productByIdHandler.main({
       body: '',
       headers: undefined,

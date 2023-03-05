@@ -3,6 +3,7 @@ import { baseServerlessConfiguration } from '../../serverless.base';
 import { importProductsFile } from './src/functions';
 import { httpApiGatewayCorsConfig, S3BucketCorsConfig } from './corsConfigs';
 import * as process from 'process';
+import { importFileParser } from './src/functions/import-file-parser';
 
 const SERVICE_NAME = 'aws-training-import-service';
 
@@ -17,7 +18,7 @@ const serverlessConfiguration = <AWS>{
         statements: [
           {
             Effect: 'Allow',
-            Action: ['s3:PutObject'], // 's3:ListBucket' , 's3:GetObject
+            Action: ['s3:ListBucket', 's3:PutObject', 's3:GetObject', 's3:DeleteObject'],
             Resource: [`arn:aws:s3:::${process.env.PRODUCTS_IMPORT_BUCKET_NAME}/*`],
           },
         ],
@@ -33,6 +34,7 @@ const serverlessConfiguration = <AWS>{
   // import the function via paths
   functions: {
     importProductsFile,
+    importFileParser,
   },
   resources: {
     Resources: {
