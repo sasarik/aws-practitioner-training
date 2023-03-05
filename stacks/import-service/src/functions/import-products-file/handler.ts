@@ -8,14 +8,15 @@ import {
 } from '@aws-practitioner-training/serverless-utils';
 import { assertFileNameIsValid } from '../lib';
 
-const ProductsImportBucketName = process.env.ProductsImportBucketName;
 const AwsRegion = process.env.AwsRegion;
+const ProductsImportBucketName = process.env.ProductsImportBucketName;
+const inputStorage = process.env.ProductsImportBucketInputStorageKey;
 
 export const generateSignedUrl = async (fileName) => {
   const client = new S3Client({ region: AwsRegion });
   const command = new PutObjectCommand({
     Bucket: ProductsImportBucketName,
-    Key: `uploaded/${fileName}`,
+    Key: `${inputStorage}/${fileName}`,
     ContentType: 'text/csv',
   });
   return await getSignedUrl(client, command, { expiresIn: 3600 });

@@ -15,9 +15,10 @@ export const importProductsFile = {
     },
   ],
   description:
-    'Using a request with a ...?fileName=[name-of-csv-file] with products and created a new **Signed URL** with the following key: `uploaded/${fileName}`',
+    'Using a request with a ...?fileName=[name-of-csv-file] with products and created a new **Signed URL** with the following key: `[[inputStorage]]/${fileName}`',
   environment: {
     ProductsImportBucketName: process.env.PRODUCTS_IMPORT_BUCKET_NAME,
+    ProductsImportBucketInputStorageKey: process.env.PRODUCTS_IMPORT_BUCKET_INPUT_KEY,
     AwsRegion: process.env.AWS_REGION,
   },
 };

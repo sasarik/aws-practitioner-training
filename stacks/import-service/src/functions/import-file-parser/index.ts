@@ -12,14 +12,16 @@ export const importFileParser = {
       s3: {
         bucket: process.env.PRODUCTS_IMPORT_BUCKET_NAME,
         event: 's3:ObjectCreated:*',
-        rules: [{ prefix: 'uploaded/' }, { suffix: 'csv' }],
+        rules: [{ prefix: `${process.env.PRODUCTS_IMPORT_BUCKET_INPUT_KEY}/` }, { suffix: 'csv' }],
         existing: true,
       },
     },
   ],
   description: 'Get an objects from S3, parse them using csv-parser and log each record to be shown in CloudWatch',
   environment: {
-    ProductsImportBucketName: process.env.PRODUCTS_IMPORT_BUCKET_NAME,
     AwsRegion: process.env.AWS_REGION,
+    ProductsImportBucketName: process.env.PRODUCTS_IMPORT_BUCKET_NAME,
+    ProductsImportBucketInputStorageKey: process.env.PRODUCTS_IMPORT_BUCKET_INPUT_KEY,
+    ProductsImportBucketOutputStorageKey: process.env.PRODUCTS_IMPORT_BUCKET_OUTPUT_KEY,
   },
 };

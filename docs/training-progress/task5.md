@@ -66,6 +66,6 @@ Please verify the lambda functions by invoking them through provided URLs.
 
 - [x] **+10** **(for JS only)** - **async/await** is used in lambda functions
 - [x] **+10** **(All languages)** - `importProductsFile` lambda is covered by _unit tests_.
-- [ ] **+10** **(All languages)** - At the end of the stream the lambda function should move the file from
+- [x] **+10** **(All languages)** - At the end of the stream the lambda function should move the file from
   the `uploaded` folder into the `parsed` folder (`move the file` means that file should be copied into a new folder in
   the same bucket called `parsed`, and then deleted from `uploaded` folder)

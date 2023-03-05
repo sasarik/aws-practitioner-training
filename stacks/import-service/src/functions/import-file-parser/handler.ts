@@ -1,23 +1,50 @@
 import { S3Event } from 'aws-lambda';
-import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { CopyObjectCommand, DeleteObjectCommand, GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import csvParser from 'csv-parser';
 import { asStream } from '../lib';
 import * as console from 'console';
 
-const ProductsImportBucketName = process.env.ProductsImportBucketName;
 const AwsRegion = process.env.AwsRegion;
+const ProductsImportBucketName = process.env.ProductsImportBucketName;
+const inputStorage = process.env.ProductsImportBucketInputStorageKey;
+const outputStorage = process.env.ProductsImportBucketOutputStorageKey;
 
-const parseProducts = async (s3BucketKey: string) => {
-  const response = await new S3Client({ region: AwsRegion }).send(
+const client = new S3Client({ region: AwsRegion });
+
+const parseProducts = async (s3BucketProductKey: string) => {
+  // Read file
+  const response = await client.send(
     new GetObjectCommand({
       Bucket: ProductsImportBucketName,
-      Key: s3BucketKey,
+      Key: s3BucketProductKey,
     })
   );
+  // Parsing
   const stream = asStream(response).pipe(csvParser({}));
   for await (const record of stream) {
-    console.log('Product: ', record);
+    console.log(' -- Product: ', record);
   }
+};
+
+const moveToOutput = async (s3BucketProductKey: string) => {
+  console.log(` -- Copying to "${outputStorage}"...`);
+  const copyResult = await client.send(
+    new CopyObjectCommand({
+      Bucket: ProductsImportBucketName,
+      CopySource: `${ProductsImportBucketName}/${s3BucketProductKey}`,
+      Key: s3BucketProductKey.replace(inputStorage, outputStorage),
+    })
+  );
+  console.log(` -- Done:`, copyResult);
+  console.log(` -- Remove origin one "${s3BucketProductKey}"...`);
+  const removeResult = await client.send(
+    new DeleteObjectCommand({
+      Bucket: ProductsImportBucketName,
+      Key: s3BucketProductKey,
+    })
+  );
+  console.log(` -- Done:`, copyResult);
+  return [copyResult, removeResult];
 };
 
 export const main = async (event: S3Event) => {
@@ -28,7 +55,9 @@ export const main = async (event: S3Event) => {
       const key = record.s3.object.key;
       console.log(`~~~~~ Processing file: "${key}"...`);
       await parseProducts(key);
-      console.log(`~~~~~ The "${key}" proceed successfully`);
+      console.log(`~~~~~ The "${key}" file parsing complete`);
+      const [copyRes, deleteRes] = await moveToOutput(key);
+      console.log(`~~~~~ The "${key}" file moved to output folder: "${outputStorage}"`, copyRes, deleteRes);
     }
   } catch (error) {
     console.error('~~~~~ The error occurred: ', error);
