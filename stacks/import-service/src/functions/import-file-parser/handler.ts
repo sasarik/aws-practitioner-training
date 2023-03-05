@@ -36,14 +36,14 @@ const moveToOutput = async (s3BucketProductKey: string) => {
     })
   );
   console.log(` -- Done:`, copyResult);
-  console.log(` -- Remove origin one "${s3BucketProductKey}"...`);
+  console.log(` -- Removing origin one "${s3BucketProductKey}"...`);
   const removeResult = await client.send(
     new DeleteObjectCommand({
       Bucket: ProductsImportBucketName,
       Key: s3BucketProductKey,
     })
   );
-  console.log(` -- Done:`, copyResult);
+  console.log(` -- Done:`, removeResult);
   return [copyResult, removeResult];
 };
 
@@ -56,8 +56,8 @@ export const main = async (event: S3Event) => {
       console.log(`~~~~~ Processing file: "${key}"...`);
       await parseProducts(key);
       console.log(`~~~~~ The "${key}" file parsing complete`);
-      const [copyRes, deleteRes] = await moveToOutput(key);
-      console.log(`~~~~~ The "${key}" file moved to output folder: "${outputStorage}"`, copyRes, deleteRes);
+      await moveToOutput(key);
+      console.log(`~~~~~ The "${key}" file moved to "${outputStorage}" output folder`);
     }
   } catch (error) {
     console.error('~~~~~ The error occurred: ', error);
