@@ -23,6 +23,12 @@ https://d177vmkb52wotz.cloudfront.net/
 
 ## The "Pet Shop Store" Dev duties
 
+Migrate to latest Nx
+
+```
+nx migrate latest && npm i --force
+```
+
 Running Front-End Application build
 
 ```

@@ -1,4 +1,6 @@
-const API_GATEWAY = 'https://c6lk4tmf1g.execute-api.eu-west-1.amazonaws.com/dev';
+const HTTP_API_GATEWAY = 'https://dvwtr13aob.execute-api.eu-west-1.amazonaws.com';
+
 export const apiRoutes = {
-  getAvailableProductsListUrl: () => `${API_GATEWAY}/products`,
+  productsService: () => `${HTTP_API_GATEWAY}/products`,
+  productById: (productId: string) => `${HTTP_API_GATEWAY}/products/${productId}`,
 };

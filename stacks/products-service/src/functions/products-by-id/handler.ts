@@ -1,25 +1,54 @@
-import mockResponse from '../mock-data/mock-products-response.json';
-import { formatJSONSuccessResponse } from '@aws-practitioner-training/serverless-utils';
+import { formatErrorResponse, formatJSONSuccessResponse, middyfy } from '@aws-practitioner-training/serverless-utils';
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { formatErrorResponse } from '@aws-practitioner-training/serverless-utils';
-import * as console from 'console';
+import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
+import { unmarshallDbItem } from "../lib";
 
-// TODO AR get rid off on it after data from DB populate
-export const getAvailableProducts = async (): Promise<{ products: { id: string }[] }> => Promise.resolve(mockResponse);
+const ProductsTableName = process.env.ProductsTableName;
+const StocksTableName = process.env.StocksTableName;
+const dynamo = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
-export const main = async (event: APIGatewayProxyEvent) => {
+export const getProductById = async (id: string) => {
+  if (!id) return undefined;
+
+  const [product, stock] = await Promise.all([
+    dynamo.send(
+      new GetItemCommand({
+        TableName: ProductsTableName,
+        Key: {
+          id: { S: id },
+        },
+      })
+    ),
+    dynamo.send(
+      new GetItemCommand({
+        TableName: StocksTableName,
+        Key: {
+          productId: { S: id },
+        },
+      })
+    ),
+  ]);
+
+  if (!product.Item) return undefined;
+  return {
+    ...unmarshallDbItem(product.Item),
+    count: unmarshallDbItem(stock.Item)?.count ?? 0,
+  };
+};
+
+export const handlerImpl = async (event: APIGatewayProxyEvent) => {
   try {
-    const {
-      pathParameters: { productId = '' },
-    } = event;
-    const { products } = await getAvailableProducts();
-    const productById = products.find((product) => product.id.toLowerCase() === productId.toLowerCase());
-    if (productById) {
-      return formatJSONSuccessResponse({ product: productById });
+    console.log('~~~~~ Payload: ', event.pathParameters);
+    const product = await getProductById(event.pathParameters.productId);
+    if (product) {
+      return formatJSONSuccessResponse({ product });
     }
     return formatErrorResponse(404, 'Product not found');
   } catch (error: unknown) {
-    console.log('The internal error occurred: ', error);
+    console.error('~~~~~ The error occurred: ', error);
     return formatErrorResponse(500, 'Server Internal Error');
   }
 };
+
+export const main = middyfy(handlerImpl);

@@ -70,20 +70,8 @@ Combination of `cloudfront:setup` and `cloudfront:build:deploy` commands with or
 
 Remove an entire stack configured in `serverless.yml` via CloudFormation.
 
-#### S3 Bucket website endpoint
-
-```
-http://aws-training-react-cloudfront-bucket.s3-website-eu-west-1.amazonaws.com
-```
-
 #### CloudFront Distribution
 
 ```
 https://d177vmkb52wotz.cloudfront.net/
-```
-
-#### APIGateway
-
-```
-https://c6lk4tmf1g.execute-api.eu-west-1.amazonaws.com/dev
 ```

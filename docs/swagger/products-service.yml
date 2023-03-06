@@ -3,7 +3,7 @@ info:
   title: 'Products service: API with AWS API Gateway and AWS Lambda'
   version: 0.0.1
 servers:
-  - url: https://c6lk4tmf1g.execute-api.eu-west-1.amazonaws.com/dev
+  - url: https://dvwtr13aob.execute-api.eu-west-1.amazonaws.com
     description: Dev stage AWS API Gateway
 paths:
   /products:
@@ -25,6 +25,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a product
+      tags:
+        - Products
+      operationId: createProduct
+      requestBody:
+        description: The product creation request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Success product creation response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: successfully created
+                  href:
+                    type: string
+                    description: The URI to new create resource
+                    example: /products/77
+        404:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid Request Data
+        'default':
+          description: Non standard response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   /products/{productId}:
     get:
       summary: Returns product by provided id
@@ -64,10 +108,10 @@ components:
     Product:
       type: object
       required:
-        - id
         - title
-        - description
         - price
+        - description
+        - count
       properties:
         id:
           type: string
@@ -81,6 +125,9 @@ components:
         price:
           type: number
           example: 9.99
+        count:
+          type: integer
+          example: 18
     Products:
       type: object
       required:

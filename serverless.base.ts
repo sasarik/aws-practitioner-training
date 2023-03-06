@@ -14,7 +14,7 @@ export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
       target: 'node18',
       sourcemap: true,
       sourcesContent: false,
-      exclude: ['aws-sdk'],
+      exclude: ['aws-sdk', '@aws-sdk/lib-dynamodb', '@aws-sdk/client-dynamodb', '@aws-sdk/util-dynamodb'],
       define: { 'require.resolve': undefined },
       platform: 'node',
       concurrency: 10,
@@ -24,7 +24,6 @@ export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
     name: 'aws',
     region: 'eu-west-1',
     runtime: 'nodejs18.x',
-    stage: 'dev',
     memorySize: 128,
     apiGateway: {
       minimumCompressionSize: 1024,

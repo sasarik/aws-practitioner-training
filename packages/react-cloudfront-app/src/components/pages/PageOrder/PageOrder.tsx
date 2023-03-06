@@ -6,7 +6,6 @@ import PaperLayout from '~/components/PaperLayout/PaperLayout';
 import Typography from '@mui/material/Typography';
 import API_PATHS from '~/constants/apiPaths';
 import { CartItem } from '~/models/CartItem';
-import { AvailableProduct } from '~/models/Product';
 import ReviewOrder from '~/components/pages/PageCart/components/ReviewOrder';
 import { ORDER_STATUS_FLOW, OrderStatus } from '~/constants/order';
 import Button from '@mui/material/Button';
@@ -23,6 +22,7 @@ import TableContainer from '@mui/material/TableContainer';
 import Box from '@mui/material/Box';
 import { useQueries } from 'react-query';
 import { useInvalidateOrder, useUpdateOrderStatus } from '~/queries/orders';
+import { fetchAvailableProducts } from '~/queries/products';
 
 type FormValues = {
   status: OrderStatus;
@@ -40,11 +40,8 @@ export default function PageOrder() {
       },
     },
     {
-      queryKey: 'products',
-      queryFn: async () => {
-        const res = await axios.get<AvailableProduct[]>(`${API_PATHS.bff}/product/available`);
-        return res.data;
-      },
+      queryKey: 'available-products',
+      queryFn: fetchAvailableProducts,
     },
   ]);
   const [{ data: order, isLoading: isOrderLoading }, { data: products, isLoading: isProductsLoading }] = results;

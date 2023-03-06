@@ -1,18 +1,17 @@
 import { MemoryRouter } from 'react-router-dom';
-import { expect, test } from 'vitest';
 import App from '~/components/App/App';
 import { server } from '~/mocks/server';
 import { rest } from 'msw';
 import API_PATHS from '~/constants/apiPaths';
 import { CartItem } from '~/models/CartItem';
-import { AvailableProduct } from '~/models/Product';
+import { Product } from '~/models/Product';
 import { renderWithProviders } from '~/testUtils';
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import { formatAsPrice } from '~/utils/utils';
+import { apiRoutes } from '~/constants/apiRoutes';
 
-// TODO AR - to fix test & references below highlight
-test.skip('Renders products list', async () => {
-  const products: AvailableProduct[] = [
+test('Renders products list', async () => {
+  const products: Product[] = [
     {
       id: '1',
       title: 'Product 1',
@@ -29,8 +28,8 @@ test.skip('Renders products list', async () => {
     },
   ];
   server.use(
-    rest.get(`${API_PATHS.bff}/product/available`, (_req, res, ctx) => {
-      return res(ctx.status(200), ctx.delay(), ctx.json<AvailableProduct[]>(products));
+    rest.get(apiRoutes.productsService(), (_req, res, ctx) => {
+      return res(ctx.status(200), ctx.delay(), ctx.json<{ products: Product[] }>({ products }));
     }),
     rest.get(`${API_PATHS.cart}/profile/cart`, (_req, res, ctx) => {
       return res(ctx.status(200), ctx.json<CartItem[]>([]));
@@ -43,6 +42,7 @@ test.skip('Renders products list', async () => {
   );
 
   await waitForElementToBeRemoved(() => screen.queryByText(/Loading/));
+
   products.forEach((product) => {
     expect(screen.getByText(product.title)).toBeInTheDocument();
     expect(screen.getByText(formatAsPrice(product.price))).toBeInTheDocument();

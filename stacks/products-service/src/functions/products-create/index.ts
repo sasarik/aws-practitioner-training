@@ -4,17 +4,17 @@ import * as process from 'process';
 
 dotenv.config();
 
-export const getProductsById = {
+export const createProduct = {
   handler: buildLambdaHandlerPath(__dirname),
   events: [
     {
       httpApi: {
-        method: 'GET',
-        path: '/products/{productId}',
+        method: 'POST',
+        path: '/products',
       },
     },
   ],
-  description: 'The find product by provided id function',
+  description: 'Creating a new entry item in Products *= Stocks tables',
   environment: {
     ProductsTableName: process.env.PRODUCTS_TABLE_NAME,
     StocksTableName: process.env.STOCKS_TABLE_NAME,
