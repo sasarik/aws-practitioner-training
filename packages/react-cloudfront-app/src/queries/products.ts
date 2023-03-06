@@ -40,13 +40,14 @@ export function useRemoveProductCache() {
 }
 
 export function useUpsertAvailableProduct() {
-  return useMutation((values: Product) =>
-    axios.post<Product>(apiRoutes.productsService(), values, {
+  return useMutation((product: Product) => {
+    const upsertMethod = product.id ? axios.put : axios.post;
+    return upsertMethod<Product>(apiRoutes.productsService(), product, {
       headers: {
         Authorization: `Basic ${localStorage.getItem('authorization_token')}`,
       },
-    })
-  );
+    });
+  });
 }
 
 export function useDeleteAvailableProduct() {

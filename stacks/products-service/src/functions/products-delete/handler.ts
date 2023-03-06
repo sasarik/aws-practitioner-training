@@ -15,7 +15,7 @@ const AwsRegion = process.env.AwsRegion;
 const dynamo = DynamoDBDocumentClient.from(new DynamoDBClient({ region: AwsRegion }));
 
 export const deleteAvailableProduct = async (productId: string) => {
-  const transactionalInsert = new ExecuteTransactionCommand({
+  const transactionalDelete = new ExecuteTransactionCommand({
     TransactStatements: [
       {
         Statement: `DELETE FROM "${ProductsTableName}" WHERE id = ?`,
@@ -27,7 +27,7 @@ export const deleteAvailableProduct = async (productId: string) => {
       },
     ],
   });
-  const output = await dynamo.send(transactionalInsert);
+  const output = await dynamo.send(transactionalDelete);
   return { productId, output };
 };
 

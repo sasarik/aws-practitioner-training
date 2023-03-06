@@ -8,5 +8,5 @@ export default asConst({
     price: { type: 'number' },
     title: { type: 'string' },
   },
-  required: ['title', 'price'],
+  required: ['title', 'price', 'description'],
 });
