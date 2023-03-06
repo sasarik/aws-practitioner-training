@@ -31,12 +31,16 @@
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": ["stacks/products-service/**/*.ts"]
+        "lintFilePatterns": [
+          "stacks/products-service/**/*.ts"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "stacks/products-service/jest.config.ts",
         "passWithNoTests": true
@@ -49,5 +53,7 @@
       }
     }
   },
-  "tags": ["stack"]
+  "tags": [
+    "stack"
+  ]
 }

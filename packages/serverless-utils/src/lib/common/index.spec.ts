@@ -1,4 +1,4 @@
-import { formatErrorResponse, formatJSONSuccessResponse } from './serverless-utils';
+import { formatErrorResponse, formatJSONSuccessResponse } from './index';
 
 describe('serverless-utils tests', () => {
   describe('formatJSONSuccessResponse', () => {

@@ -1,4 +1,4 @@
-import { buildLambdaHandlerPath } from '@aws-practitioner-training/serverless-utils';
+import { buildLambdaHandlerPath } from '@helpers/common';
 import * as dotenv from 'dotenv';
 import * as process from 'process';
 
@@ -18,5 +18,6 @@ export const getProductsById = {
   environment: {
     ProductsTableName: process.env.PRODUCTS_TABLE_NAME,
     StocksTableName: process.env.STOCKS_TABLE_NAME,
+    AwsRegion: process.env.AWS_REGION,
   },
 };

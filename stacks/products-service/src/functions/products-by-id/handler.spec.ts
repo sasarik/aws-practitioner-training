@@ -1,10 +1,26 @@
+import * as dbClient from '@helpers/db-client';
 import * as productByIdHandler from './handler';
 
 describe('getProductsById tests', () => {
+  let mockConsoleLog;
+  let mockConsoleError;
+  beforeAll(() => {
+    mockConsoleLog = jest.spyOn(console, 'log').mockImplementation(() => {
+      // This is intentional
+    });
+    mockConsoleError = jest.spyOn(console, 'error').mockImplementation(() => {
+      // This is intentional
+    });
+  });
+  afterAll(() => {
+    mockConsoleLog.mockRestore();
+    mockConsoleError.mockRestore();
+  });
+
   let getProductByIdMock;
   beforeEach(() => {
     getProductByIdMock = jest
-      .spyOn(productByIdHandler, 'getProductById')
+      .spyOn(dbClient, 'getProductById')
       .mockImplementation((productId) =>
         productId === '2'
           ? Promise.resolve({ id: '2', title: 'Test Product To Find', count: 2, description: '22', price: 22 })
@@ -16,7 +32,7 @@ describe('getProductsById tests', () => {
   });
 
   it('should find product by id', async () => {
-    const result = await productByIdHandler.handlerImpl({
+    const result = await productByIdHandler.main({
       body: '',
       headers: undefined,
       httpMethod: '',
@@ -37,8 +53,8 @@ describe('getProductsById tests', () => {
     });
   });
 
-  it('should return "Not Found" if no products by criteria(s)', async () => {
-    const result = await productByIdHandler.handlerImpl({
+  it('should return error being wrongly parametrized', async () => {
+    const result = await productByIdHandler.main({
       body: '',
       headers: undefined,
       httpMethod: '',

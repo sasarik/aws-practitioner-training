@@ -1,8 +1,15 @@
-import { ResponseHeader } from './headers';
-import middy from '@middy/core';
-import cors from '@middy/http-cors';
-import middyJsonBodyParser from '@middy/http-json-body-parser';
 import * as crypto from 'crypto';
+
+const ResponseHeader = Object.freeze({
+  Authorization: {
+    FieldName: 'Authorization',
+  },
+  ContentType: Object.freeze({
+    FieldName: 'Content-Type',
+    AppJSON: Object.freeze({ 'Content-Type': 'application/json' }),
+    TextPlain: Object.freeze({ 'Content-Type': 'text/plain' }),
+  }),
+});
 
 export const mapItemsById = <T extends object>(itemIdPropertyName: string, items: T[]) => {
   const resultMap = new Map<string, T>();
@@ -16,33 +23,11 @@ export const mapItemsById = <T extends object>(itemIdPropertyName: string, items
 
 export const generateUUID = () => crypto.randomUUID();
 
-export const corsConfiguration = () => {
-  const getOrigin = (incomingOrigin: string) => {
-    const allowedOrigins = [...(process.env.publicUrls?.split(',') ?? '')];
-    console.log(`~~~~~~ CORS: AllowedOrigins:${allowedOrigins.join(',')}; incoming one: ${incomingOrigin};`);
-    if (allowedOrigins.includes(incomingOrigin)) {
-      console.log('~~~~~~ CORS: so, incoming one will be included.');
-      return incomingOrigin;
-    }
-    return generateUUID();
-  };
-
-  return cors({
-    headers: `${ResponseHeader.ContentType.FieldName},X-Amz-Date,${ResponseHeader.Authorization.FieldName},X-Api-Key,X-Amz-Security-Token`,
-    methods: 'GET,OPTIONS,POST',
-    getOrigin,
-  });
-};
-
-export const middyfy = (handler) => {
-  return middy(handler).use(middyJsonBodyParser());
-};
-
 const MSG_PREFIX = 'APIGateway/AWSLambda:';
 
 export const formatJSONSuccessResponse = <T>(
   response: NonNullable<T>,
-  statusCode: 200 | 201 = 200,
+  statusCode: 200 | 201 | 204 = 200,
   message?: string
 ) => {
   return {

@@ -1,14 +1,25 @@
+import * as dbClient from '@helpers/db-client';
 import * as productsListHandler from './handler';
 
 describe('products-list tests', () => {
+  let mockConsole;
+  beforeAll(() => {
+    mockConsole = jest.spyOn(console, 'log').mockImplementation(() => {
+      // This is intentional
+    });
+  });
+  afterAll(() => {
+    mockConsole.mockRestore();
+  });
+
   it('should find product by id', async () => {
-    const spyOn = jest.spyOn(productsListHandler, 'getAvailableProductItems').mockImplementation(() =>
+    const spyOn = jest.spyOn(dbClient, 'getAvailableProductItems').mockImplementation(() =>
       Promise.resolve([
         { id: '1', title: 'Test Product 1', count: 1, description: '11', price: 10 },
         { id: '2', title: 'Test Product 2', count: 2, description: '22', price: 22 },
       ])
     );
-    const result = await productsListHandler.handlerImpl({
+    const result = await productsListHandler.main({
       body: '',
       headers: undefined,
       httpMethod: '',

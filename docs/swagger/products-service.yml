@@ -4,7 +4,7 @@ info:
   version: 0.0.1
 servers:
   - url: https://dvwtr13aob.execute-api.eu-west-1.amazonaws.com
-    description: Dev stage AWS API Gateway
+    description: Dev stage AWS Products API Gateway
 paths:
   /products:
     get:
@@ -14,7 +14,7 @@ paths:
       operationId: getProductsList
       responses:
         '200':
-          description: Available projects
+          description: Available products
           content:
             application/json:
               schema:
@@ -68,6 +68,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    put:
+      summary: Update a product
+      tags:
+        - Products
+      operationId: updateProduct
+      requestBody:
+        description: The product update request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Success product update response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: successfully created
+                  href:
+                    type: string
+                    description: The URI to updated resource
+                    example: /products/77
+
+        'default':
+          description: Non standard response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /products/{productId}:
     get:
@@ -96,6 +130,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        'default':
+          description: Non standard response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete product by provided id
+      tags:
+        - Products
+      operationId: deleteProduct
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The unique identifier of product to remove
+          example: '7567ec4b-b10c-48c5-9345-fc73c48a80aa'
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
         'default':
           description: Non standard response
           content:
