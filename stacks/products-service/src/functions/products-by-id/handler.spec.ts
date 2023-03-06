@@ -1,3 +1,4 @@
+import * as dbClient from '@helpers/db-client';
 import * as productByIdHandler from './handler';
 
 describe('getProductsById tests', () => {
@@ -19,7 +20,7 @@ describe('getProductsById tests', () => {
   let getProductByIdMock;
   beforeEach(() => {
     getProductByIdMock = jest
-      .spyOn(productByIdHandler, 'getProductById')
+      .spyOn(dbClient, 'getProductById')
       .mockImplementation((productId) =>
         productId === '2'
           ? Promise.resolve({ id: '2', title: 'Test Product To Find', count: 2, description: '22', price: 22 })

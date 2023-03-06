@@ -1,43 +1,6 @@
-import { formatErrorResponse, formatJSONSuccessResponse } from '@aws-practitioner-training/serverless-utils';
+import { formatErrorResponse, formatJSONSuccessResponse } from '@helpers/common';
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
-import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
-import { unmarshallDbItem } from '../lib';
-
-const ProductsTableName = process.env.ProductsTableName;
-const StocksTableName = process.env.StocksTableName;
-const AwsRegion = process.env.AwsRegion;
-
-const dynamo = DynamoDBDocumentClient.from(new DynamoDBClient({ region: AwsRegion }));
-
-export const getProductById = async (id: string) => {
-  if (!id) return undefined;
-
-  const [product, stock] = await Promise.all([
-    dynamo.send(
-      new GetItemCommand({
-        TableName: ProductsTableName,
-        Key: {
-          id: { S: id },
-        },
-      })
-    ),
-    dynamo.send(
-      new GetItemCommand({
-        TableName: StocksTableName,
-        Key: {
-          productId: { S: id },
-        },
-      })
-    ),
-  ]);
-
-  if (!product.Item) return undefined;
-  return {
-    ...unmarshallDbItem(product.Item),
-    count: unmarshallDbItem(stock.Item)?.count ?? 0,
-  };
-};
+import { getProductById } from '@helpers/db-client';
 
 export const main = async (event: APIGatewayProxyEvent) => {
   try {

@@ -1,4 +1,4 @@
-import { buildLambdaHandlerPath } from '@aws-practitioner-training/serverless-utils';
+import { buildLambdaHandlerPath } from '@helpers/common';
 import * as dotenv from 'dotenv';
 import * as process from 'process';
 

@@ -1,12 +1,8 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import {
-  formatErrorResponse,
-  formatJSONSuccessResponse,
-  ValidationError,
-} from '@aws-practitioner-training/serverless-utils';
-import { assertFileNameIsValid } from '../lib';
+import { formatErrorResponse, formatJSONSuccessResponse } from '@helpers/common';
+import { assertNotEmptyString, ValidationError } from '@helpers/validation';
 
 const AwsRegion = process.env.AwsRegion;
 const ProductsImportBucketName = process.env.ProductsImportBucketName;
@@ -26,7 +22,7 @@ export const main = async (event: APIGatewayProxyEvent) => {
   try {
     console.log('~~~~~ Payload(queryStringParameters): ', event.queryStringParameters);
     const fileName = event.queryStringParameters?.fileName;
-    assertFileNameIsValid(fileName);
+    assertNotEmptyString('"csv" fileName ', fileName);
     const url = await generateSignedUrl(fileName);
     return formatJSONSuccessResponse({ signedUrl: url });
   } catch (error: unknown) {

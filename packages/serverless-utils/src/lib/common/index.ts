@@ -1,5 +1,15 @@
-import { ResponseHeader } from './headers';
 import * as crypto from 'crypto';
+
+const ResponseHeader = Object.freeze({
+  Authorization: {
+    FieldName: 'Authorization',
+  },
+  ContentType: Object.freeze({
+    FieldName: 'Content-Type',
+    AppJSON: Object.freeze({ 'Content-Type': 'application/json' }),
+    TextPlain: Object.freeze({ 'Content-Type': 'text/plain' }),
+  }),
+});
 
 export const mapItemsById = <T extends object>(itemIdPropertyName: string, items: T[]) => {
   const resultMap = new Map<string, T>();
@@ -31,10 +41,6 @@ export const formatJSONSuccessResponse = <T>(
     }),
   };
 };
-
-export class ValidationError extends Error {}
-
-export const validationError = (message: string): ValidationError => new ValidationError(message);
 
 export const formatErrorResponse = (statusCode: number, message?: string) => {
   return {

@@ -1,25 +1,11 @@
-import type { FromSchema } from 'json-schema-to-ts';
-import AvailableProductSchema from './AvailableProductSchema';
 import { isNumber } from '@powwow-js/core';
-import { unmarshall } from '@aws-sdk/util-dynamodb';
-import { AttributeValue } from '@aws-sdk/client-dynamodb/dist-types/models';
-import { validationError } from '@aws-practitioner-training/serverless-utils';
+import { AvailableProduct } from '../schemas';
 
-export type StockDbItem = {
-  productId: string;
-  count: number;
-};
+export class ValidationError extends Error {}
 
-export type ProductDbItem = {
-  id: string;
-  title: string;
-  price: number;
-  description: string;
-};
+export const validationError = (message: string): ValidationError => new ValidationError(message);
 
-export type AvailableProduct = FromSchema<typeof AvailableProductSchema>;
-
-export function assertNotEmpty<T>(valueName: string, value: T): asserts value is NonNullable<T> {
+export function assertNotEmptyString(valueName: string, value: unknown): asserts value is NonNullable<string> {
   if (!value) {
     throw validationError(`Expect to have a "${valueName}" defined, but got nothing`);
   }
@@ -42,10 +28,3 @@ export function assertProductIsValid(product: Record<string, unknown>): asserts 
     throw validationError(`Expect to have a product.count defined as integer correctly, but got [${product.count}]`);
   }
 }
-
-export const unmarshallDbItem = (item: Record<string, AttributeValue>) => {
-  if (item) {
-    return unmarshall(item);
-  }
-  return item;
-};

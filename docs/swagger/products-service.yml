@@ -68,6 +68,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    put:
+      summary: Update a product
+      tags:
+        - Products
+      operationId: updateProduct
+      requestBody:
+        description: The product update request payload
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Success product update response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: successfully created
+                  href:
+                    type: string
+                    description: The URI to updated resource
+                    example: /products/77
+
+        'default':
+          description: Non standard response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /products/{productId}:
     get:
@@ -124,7 +158,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-                
+
 components:
   schemas:
     Product:
