@@ -17,7 +17,7 @@ const MSG_PREFIX = 'APIGateway/AWSLambda:';
 
 export const formatJSONSuccessResponse = <T>(
   response: NonNullable<T>,
-  statusCode: 200 | 201 = 200,
+  statusCode: 200 | 201 | 204 = 200,
   message?: string
 ) => {
   return {
@@ -32,17 +32,7 @@ export const formatJSONSuccessResponse = <T>(
   };
 };
 
-export const errorCode = Object.freeze({
-  VALIDATION: 'validation-error',
-});
-
-export class ValidationError extends Error {
-  readonly errorCode: typeof errorCode.VALIDATION;
-
-  constructor(message: string) {
-    super(message);
-  }
-}
+export class ValidationError extends Error {}
 
 export const validationError = (message: string): ValidationError => new ValidationError(message);
 

@@ -19,6 +19,12 @@ export type ProductDbItem = {
 
 export type AvailableProduct = FromSchema<typeof AvailableProductSchema>;
 
+export function assertNotEmpty<T>(valueName: string, value: T): asserts value is NonNullable<T> {
+  if (!value) {
+    throw validationError(`Expect to have a "${valueName}" defined, but got nothing`);
+  }
+}
+
 export function assertProductIsValid(product: Record<string, unknown>): asserts product is AvailableProduct {
   if (!product) {
     throw validationError('Expect to have a product defined, but got nothing');

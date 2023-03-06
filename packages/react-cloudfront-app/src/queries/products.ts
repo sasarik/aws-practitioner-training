@@ -1,5 +1,4 @@
 import axios, { AxiosError } from 'axios';
-import API_PATHS from '~/constants/apiPaths';
 import { Product } from '~/models/Product';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import React from 'react';
@@ -51,11 +50,11 @@ export function useUpsertAvailableProduct() {
 }
 
 export function useDeleteAvailableProduct() {
-  return useMutation((id: string) =>
-    axios.delete(`${API_PATHS.bff}/product/${id}`, {
+  return useMutation((id: string) => {
+    return axios.delete(apiRoutes.productById(id), {
       headers: {
         Authorization: `Basic ${localStorage.getItem('authorization_token')}`,
       },
-    })
-  );
+    });
+  });
 }

@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 import { baseServerlessConfiguration } from '../../serverless.base';
-import { getProductsList, getProductsById, createProduct } from './src/functions';
+import { createProduct, deleteProduct, getProductsById, getProductsList } from './src/functions';
 import { httpApiGatewayCorsConfig } from './corsConfigs';
 
 const SERVICE_NAME = 'aws-training-products-service';
@@ -29,6 +29,7 @@ const serverlessConfiguration: AWS = {
     getProductsList,
     getProductsById,
     createProduct,
+    deleteProduct,
   },
 };
 

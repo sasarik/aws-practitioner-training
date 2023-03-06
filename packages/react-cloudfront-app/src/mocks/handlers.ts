@@ -5,9 +5,6 @@ import { CartItem } from '~/models/CartItem';
 import { Order } from '~/models/Order';
 
 export const handlers = [
-  rest.delete(`${API_PATHS.bff}/product/:id`, (_req, res, ctx) => {
-    return res(ctx.status(200));
-  }),
   rest.get(`${API_PATHS.cart}/profile/cart`, (_req, res, ctx) => {
     return res(ctx.status(200), ctx.delay(), ctx.json<CartItem[]>(cart));
   }),

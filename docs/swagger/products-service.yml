@@ -102,7 +102,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-
+    delete:
+      summary: Delete product by provided id
+      tags:
+        - Products
+      operationId: deleteProduct
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The unique identifier of product to remove
+          example: '7567ec4b-b10c-48c5-9345-fc73c48a80aa'
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        'default':
+          description: Non standard response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
 components:
   schemas:
     Product:
