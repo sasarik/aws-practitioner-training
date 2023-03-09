@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 import { baseServerlessConfiguration } from '../../serverless.base';
-import { createProduct, deleteProduct, getProductsById, getProductsList } from './src/functions';
+import { catalogBatchProcess, createProduct, deleteProduct, getProductsById, getProductsList } from './src/functions';
 import { httpApiGatewayCorsConfig } from './corsConfigs';
 import { updateProduct } from './src/functions/products-update';
 
@@ -32,6 +32,7 @@ const serverlessConfiguration: AWS = {
     createProduct,
     updateProduct,
     deleteProduct,
+    catalogBatchProcess,
   },
 };
 

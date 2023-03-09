@@ -3,7 +3,7 @@ info:
   title: 'Products service: API with AWS API Gateway and AWS Lambda'
   version: 0.0.1
 servers:
-  - url: https://dvwtr13aob.execute-api.eu-west-1.amazonaws.com
+  - url: https://1zqt81q62j.execute-api.eu-west-1.amazonaws.com
     description: Dev stage AWS Products API Gateway
 paths:
   /products:

@@ -16,48 +16,51 @@ export default function ProductsTable() {
   const invalidateAvailableProducts = useInvalidateAvailableProducts();
 
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Title</TableCell>
-            <TableCell align="right">Description</TableCell>
-            <TableCell align="right">Price</TableCell>
-            <TableCell align="right">Count</TableCell>
-            <TableCell align="right">Action</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((product) => (
-            <TableRow key={product.id}>
-              <TableCell component="th" scope="row">
-                {product.title}
-              </TableCell>
-              <TableCell align="right">{product.description}</TableCell>
-              <TableCell align="right">{formatAsPrice(product.price)}</TableCell>
-              <TableCell align="right">{product.count}</TableCell>
-              <TableCell align="right">
-                <Button size="small" color="primary" component={Link} to={`/admin/product-form/${product.id}`}>
-                  Manage
-                </Button>
-                <Button
-                  size="small"
-                  color="secondary"
-                  onClick={() => {
-                    if (product.id) {
-                      deleteAvailableProduct(product.id, {
-                        onSuccess: invalidateAvailableProducts,
-                      });
-                    }
-                  }}
-                >
-                  Delete
-                </Button>
-              </TableCell>
+    <>
+      <div>{`Total: ${data.length ?? '0'}`}</div>
+      <TableContainer component={Paper}>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Title</TableCell>
+              <TableCell align="right">Description</TableCell>
+              <TableCell align="right">Price</TableCell>
+              <TableCell align="right">Count</TableCell>
+              <TableCell align="right">Action</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {data.map((product) => (
+              <TableRow key={product.id}>
+                <TableCell component="th" scope="row">
+                  {product.title}
+                </TableCell>
+                <TableCell align="right">{product.description}</TableCell>
+                <TableCell align="right">{formatAsPrice(product.price)}</TableCell>
+                <TableCell align="right">{product.count}</TableCell>
+                <TableCell align="right">
+                  <Button size="small" color="primary" component={Link} to={`/admin/product-form/${product.id}`}>
+                    Manage
+                  </Button>
+                  <Button
+                    size="small"
+                    color="secondary"
+                    onClick={() => {
+                      if (product.id) {
+                        deleteAvailableProduct(product.id, {
+                          onSuccess: invalidateAvailableProducts,
+                        });
+                      }
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 }
