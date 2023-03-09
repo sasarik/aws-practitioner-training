@@ -17,17 +17,17 @@
 
 ### Task 6.3
 
-1. Create an SNS topic `createProductTopic` and email subscription in the resources section in `serverless.yml` of the
-   Product Service.
-2. Create a subscription for this SNS topic with an `email` endpoint type with your own email in there.
-3. Update the `catalogBatchProcess` lambda function in the Product Service to send an event to the SNS topic once it
-   creates products.
+- [ ] Created an SNS topic `createProductTopic` and email subscription in the resources section in `serverless.yml` of
+  the Product Service.
+- [ ] Created a subscription for this SNS topic with an `email` endpoint type with your own email in there.
+- [ ] Updated the `catalogBatchProcess` lambda function in the Product Service by sending an event to the SNS topic once
+  it creates products.
 
 ### Task 6.4
 
-1. Commit all your work to separate branch (e.g. `task-6` from the latest `master`) in your own repository.
-2. Create a pull request to the `master` branch.
-3. Submit the link to the pull request for crosscheck
+- [ ] Commit all my work to separate branch (e.g. `task-6` from the latest `master`) in your own repository.
+- [ ] Created a pull request to the `master` branch.
+- [ ] Submit the link to the pull request for crosscheck
 
 ## Evaluation criteria (70 points for covering all criteria)
 
@@ -35,37 +35,28 @@
 
 Reviewers should verify the lambda functions, SQS and SNS topic and subscription in PR.
 
-- File `serverless.yml` contains configuration for `catalogBatchProcess` function
-- File `serverless.yml` contains policies to allow lambda `catalogBatchProcess` function to interact with SNS and SQS
-- File `serverless.yml` contains configuration for SQS `catalogItemsQueue`
-- File `serverless.yml` contains configuration for SNS Topic `createProductTopic` and email subscription
+- [ ] File `serverless.yml` contains configuration for `catalogBatchProcess` function
+- [ ] File `serverless.yml` contains policies to allow lambda `catalogBatchProcess` function to interact with SNS and
+  SQS
+- [ ] File `serverless.yml` contains configuration for SQS `catalogItemsQueue`
+- [ ] File `serverless.yml` contains configuration for SNS Topic `createProductTopic` and email subscription
+
+---
 
 ## Additional (optional) tasks
 
----
-
-- **+15** **(All languages)** - `catalogBatchProcess` lambda is covered by **unit** tests
-- **+15** **(All languages)** - set a Filter Policy for SNS `createProductTopic` in `serverless.yml` and create an
+- [ ] **+15** **(All languages)** - `catalogBatchProcess` lambda is covered by **unit** tests
+- [ ] **+15** **(All languages)** - set a Filter Policy for SNS `createProductTopic` in `serverless.yml` and create an
   additional email subscription to distribute messages to different emails depending on the filter for any product
   attribute
 
-## Description Teamplate for PRs
-
 ---
+
+## Description Template for PRs
 
 The following should be present in PR's description field:
 
-1. What was done?
-
-   Example:
-
-```
-   Service is done, but FE is not working...
-
-   Additional scope - webpack, swagger, unit tests
-```
-
-2. Link to Product Service and Import Service APIs - .....
-3. Link to FE PR (YOUR OWN REPOSITORY) - ...
-
-4. In case SWAGGER file is not provided - please provide product schema in PR description
+- [ ] What was done?
+- [ ] Link to Product Service and Import Service APIs - .....
+- [ ] Link to FE PR (YOUR OWN REPOSITORY) - ...
+- [ ] In case SWAGGER file is not provided - please provide product schema in PR description

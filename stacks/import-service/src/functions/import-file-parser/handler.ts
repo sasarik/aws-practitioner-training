@@ -1,10 +1,9 @@
 import { S3Event } from 'aws-lambda';
 import { CopyObjectCommand, DeleteObjectCommand, GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { SQS } from '@aws-sdk/client-sqs';
-
 import csvParser from 'csv-parser';
 import { asStream } from '../lib';
-import * as console from 'console';
+import { formatJSONSuccessResponse } from '@helpers/common';
 
 const AwsRegion = process.env.AwsRegion;
 const ProductsImportBucketName = process.env.ProductsImportBucketName;
@@ -23,7 +22,7 @@ const processProductsFile = async (s3BucketProductKey: string) => {
       Key: s3BucketProductKey,
     })
   );
-  // Parsing records
+  // Parsing records & send them to SQS
   const stream = asStream(response).pipe(csvParser({}));
   for await (const record of stream) {
     await sqsClient.sendMessage({
@@ -66,6 +65,7 @@ export const main = async (event: S3Event) => {
       await moveToOutput(key);
       console.log(`~~~~~ The "${key}" file moved to "${outputStorage}" output folder`);
     }
+    return formatJSONSuccessResponse({}, 200, `File parsing done`);
   } catch (error) {
     console.error('~~~~~ The error occurred: ', error);
   } finally {
