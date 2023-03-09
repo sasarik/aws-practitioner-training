@@ -1,6 +1,5 @@
 import type { AWS } from '@serverless/typescript';
 import * as dotenv from 'dotenv';
-import * as process from 'process';
 
 dotenv.config();
 
@@ -27,6 +26,7 @@ export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
         '@aws-sdk/client-s3',
         '@aws-sdk/s3-request-presigner',
         '@aws-sdk/client-sqs',
+        '@aws-sdk/client-sns',
       ],
       define: { 'require.resolve': undefined },
       platform: 'node',

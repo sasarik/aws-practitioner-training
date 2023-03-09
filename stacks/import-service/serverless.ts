@@ -2,7 +2,6 @@ import type { AWS } from '@serverless/typescript';
 import { baseServerlessConfiguration } from '../../serverless.base';
 import { importProductsFile } from './src/functions';
 import { httpApiGatewayCorsConfig, S3BucketCorsConfig } from './corsConfigs';
-import * as process from 'process';
 import { importFileParser } from './src/functions/import-file-parser';
 
 const SERVICE_NAME = 'aws-training-import-service';
