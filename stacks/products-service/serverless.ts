@@ -56,7 +56,8 @@ const serverlessConfiguration: AWS = {
       ImportProductsSnsSubscription: {
         Type: 'AWS::SNS::Subscription',
         Properties: {
-          Endpoint: 'sasarik@gmail.com',
+          // Get all created products notification(s)
+          Endpoint: `${process.env.PRODUCTS_IMPORT_PRIMARY_EMAIL}`,
           Protocol: 'email',
           TopicArn: { Ref: 'ImportProductsSnsTopic' },
         },
@@ -64,7 +65,7 @@ const serverlessConfiguration: AWS = {
       ImportProductsSnsLowPricesSubscription: {
         Type: 'AWS::SNS::Subscription',
         Properties: {
-          Endpoint: 'js.developer.powwow@gmail.com',
+          Endpoint: `${process.env.PRODUCTS_IMPORT_EVALUATION_EMAIL}`,
           Protocol: 'email',
           TopicArn: { Ref: 'ImportProductsSnsTopic' },
           FilterPolicyScope: 'MessageAttributes',

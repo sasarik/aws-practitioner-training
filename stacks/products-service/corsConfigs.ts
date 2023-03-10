@@ -6,7 +6,7 @@ export const httpApiGatewayCorsConfig = Object.freeze({
   cors: {
     allowedOrigins: ALLOWED_ORIGINS,
     allowedHeaders: ALLOWED_HEADERS,
-    allowedMethods: ['GET', 'POST'],
+    allowedMethods: ['GET', 'POST', 'PUT', 'DELETE'],
     maxAge: 600,
   },
 });

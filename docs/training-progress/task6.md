@@ -31,8 +31,6 @@
 
 ## Evaluation criteria (70 points for covering all criteria)
 
----
-
 Reviewers should verify the lambda functions, SQS and SNS topic and subscription in PR.
 
 - [x] File `serverless.yml` contains configuration for `catalogBatchProcess` function
