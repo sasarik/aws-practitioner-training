@@ -61,7 +61,7 @@ export const main = async (event: S3Event) => {
       const key = record.s3.object.key;
       console.log(`~~~~~ Processing file: "${key}"...`);
       await processProductsFile(key);
-      console.log(`~~~~~ The "${key}" file parsing complete`);
+      console.log(`~~~~~ The "${key}" file successfully proceed`);
       await moveToOutput(key);
       console.log(`~~~~~ The "${key}" file moved to "${outputStorage}" output folder`);
     }
