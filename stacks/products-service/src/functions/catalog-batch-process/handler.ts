@@ -48,7 +48,7 @@ const buildProductsMailInfos = (products: AvailableProduct[]) => {
   };
 };
 
-const notifyCreatedProducts = async (products: AvailableProduct[]) => {
+export const notifyCreatedProducts = async (products: AvailableProduct[]) => {
   const { msgBody, evaluateStocks, evaluatePrices } = buildProductsMailInfos(products);
   const publishParams = {
     Subject: 'The next products were successfully added',
