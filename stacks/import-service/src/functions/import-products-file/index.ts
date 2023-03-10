@@ -1,8 +1,4 @@
 import { buildLambdaHandlerPath } from '@helpers/common';
-import * as dotenv from 'dotenv';
-import * as process from 'process';
-
-dotenv.config();
 
 export const importProductsFile = {
   handler: buildLambdaHandlerPath(__dirname),
@@ -16,9 +12,4 @@ export const importProductsFile = {
   ],
   description:
     'Using a request with a ...?fileName=[name-of-csv-file] with products and created a new **Signed URL** with the following key: `[[inputStorage]]/${fileName}`',
-  environment: {
-    ProductsImportBucketName: process.env.PRODUCTS_IMPORT_BUCKET_NAME,
-    ProductsImportBucketInputStorageKey: process.env.PRODUCTS_IMPORT_BUCKET_INPUT_KEY,
-    AwsRegion: process.env.AWS_REGION,
-  },
 };

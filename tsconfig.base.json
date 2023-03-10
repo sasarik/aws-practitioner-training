@@ -28,6 +28,9 @@
       ],
       "@helpers/validation": [
         "packages/serverless-utils/src/lib/validation/index.ts"
+      ],
+      "@helpers/schemas": [
+        "packages/serverless-utils/src/lib/schemas/index.ts"
       ]
     },
     "noUnusedLocals": true,

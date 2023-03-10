@@ -2,7 +2,6 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
 import * as dotenv from "dotenv";
-import * as process from "process";
 import { fromIni } from "@aws-sdk/credential-providers";
 import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
 

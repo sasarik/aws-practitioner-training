@@ -1,34 +1,40 @@
 import { S3Event } from 'aws-lambda';
 import { CopyObjectCommand, DeleteObjectCommand, GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { SQS } from '@aws-sdk/client-sqs';
 import csvParser from 'csv-parser';
 import { asStream } from '../lib';
-import * as console from 'console';
+import { formatJSONSuccessResponse } from '@helpers/common';
 
 const AwsRegion = process.env.AwsRegion;
 const ProductsImportBucketName = process.env.ProductsImportBucketName;
 const inputStorage = process.env.ProductsImportBucketInputStorageKey;
 const outputStorage = process.env.ProductsImportBucketOutputStorageKey;
+const sqsQueueUrl = process.env.ProductsImportQueueUrl;
 
-const client = new S3Client({ region: AwsRegion });
+const s3Client = new S3Client({ region: AwsRegion });
+const sqsClient = new SQS({ region: AwsRegion });
 
-const parseProducts = async (s3BucketProductKey: string) => {
+const processProductsFile = async (s3BucketProductKey: string) => {
   // Read file
-  const response = await client.send(
+  const response = await s3Client.send(
     new GetObjectCommand({
       Bucket: ProductsImportBucketName,
       Key: s3BucketProductKey,
     })
   );
-  // Parsing records
+  // Parsing records & send them to SQS
   const stream = asStream(response).pipe(csvParser({}));
   for await (const record of stream) {
-    console.log(' -- Product: ', record);
+    await sqsClient.sendMessage({
+      QueueUrl: sqsQueueUrl,
+      MessageBody: JSON.stringify(record),
+    });
   }
 };
 
 const moveToOutput = async (s3BucketProductKey: string) => {
   console.log(` --- Copying to "${outputStorage}"...`);
-  const copyResult = await client.send(
+  const copyResult = await s3Client.send(
     new CopyObjectCommand({
       Bucket: ProductsImportBucketName,
       CopySource: `${ProductsImportBucketName}/${s3BucketProductKey}`,
@@ -37,7 +43,7 @@ const moveToOutput = async (s3BucketProductKey: string) => {
   );
   console.log(` --- Done:`, copyResult);
   console.log(` --- Removing origin one "${s3BucketProductKey}"...`);
-  const removeResult = await client.send(
+  const removeResult = await s3Client.send(
     new DeleteObjectCommand({
       Bucket: ProductsImportBucketName,
       Key: s3BucketProductKey,
@@ -54,11 +60,12 @@ export const main = async (event: S3Event) => {
     for (const record of event.Records) {
       const key = record.s3.object.key;
       console.log(`~~~~~ Processing file: "${key}"...`);
-      await parseProducts(key);
-      console.log(`~~~~~ The "${key}" file parsing complete`);
+      await processProductsFile(key);
+      console.log(`~~~~~ The "${key}" file successfully proceed`);
       await moveToOutput(key);
       console.log(`~~~~~ The "${key}" file moved to "${outputStorage}" output folder`);
     }
+    return formatJSONSuccessResponse({}, 200, `File parsing done`);
   } catch (error) {
     console.error('~~~~~ The error occurred: ', error);
   } finally {

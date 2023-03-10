@@ -37,7 +37,7 @@ export const createAvailableProduct = async (product: AvailableProduct) => {
     ],
   });
   const output = await dynamo.send(transactionalInsert);
-  return { productId, output };
+  return { product: { ...product, id: productId }, output };
 };
 export const updateAvailableProduct = async (product: AvailableProduct) => {
   const transactionalInsert = new ExecuteTransactionCommand({

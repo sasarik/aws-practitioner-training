@@ -7,6 +7,7 @@ export const AvailableProductSchema = asConst({
     description: { type: 'string' },
     price: { type: 'number' },
     title: { type: 'string' },
+    count: { type: 'number' },
   },
   required: ['title', 'price', 'description'],
 });
