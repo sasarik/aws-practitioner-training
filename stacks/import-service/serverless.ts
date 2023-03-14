@@ -35,6 +35,29 @@ const serverlessConfiguration = <AWS>{
     },
     httpApi: {
       ...httpApiGatewayCorsConfig,
+      authorizers: {
+        apiGatewayRequestBasicAuthorizer: {
+          type: 'request',
+          // Fn::ImportValue here works only once, can't deploy the modified authorization-service then
+          // Workaround ? https://stackoverflow.com/questions/54968683/updating-dependent-stacks
+          // functionArn: { 'Fn::ImportValue': 'aws-training-BasicAuthorizerLambdaFunctionQualifiedArn' },
+          functionArn: {
+            'Fn::Join': [
+              ':',
+              [
+                'arn',
+                'aws',
+                'lambda',
+                { Ref: 'AWS::Region' },
+                { Ref: 'AWS::AccountId' },
+                'function',
+                'aws-training-authorization-service-dev-basicAuthorizer',
+              ],
+            ],
+          },
+          identitySource: ['$request.header.authorization'],
+        },
+      },
     },
     logs: {
       httpApi: true,

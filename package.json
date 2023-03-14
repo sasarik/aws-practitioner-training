@@ -44,15 +44,15 @@
     "@aws-sdk/types": "^3.272.0",
     "@aws-sdk/util-dynamodb": "^3.282.0",
     "@emotion/babel-plugin": "11.10.5",
-    "@nrwl/cypress": "15.8.5",
-    "@nrwl/eslint-plugin-nx": "15.8.5",
-    "@nrwl/jest": "15.8.5",
-    "@nrwl/js": "15.8.5",
-    "@nrwl/linter": "15.8.5",
-    "@nrwl/node": "15.8.5",
-    "@nrwl/react": "15.8.5",
-    "@nrwl/vite": "15.8.5",
-    "@nrwl/workspace": "15.8.5",
+    "@nrwl/cypress": "15.8.6",
+    "@nrwl/eslint-plugin-nx": "15.8.6",
+    "@nrwl/jest": "15.8.6",
+    "@nrwl/js": "15.8.6",
+    "@nrwl/linter": "15.8.6",
+    "@nrwl/node": "15.8.6",
+    "@nrwl/react": "15.8.6",
+    "@nrwl/vite": "15.8.6",
+    "@nrwl/workspace": "15.8.6",
     "@serverless/typescript": "^3.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "13.4.0",
@@ -83,7 +83,7 @@
     "jsdom": "~20.0.3",
     "json-schema-to-ts": "^2.6.2",
     "msw": "^1.0.1",
-    "nx": "15.8.5",
+    "nx": "15.8.6",
     "prettier": "^2.6.2",
     "react-test-renderer": "18.2.0",
     "serverless": "^3.27.0",
@@ -103,3 +103,4 @@
     "workerDirectory": "packages/react-cloudfront-app/public"
   }
 }
+

@@ -1,14 +1,30 @@
-import { Route, Routes } from 'react-router-dom';
-import MainLayout from '~/components/MainLayout/MainLayout';
-import PageProductForm from '~/components/pages/PageProductForm/PageProductForm';
-import PageOrders from '~/components/pages/PageOrders/PageOrders';
-import PageOrder from '~/components/pages/PageOrder/PageOrder';
-import PageProductImport from '~/components/pages/admin/PageProductImport/PageProductImport';
-import PageCart from '~/components/pages/PageCart/PageCart';
-import PageProducts from '~/components/pages/PageProducts/PageProducts';
-import { Typography } from '@mui/material';
+import { Route, Routes } from "react-router-dom";
+import MainLayout from "~/components/MainLayout/MainLayout";
+import PageProductForm from "~/components/pages/PageProductForm/PageProductForm";
+import PageOrders from "~/components/pages/PageOrders/PageOrders";
+import PageOrder from "~/components/pages/PageOrder/PageOrder";
+import PageProductImport from "~/components/pages/admin/PageProductImport/PageProductImport";
+import PageCart from "~/components/pages/PageCart/PageCart";
+import PageProducts from "~/components/pages/PageProducts/PageProducts";
+import { Typography } from "@mui/material";
+import { useEffect } from "react";
+
+/**
+ * @description The `authorization_token` initialize;
+ * `authorization_token` is Base64 of `${username}:${password-of-username}`
+ */
+const useAuthorizationToken = (decodedValue: string) =>
+  useEffect(() => {
+    localStorage.setItem('authorization_token', decodedValue);
+    return () => {
+      // cleanup
+      localStorage.removeItem('authorization_token');
+    };
+  }, [decodedValue]);
 
 function App() {
+  useAuthorizationToken('c2FzYXJpazpURVNUX1BBU1NXT1JE');
+
   return (
     <MainLayout>
       <Routes>
