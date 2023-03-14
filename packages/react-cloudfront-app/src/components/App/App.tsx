@@ -23,7 +23,6 @@ const useAuthorizationToken = (decodedValue: string) =>
   }, [decodedValue]);
 
 function App() {
-
   useAuthorizationToken('c2FzYXJpazpURVNUX1BBU1NXT1JE');
 
   return (

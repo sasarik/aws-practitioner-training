@@ -1,15 +1,28 @@
 import React from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { Alert, AlertColor, Snackbar, SnackbarOrigin } from '@mui/material';
 
 type CSVFileImportProps = {
   url: string;
   title: string;
 };
 
+const ALERT_POSITION: SnackbarOrigin = {
+  vertical: 'top',
+  horizontal: 'center',
+};
+
+const FULL_WIDTH = { width: '100%' };
+
+type AlertDisplayOptions =
+  | { isDisplayed: false }
+  | { isDisplayed: true; message: string; severity: AlertColor | undefined };
+
 export default function CSVFileImport({ url, title }: CSVFileImportProps) {
   const [file, setFile] = React.useState<File>();
+  const [alertOptions, setAlertOptions] = React.useState<AlertDisplayOptions>({ isDisplayed: false });
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -25,31 +38,60 @@ export default function CSVFileImport({ url, title }: CSVFileImportProps) {
 
   const uploadFile = async () => {
     if (!file) return;
-    console.log('~~~~~~~ uploadFile:', file.name);
 
-    const response = await axios({
-      method: 'GET',
-      url,
-      headers: {
-        Authorization: `Basic ${localStorage.getItem('authorization_token')}`,
-      },
-      params: {
-        fileName: encodeURIComponent(file.name),
-      },
-    });
+    try {
+      const response = await axios({
+        method: 'GET',
+        url,
+        headers: {
+          // Comment "Authorization" to simulate 401
+          // Authorization: `Basic ${localStorage.getItem('authorization_token')}`,
+        },
+        params: {
+          fileName: encodeURIComponent(file.name),
+        },
+      });
 
-    const { signedUrl } = response.data ?? {};
-    console.log('Use upload signed url: ', signedUrl);
-    const result = await fetch(signedUrl, {
-      method: 'PUT',
-      body: file,
-    });
+      const { signedUrl } = response.data ?? {};
 
-    console.log('~~~~~~~ Result: ', result);
-    setFile(undefined);
+      await fetch(signedUrl, {
+        method: 'PUT',
+        body: file,
+      });
+
+      setAlertOptions({
+        isDisplayed: true,
+        message: `The "${file.name}" is successfully uploaded`,
+        severity: 'success',
+      });
+      setFile(undefined);
+    } catch (error) {
+      setAlertOptions({
+        isDisplayed: true,
+        message: error instanceof AxiosError ? error.message : String(error),
+        severity: 'error',
+      });
+    }
   };
+
+  const handleAlertClose = React.useCallback(() => setAlertOptions({ isDisplayed: false }), []);
+
   return (
     <Box>
+      <Snackbar
+        anchorOrigin={ALERT_POSITION}
+        open={alertOptions.isDisplayed}
+        autoHideDuration={4000}
+        onClose={handleAlertClose}
+      >
+        <Alert
+          onClose={handleAlertClose}
+          severity={alertOptions.isDisplayed ? alertOptions.severity : undefined}
+          sx={FULL_WIDTH}
+        >
+          {alertOptions.isDisplayed ? alertOptions.message : undefined}
+        </Alert>
+      </Snackbar>
       <Typography variant="h6" gutterBottom>
         {title}
       </Typography>
