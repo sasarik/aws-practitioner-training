@@ -45,7 +45,7 @@ export default function CSVFileImport({ url, title }: CSVFileImportProps) {
         url,
         headers: {
           // Comment "Authorization" to simulate 401
-          // Authorization: `Basic ${localStorage.getItem('authorization_token')}`,
+          Authorization: `Basic ${localStorage.getItem('authorization_token')}`,
         },
         params: {
           fileName: encodeURIComponent(file.name),
