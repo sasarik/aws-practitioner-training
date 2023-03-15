@@ -37,22 +37,7 @@ const serverlessConfiguration = <AWS>{
         // sasarik: process.env.sasarik,
       },
     },
-  },
-  plugins: ['serverless-plugin-optimize', 'serverless-offline'],
-  package: {
-    individually: true,
-    excludeDevDependencies: true,
-    include: ['dist/stacks/cart-service/**'],
-    exclude: ['**'],
-  },
-  custom: {
-    'serverless-offline': {
-      useChildProcesses: true,
-      httpPort: 3000,
-      websocketPort: 3001,
-      lambdaPort: 3002,
-    },
-  },
+  }
 };
 
 module.exports = serverlessConfiguration;

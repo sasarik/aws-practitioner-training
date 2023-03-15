@@ -6,5 +6,3 @@ module.exports = composePlugins(withNx(), (config) => {
   // e.g. `config.plugins.push(new MyPlugin())`
   return config;
 });
-
-// TODO optimize https://docs.nestjs.com/faq/serverless#example-integration

@@ -13,7 +13,7 @@ export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
   custom: {
     esbuild: {
       bundle: true,
-      minify: false,
+      minify: true,
       target: 'node18',
       sourcemap: true,
       sourcesContent: false,
@@ -27,6 +27,8 @@ export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
         '@aws-sdk/s3-request-presigner',
         '@aws-sdk/client-sqs',
         '@aws-sdk/client-sns',
+        '@nestjs/microservices',
+        '@nestjs/websockets',
       ],
       define: { 'require.resolve': undefined },
       platform: 'node',
@@ -40,6 +42,7 @@ export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
     profile: 'training',
     stage: 'dev',
     memorySize: 128,
+    versionFunctions: false,
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,

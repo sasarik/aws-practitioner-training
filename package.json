@@ -113,7 +113,6 @@
     "serverless-esbuild": "^1.37.3",
     "serverless-finch": "^4.0.0",
     "serverless-offline": "^12.0.4",
-    "serverless-plugin-optimize": "^4.2.1-rc.1",
     "serverless-s3-cleaner": "^2.0.1",
     "ts-jest": "29.0.5",
     "ts-node": "10.9.1",
