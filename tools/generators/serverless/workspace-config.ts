@@ -18,6 +18,9 @@ export const addWorkspaceConfig = (host: Tree, projectName: string, stackRoot: s
       build: {
         ...buildRunCommandConfig(stackRoot, 'sls package'),
       },
+      offline: {
+        ...buildRunCommandConfig(stackRoot, 'sls offline'),
+      },
       deploy: {
         ...buildRunCommandConfig(stackRoot, 'sls deploy'),
       },
