@@ -1,8 +1,7 @@
 import type { AWS } from '@serverless/typescript';
 import { baseServerlessConfiguration } from '../../serverless.base';
-import { bootstrap } from './src/functions';
 
-const SERVICE_NAME = 'cart-service';
+const SERVICE_NAME = 'aws-training-cart-service';
 
 const serverlessConfiguration = <AWS>{
   ...baseServerlessConfiguration,
@@ -17,7 +16,42 @@ const serverlessConfiguration = <AWS>{
     },
   },
   functions: {
-    bootstrap,
+    bootstrap: {
+      handler: 'dist/stacks/cart-service/main.handler',
+      description: 'Cart service "NestJS based Application"',
+      events: [
+        {
+          httpApi: {
+            method: 'ANY',
+            path: '/',
+          },
+        },
+        {
+          httpApi: {
+            method: 'ANY',
+            path: '/{proxy+}',
+          },
+        },
+      ],
+      environment: {
+        // sasarik: process.env.sasarik,
+      },
+    },
+  },
+  plugins: ['serverless-plugin-optimize', 'serverless-offline'],
+  package: {
+    individually: true,
+    excludeDevDependencies: true,
+    include: ['dist/stacks/cart-service/**'],
+    exclude: ['**'],
+  },
+  custom: {
+    'serverless-offline': {
+      useChildProcesses: true,
+      httpPort: 3000,
+      websocketPort: 3001,
+      lambdaPort: 3002,
+    },
   },
 };
 

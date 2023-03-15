@@ -5,6 +5,22 @@
   "sourceRoot": "stacks/cart-service/src",
   "targets": {
     "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "stacks/cart-service/dist/stacks/cart-service",
+        "main": "stacks/cart-service/src/functions/bootstrap/handler.ts",
+        "tsConfig": "stacks/cart-service/tsconfig.app.json",
+        "isolatedConfig": true,
+        "webpackConfig": "stacks/cart-service/webpack.config.js"
+      }
+    },
+    "package": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "stacks/cart-service",
