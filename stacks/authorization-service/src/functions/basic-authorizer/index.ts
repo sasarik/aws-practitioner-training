@@ -1,6 +1,5 @@
 import { buildLambdaHandlerPath } from '@helpers/common';
 import * as dotenv from 'dotenv';
-import * as process from 'process';
 
 dotenv.config();
 

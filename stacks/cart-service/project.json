@@ -1,13 +1,13 @@
 {
-  "name": "products-service",
+  "name": "cart-service",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "/src",
+  "sourceRoot": "stacks/cart-service/src",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "stacks/products-service",
+        "cwd": "stacks/cart-service",
         "color": true,
         "command": "sls package"
       }
@@ -15,7 +15,7 @@
     "offline": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "stacks/products-service",
+        "cwd": "stacks/cart-service",
         "color": true,
         "command": "sls offline"
       }
@@ -23,7 +23,7 @@
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "stacks/products-service",
+        "cwd": "stacks/cart-service",
         "color": true,
         "command": "sls deploy"
       }
@@ -31,7 +31,7 @@
     "remove": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "stacks/products-service",
+        "cwd": "stacks/cart-service",
         "color": true,
         "command": "sls remove"
       }
@@ -40,7 +40,7 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "stacks/products-service/**/*.ts"
+          "stacks/cart-service/**/*.ts"
         ]
       }
     },
@@ -50,7 +50,7 @@
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "stacks/products-service/jest.config.ts",
+        "jestConfig": "stacks/cart-service/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

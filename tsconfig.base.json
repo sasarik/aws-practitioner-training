@@ -8,7 +8,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es2015",
+    "target": "es2017",
     "module": "commonjs",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -20,6 +20,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@helpers/authorization": [
+        "packages/serverless-utils/src/lib/authorization/index.ts"
+      ],
       "@helpers/common": [
         "packages/serverless-utils/src/lib/common/index.ts"
       ],
@@ -31,9 +34,6 @@
       ],
       "@helpers/validation": [
         "packages/serverless-utils/src/lib/validation/index.ts"
-      ],
-      "@helpers/authorization": [
-        "packages/serverless-utils/src/lib/authorization/index.ts"
       ]
     },
     "noUnusedLocals": true,

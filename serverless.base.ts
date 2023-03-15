@@ -9,7 +9,7 @@ export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
     individually: true,
     excludeDevDependencies: true,
   },
-  plugins: ['serverless-esbuild'],
+  plugins: ['serverless-esbuild', 'serverless-offline'],
   custom: {
     esbuild: {
       bundle: true,
