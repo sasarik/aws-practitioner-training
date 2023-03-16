@@ -1,8 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 
-import { v4 } from 'uuid';
+import { v4 } from "uuid";
 
-import { Cart } from '../models';
+import { Cart } from "../models";
+
+//   host: process.env.PgHost,
+//   port: +process.env.PgPort,
+//   username: process.env.PgUserName,
+//   password: process.env.PgUserPassword,
+//   database: process.env.PgDataBase,
 
 @Injectable()
 export class CartService {
