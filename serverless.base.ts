@@ -33,6 +33,7 @@ export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
       define: { 'require.resolve': undefined },
       platform: 'node',
       concurrency: 10,
+      // keepOutputDirectory: true,
     },
   },
   provider: {

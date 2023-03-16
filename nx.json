@@ -24,6 +24,16 @@
         "^production"
       ]
     },
+    "package": {
+      "dependsOn": [
+        "lint",
+        "build",
+        "test"
+      ],
+      "inputs": [
+        "default"
+      ]
+    },
     "deploy": {
       "dependsOn": [
         "lint",

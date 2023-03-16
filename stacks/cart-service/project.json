@@ -3,6 +3,18 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "stacks/cart-service/src",
+  "targetDefaults": {
+    "package": {
+      "dependsOn": [
+        "lint",
+        "build",
+        "test"
+      ],
+      "inputs": [
+        "default"
+      ]
+    }
+  },
   "targets": {
     "build": {
       "executor": "@nrwl/webpack:webpack",
@@ -14,7 +26,7 @@
         "target": "node",
         "compiler": "tsc",
         "outputPath": "stacks/cart-service/dist/stacks/cart-service",
-        "main": "stacks/cart-service/src/functions/bootstrap/handler.ts",
+        "main": "stacks/cart-service/src/bootstrap/handler.ts",
         "tsConfig": "stacks/cart-service/tsconfig.app.json",
         "isolatedConfig": true,
         "webpackConfig": "stacks/cart-service/webpack.config.js"

@@ -37,7 +37,7 @@ const serverlessConfiguration = <AWS>{
         // sasarik: process.env.sasarik,
       },
     },
-  }
+  },
 };
 
 module.exports = serverlessConfiguration;
