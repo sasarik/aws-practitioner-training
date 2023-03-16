@@ -6,13 +6,20 @@ const SERVICE_NAME = 'aws-training-cart-service';
 const serverlessConfiguration = <AWS>{
   ...baseServerlessConfiguration,
   service: SERVICE_NAME,
-  useDotenv: true,
   provider: {
     ...baseServerlessConfiguration.provider,
     iam: {
       role: {
         name: `${SERVICE_NAME}--${baseServerlessConfiguration.provider.region}--${baseServerlessConfiguration.provider.stage}--LambdasRole`,
       },
+    },
+    environment: {
+      ...baseServerlessConfiguration.provider.environment,
+      PgHost: process.env.PG_HOST,
+      PgPort: process.env.PG_PORT,
+      PgDataBase: process.env.PG_DATABASE,
+      PgUserName: process.env.PG_USERNAME,
+      PgUserPassword: process.env.PG_PASSWORD,
     },
   },
   functions: {

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Post, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Logger, Post, Put, Req } from '@nestjs/common';
 
 // import { BasicAuthGuard, JwtAuthGuard } from '../auth';
 import { OrderService } from '../order';
@@ -16,7 +16,7 @@ export class CartController {
   @Get()
   findUserCart(@Req() req: AppRequest) {
     const cart = this.cartService.findOrCreateByUserId(getUserIdFromRequest(req));
-
+    Logger.log('findUserCart');
     return {
       statusCode: HttpStatus.OK,
       message: 'OK',

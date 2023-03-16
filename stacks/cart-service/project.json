@@ -26,7 +26,7 @@
         "target": "node",
         "compiler": "tsc",
         "outputPath": "stacks/cart-service/dist/stacks/cart-service",
-        "main": "stacks/cart-service/src/bootstrap/handler.ts",
+        "main": "stacks/cart-service/src/handler.ts",
         "tsConfig": "stacks/cart-service/tsconfig.app.json",
         "isolatedConfig": true,
         "webpackConfig": "stacks/cart-service/webpack.config.js"
@@ -40,7 +40,7 @@
         "command": "sls package"
       }
     },
-    "offline": {
+    "serve": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "stacks/cart-service",
