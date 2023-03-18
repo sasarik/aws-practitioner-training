@@ -1,5 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 import { baseServerlessConfiguration } from '../../serverless.base';
+import { httpApiGatewayCorsConfig } from './corsConfigs';
 
 const SERVICE_NAME = 'aws-training-cart-service';
 
@@ -11,7 +12,23 @@ const serverlessConfiguration = <AWS>{
     iam: {
       role: {
         name: `${SERVICE_NAME}--${baseServerlessConfiguration.provider.region}--${baseServerlessConfiguration.provider.stage}--LambdasRole`,
+        statements: [
+          {
+            Effect: 'Allow',
+            Action: ['rds-data:ExecuteStatement'],
+            Resource: process.env.PG_ARN,
+          },
+          // {
+          //   Effect: 'Allow',
+          //   Action: ['secretsmanager:GetSecretValue'],
+          //   Resource:
+          //     '???',
+          // },
+        ],
       },
+    },
+    httpApi: {
+      ...httpApiGatewayCorsConfig,
     },
     environment: {
       ...baseServerlessConfiguration.provider.environment,
@@ -26,6 +43,7 @@ const serverlessConfiguration = <AWS>{
     bootstrap: {
       handler: 'dist/stacks/cart-service/main.handler',
       description: 'Cart service "NestJS based Application"',
+      timeout: 29,
       events: [
         {
           httpApi: {
@@ -40,9 +58,6 @@ const serverlessConfiguration = <AWS>{
           },
         },
       ],
-      environment: {
-        // sasarik: process.env.sasarik,
-      },
     },
   },
 };
