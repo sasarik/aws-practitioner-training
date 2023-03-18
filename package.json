@@ -1,20 +1,18 @@
 {
   "name": "aws-practitioner-training",
   "author": "Oleksandr Radvanskyi",
-  "version": "0.0.1",
+  "version": "8.0.1",
   "license": "MIT",
-  "scripts": {
-    "sls::products:test": "nx run products-service:test",
-    "sls::products:build": "nx run products-service:build",
-    "sls::products:deploy": "nx run products-service:deploy"
-  },
+  "scripts": {},
   "keywords": [
     "aws",
     "training",
-    "serverless"
+    "serverless",
+    "cloud-x"
   ],
   "private": true,
   "dependencies": {
+    "@aws-sdk/client-rds-data": "^3.294.0",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "@mui/icons-material": "^5.8.4",
@@ -108,7 +106,6 @@
     "msw": "^1.0.1",
     "nx": "15.8.6",
     "prettier": "^2.6.2",
-    "react-test-renderer": "18.2.0",
     "rxjs": "^7.8.0",
     "serverless": "^3.27.0",
     "serverless-esbuild": "^1.37.3",

@@ -29,6 +29,8 @@ export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
         '@aws-sdk/client-sns',
         '@nestjs/microservices',
         '@nestjs/websockets',
+        '@aws-sdk/client-rds-data',
+        'pg-native',
       ],
       define: { 'require.resolve': undefined },
       platform: 'node',
