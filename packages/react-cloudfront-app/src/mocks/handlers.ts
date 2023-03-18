@@ -1,16 +1,9 @@
 import { rest } from 'msw';
 import API_PATHS from '~/constants/apiPaths';
-import { cart, orders } from '~/mocks/data';
-import { CartItem } from '~/models/CartItem';
+import { orders } from '~/mocks/data';
 import { Order } from '~/models/Order';
 
 export const handlers = [
-  rest.get(`${API_PATHS.cart}/profile/cart`, (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.delay(), ctx.json<CartItem[]>(cart));
-  }),
-  rest.put(`${API_PATHS.cart}/profile/cart`, (_req, res, ctx) => {
-    return res(ctx.status(200));
-  }),
   rest.get(`${API_PATHS.order}/order`, (_req, res, ctx) => {
     return res(ctx.status(200), ctx.delay(), ctx.json<Order[]>(orders));
   }),

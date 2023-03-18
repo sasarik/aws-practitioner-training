@@ -3,6 +3,7 @@ import axios, { AxiosError } from 'axios';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Alert, AlertColor, Snackbar, SnackbarOrigin } from '@mui/material';
+import { useGetAuthorizationToken } from '~/queries/authorization';
 
 type CSVFileImportProps = {
   url: string;
@@ -23,7 +24,7 @@ type AlertDisplayOptions =
 export default function CSVFileImport({ url, title }: CSVFileImportProps) {
   const [file, setFile] = React.useState<File>();
   const [alertOptions, setAlertOptions] = React.useState<AlertDisplayOptions>({ isDisplayed: false });
-
+  const authToken = useGetAuthorizationToken();
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
@@ -45,7 +46,7 @@ export default function CSVFileImport({ url, title }: CSVFileImportProps) {
         url,
         headers: {
           // Comment "Authorization" to simulate 401
-          Authorization: `Basic ${localStorage.getItem('authorization_token')}`,
+          Authorization: `Basic ${authToken}`,
         },
         params: {
           fileName: encodeURIComponent(file.name),

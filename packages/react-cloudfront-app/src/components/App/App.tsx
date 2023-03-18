@@ -1,29 +1,18 @@
-import { Route, Routes } from "react-router-dom";
-import MainLayout from "~/components/MainLayout/MainLayout";
-import PageProductForm from "~/components/pages/PageProductForm/PageProductForm";
-import PageOrders from "~/components/pages/PageOrders/PageOrders";
-import PageOrder from "~/components/pages/PageOrder/PageOrder";
-import PageProductImport from "~/components/pages/admin/PageProductImport/PageProductImport";
-import PageCart from "~/components/pages/PageCart/PageCart";
-import PageProducts from "~/components/pages/PageProducts/PageProducts";
-import { Typography } from "@mui/material";
-import { useEffect } from "react";
-
-/**
- * @description The `authorization_token` initialize;
- * `authorization_token` is Base64 of `${username}:${password-of-username}`
- */
-const useAuthorizationToken = (decodedValue: string) =>
-  useEffect(() => {
-    localStorage.setItem('authorization_token', decodedValue);
-    return () => {
-      // cleanup
-      localStorage.removeItem('authorization_token');
-    };
-  }, [decodedValue]);
+import { Route, Routes } from 'react-router-dom';
+import MainLayout from '~/components/MainLayout/MainLayout';
+import PageProductForm from '~/components/pages/PageProductForm/PageProductForm';
+import PageOrders from '~/components/pages/PageOrders/PageOrders';
+import PageOrder from '~/components/pages/PageOrder/PageOrder';
+import PageProductImport from '~/components/pages/admin/PageProductImport/PageProductImport';
+import PageCart from '~/components/pages/PageCart/PageCart';
+import PageProducts from '~/components/pages/PageProducts/PageProducts';
+import { Typography } from '@mui/material';
+import { useSetCurrentUser } from '~/queries/user';
+import { useSetAuthorizationToken } from '~/queries/authorization';
 
 function App() {
-  useAuthorizationToken('c2FzYXJpazpURVNUX1BBU1NXT1JE');
+  useSetAuthorizationToken('c2FzYXJpazpURVNUX1BBU1NXT1JE');
+  useSetCurrentUser('12b9f0b8-ab6b-4c61-b240-00b86edfcdda'); // Chuck
 
   return (
     <MainLayout>

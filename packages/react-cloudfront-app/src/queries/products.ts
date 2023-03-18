@@ -3,6 +3,7 @@ import { Product } from '~/models/Product';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import React from 'react';
 import { apiRoutes } from '~/constants/apiRoutes';
+import { useGetAuthorizationToken } from '~/queries/authorization';
 
 export const fetchAvailableProducts = async (): Promise<Product[]> => {
   const res = await axios.get<{ products: Product[] }>(apiRoutes.productsService());
@@ -40,21 +41,23 @@ export function useRemoveProductCache() {
 }
 
 export function useUpsertAvailableProduct() {
+  const authToken = useGetAuthorizationToken();
   return useMutation((product: Product) => {
     const upsertMethod = product.id ? axios.put : axios.post;
     return upsertMethod<Product>(apiRoutes.productsService(), product, {
       headers: {
-        Authorization: `Basic ${localStorage.getItem('authorization_token')}`,
+        Authorization: `Basic ${authToken}`,
       },
     });
   });
 }
 
 export function useDeleteAvailableProduct() {
+  const authToken = useGetAuthorizationToken();
   return useMutation((id: string) => {
     return axios.delete(apiRoutes.productById(id), {
       headers: {
-        Authorization: `Basic ${localStorage.getItem('authorization_token')}`,
+        Authorization: `Basic ${authToken}`,
       },
     });
   });
