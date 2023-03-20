@@ -1,8 +1,4 @@
 import { buildLambdaHandlerPath } from '@helpers/common';
-import * as dotenv from 'dotenv';
-import * as process from 'process';
-
-dotenv.config();
 
 export const getProductsList = {
   handler: buildLambdaHandlerPath(__dirname),
@@ -15,9 +11,4 @@ export const getProductsList = {
     },
   ],
   description: 'The products list retrieve function',
-  environment: {
-    ProductsTableName: process.env.PRODUCTS_TABLE_NAME,
-    StocksTableName: process.env.STOCKS_TABLE_NAME,
-    AwsRegion: process.env.AWS_REGION,
-  },
 };

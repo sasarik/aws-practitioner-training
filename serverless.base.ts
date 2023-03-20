@@ -1,4 +1,7 @@
 import type { AWS } from '@serverless/typescript';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
   frameworkVersion: '3',
@@ -22,6 +25,8 @@ export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
         '@aws-sdk/util-dynamodb',
         '@aws-sdk/client-s3',
         '@aws-sdk/s3-request-presigner',
+        '@aws-sdk/client-sqs',
+        '@aws-sdk/client-sns',
       ],
       define: { 'require.resolve': undefined },
       platform: 'node',
@@ -42,6 +47,12 @@ export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+      AwsRegion: process.env.AWS_REGION,
+      ProductsTableName: process.env.PRODUCTS_TABLE_NAME,
+      StocksTableName: process.env.STOCKS_TABLE_NAME,
+      ProductsImportBucketName: process.env.PRODUCTS_IMPORT_BUCKET_NAME,
+      ProductsImportBucketInputStorageKey: process.env.PRODUCTS_IMPORT_BUCKET_INPUT_KEY,
+      ProductsImportBucketOutputStorageKey: process.env.PRODUCTS_IMPORT_BUCKET_OUTPUT_KEY,
     },
   },
 };

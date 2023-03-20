@@ -2,7 +2,6 @@ import type { AWS } from '@serverless/typescript';
 import { baseServerlessConfiguration } from '../../serverless.base';
 import { importProductsFile } from './src/functions';
 import { httpApiGatewayCorsConfig, S3BucketCorsConfig } from './corsConfigs';
-import * as process from 'process';
 import { importFileParser } from './src/functions/import-file-parser';
 
 const SERVICE_NAME = 'aws-training-import-service';
@@ -18,8 +17,18 @@ const serverlessConfiguration = <AWS>{
         statements: [
           {
             Effect: 'Allow',
-            Action: ['s3:ListBucket', 's3:PutObject', 's3:GetObject', 's3:DeleteObject'],
+            Action: ['s3:ListBucket'],
+            Resource: [`arn:aws:s3:::${process.env.PRODUCTS_IMPORT_BUCKET_NAME}`],
+          },
+          {
+            Effect: 'Allow',
+            Action: ['s3:PutObject', 's3:GetObject', 's3:DeleteObject'],
             Resource: [`arn:aws:s3:::${process.env.PRODUCTS_IMPORT_BUCKET_NAME}/*`],
+          },
+          {
+            Effect: 'Allow',
+            Action: ['sqs:SendMessage'],
+            Resource: [{ 'Fn::GetAtt': ['ImportProductsSqsQueue', 'Arn'] }],
           },
         ],
       },
@@ -29,6 +38,10 @@ const serverlessConfiguration = <AWS>{
     },
     logs: {
       httpApi: true,
+    },
+    environment: {
+      ...baseServerlessConfiguration.provider.environment,
+      ProductsImportQueueUrl: { Ref: 'ImportProductsSqsQueue' },
     },
   },
   // import the function via paths
@@ -51,6 +64,12 @@ const serverlessConfiguration = <AWS>{
           CorsConfiguration: {
             CorsRules: S3BucketCorsConfig,
           },
+        },
+      },
+      ImportProductsSqsQueue: {
+        Type: 'AWS::SQS::Queue',
+        Properties: {
+          QueueName: `${process.env.PRODUCTS_IMPORT_SQS_QUEUE_NAME}`,
         },
       },
     },

@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 import { baseServerlessConfiguration } from '../../serverless.base';
-import { createProduct, deleteProduct, getProductsById, getProductsList } from './src/functions';
+import { catalogBatchProcess, createProduct, deleteProduct, getProductsById, getProductsList } from './src/functions';
 import { httpApiGatewayCorsConfig } from './corsConfigs';
 import { updateProduct } from './src/functions/products-update';
 
@@ -16,6 +16,13 @@ const serverlessConfiguration: AWS = {
       role: {
         name: `${SERVICE_NAME}--${baseServerlessConfiguration.provider.region}--${baseServerlessConfiguration.provider.stage}--LambdasRole`,
         managedPolicies: ['arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess'],
+        statements: [
+          {
+            Effect: 'Allow',
+            Action: ['sns:Publish'],
+            Resource: { Ref: 'ImportProductsSnsTopic' },
+          },
+        ],
       },
     },
     httpApi: {
@@ -23,6 +30,10 @@ const serverlessConfiguration: AWS = {
     },
     logs: {
       httpApi: true,
+    },
+    environment: {
+      ...baseServerlessConfiguration.provider.environment,
+      ProductsImportSnsTopicArn: { Ref: 'ImportProductsSnsTopic' },
     },
   },
   // import the function via paths
@@ -32,6 +43,37 @@ const serverlessConfiguration: AWS = {
     createProduct,
     updateProduct,
     deleteProduct,
+    catalogBatchProcess,
+  },
+  resources: {
+    Resources: {
+      ImportProductsSnsTopic: {
+        Type: 'AWS::SNS::Topic',
+        Properties: {
+          TopicName: `${process.env.PRODUCTS_IMPORT_SNS_TOPIC_NAME}`,
+        },
+      },
+      ImportProductsSnsSubscription: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          // Get all created products notification(s)
+          Endpoint: `${process.env.PRODUCTS_IMPORT_PRIMARY_EMAIL}`,
+          Protocol: 'email',
+          TopicArn: { Ref: 'ImportProductsSnsTopic' },
+        },
+      },
+      ImportProductsSnsLowPricesSubscription: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Endpoint: `${process.env.PRODUCTS_IMPORT_EVALUATION_EMAIL}`,
+          Protocol: 'email',
+          TopicArn: { Ref: 'ImportProductsSnsTopic' },
+          FilterPolicyScope: 'MessageAttributes',
+          // Filter messages with zero count or price lower than 20
+          FilterPolicy: { evaluate: ['stocks', 'prices'] },
+        },
+      },
+    },
   },
 };
 

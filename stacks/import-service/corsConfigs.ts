@@ -15,11 +15,11 @@ export const httpApiGatewayCorsConfig = Object.freeze({
   },
 });
 
-export const S3BucketCorsConfig = [
+export const S3BucketCorsConfig = Object.freeze([
   {
     AllowedHeaders: ['Content-Type'],
     AllowedMethods: ['PUT', 'GET'],
     AllowedOrigins: ALLOWED_ORIGINS,
     MaxAge: 3600,
   },
-];
+]);

@@ -8,7 +8,10 @@ export const main = async (event: APIGatewayProxyEvent) => {
     console.log('~~~~~ Payload: ', event.body);
     const product = JSON.parse(event.body);
     assertProductIsValid(product);
-    const { productId, output } = await createAvailableProduct(product);
+    const {
+      product: { id: productId },
+      output,
+    } = await createAvailableProduct(product);
     console.log('~~~~~ DB::created: ', `id:${productId}`, output);
     return formatJSONSuccessResponse({ href: `/products/${productId}` }, 201, 'Product successfully created');
   } catch (error: unknown) {
