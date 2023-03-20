@@ -26,11 +26,14 @@
       "@helpers/db-client": [
         "packages/serverless-utils/src/lib/db-client/index.ts"
       ],
+      "@helpers/schemas": [
+        "packages/serverless-utils/src/lib/schemas/index.ts"
+      ],
       "@helpers/validation": [
         "packages/serverless-utils/src/lib/validation/index.ts"
       ],
-      "@helpers/schemas": [
-        "packages/serverless-utils/src/lib/schemas/index.ts"
+      "@helpers/authorization": [
+        "packages/serverless-utils/src/lib/authorization/index.ts"
       ]
     },
     "noUnusedLocals": true,
