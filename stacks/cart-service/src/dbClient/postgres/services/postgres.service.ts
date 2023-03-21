@@ -38,4 +38,15 @@ export class PostgresService implements IDbClientService {
       fields: result.fields ?? [],
     };
   }
+
+  async transactQuery<T>(queryStrings: string[]): Promise<IDbQueryResult<T>> {
+    await this.connect();
+    const sql = ['BEGIN', queryStrings.join(''), 'COMMIT'].join(';\n');
+    const result = await this.query<T>(sql);
+    return {
+      rows: result.rows,
+      rowsCount: result.rows?.length ?? 0,
+      fields: result.fields ?? [],
+    };
+  }
 }

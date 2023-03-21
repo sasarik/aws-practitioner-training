@@ -39,4 +39,10 @@ export class PostgresAWSService implements IDbClientService {
     this.logger.log(res, 'query');
     return undefined; // TODO impl
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  transactQuery<T>(_queryStrings: string[]): Promise<IDbQueryResult<T>> {
+    // this.logger.log(res, 'transactQuery');
+    return undefined; // TODO impl
+  }
 }

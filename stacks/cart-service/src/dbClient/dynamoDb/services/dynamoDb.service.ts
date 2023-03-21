@@ -22,4 +22,9 @@ export class DynamoDbService implements IDbClientService {
   async query<T>(_queryString: string): Promise<IDbQueryResult<T>> {
     return Promise.resolve(undefined);
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  transactQuery<T>(_queryStrings: string[]): Promise<IDbQueryResult<T>> {
+    return Promise.resolve(undefined);
+  }
 }
