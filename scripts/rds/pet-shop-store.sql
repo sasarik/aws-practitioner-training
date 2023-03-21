@@ -1,21 +1,27 @@
 create extension if not exists "uuid-ossp";
 
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
 create table if not exists users (
 	id uuid not null default uuid_generate_v4() primary key,
-	user_name varchar(100) not null,
+	name varchar(100) not null,
+	email varchar(120),
+	password varchar(15),
 	created_at date not null,
 	updated_at date not null
 )
 
 
-delete from users where user_name in ('Chuck', 'John', 'Jack')
-
-insert into users(user_name, created_at, updated_at)
+insert into users(name, created_at, updated_at)
 values
 ('Chuck', CURRENT_DATE, CURRENT_DATE),
 ('John', CURRENT_DATE, CURRENT_DATE),
 ('Jack', CURRENT_DATE, CURRENT_DATE)
 
+drop table users
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 
 /**
@@ -26,16 +32,25 @@ values
     updated_at - date, not null
  */
 create table if not exists carts (
-	id uuid not null default uuid_generate_v4() primary key,
-	user_id uuid not null,
+	id uuid not null default uuid_generate_v4(),
+	user_id uuid unique not null,
 	created_at date not null,
-	updated_at date not null
+	updated_at date not null,
+	primary KEY(id),
+	constraint fk_users
+		foreign key(user_id)
+			references users(id)
 )
 
-delete from carts
-
 insert into carts(user_id, created_at, updated_at)
-select id, CURRENT_DATE, CURRENT_DATE from users where user_name in ('Chuck', 'John', 'Jack')
+select id, CURRENT_DATE, CURRENT_DATE from users where name in ('Chuck', 'John', 'Jack')
+
+drop table carts
+
+delete from carts
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
 
 /**
  * cart_items:
@@ -46,7 +61,7 @@ select id, CURRENT_DATE, CURRENT_DATE from users where user_name in ('Chuck', 'J
 create table if not exists cart_items (
 	id uuid not null default uuid_generate_v4(),
 	cart_id uuid not null,
-	product_id uuid not null,
+	product_id uuid unique not null,
 	count integer,
 	primary KEY(id),
 	constraint fk_carts
@@ -54,20 +69,23 @@ create table if not exists cart_items (
 			references carts(id)
 )
 
-insert into cart_items(cart_id, product_id, count)
-select id, '7567ec4b-b10c-48c5-9345-fc73c48a80a3' as product_id, 3
-from carts c
-where c.user_id in (select id from users where user_name in ('Chuck'))
 
-insert into cart_items(cart_id, product_id, count)
-select id, '7567ec4b-b10c-48c5-9445-fc73c48a80a2' as product_id, 2
-from carts c
-where c.user_id in (select id from users where user_name in ('Chuck'))
+SELECT i.id, i.cart_id, i.product_id, i.count
+            FROM cart_items i
+                WHERE i.cart_id = '83c18bb6-0bd5-41cd-872b-70d1a495f595'
+
+delete from cart_items
+
+drop table cart_items
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 
-insert into cart_items(cart_id, product_id, count)
-select id, '7567ec4b-b10c-48c5-9345-fc73c48a80aa' as product_id, 7
-from carts c
-where c.user_id in (select id from users where user_name in ('John'))
+SELECT c.id, c.user_id
+FROM carts c
+WHERE
+c.user_id ="024d607c-19bb-4b33-bd5b-dd356029b496"
 
+INSERT INTO CARTS(user_id,created_at,updated_at)
+      VALUES ('',CURRENT_DATE,CURRENT_DATE)
+      RETURNING id
 
