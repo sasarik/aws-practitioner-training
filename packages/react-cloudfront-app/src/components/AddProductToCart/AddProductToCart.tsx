@@ -12,15 +12,17 @@ type AddProductToCartProps = {
 
 export default function AddProductToCart({ product }: AddProductToCartProps) {
   const { data = [], isFetching } = useCart();
-  const { mutate: upsertCart } = useUpsertCart();
+  const { mutate: upsertCart, isLoading } = useUpsertCart();
   const invalidateCart = useInvalidateCart();
   const cartItem = data.find((i) => i.product.id === product.id);
 
   const addProduct = () => {
+    console.log('addProduct:', { cartItem });
     upsertCart({ product, count: cartItem ? cartItem.count + 1 : 1 }, { onSuccess: invalidateCart });
   };
 
   const removeProduct = () => {
+    console.log('removeProduct:', { cartItem });
     if (cartItem) {
       upsertCart({ ...cartItem, count: cartItem.count - 1 }, { onSuccess: invalidateCart });
     }
@@ -28,16 +30,16 @@ export default function AddProductToCart({ product }: AddProductToCartProps) {
 
   return cartItem ? (
     <>
-      <IconButton disabled={isFetching} onClick={removeProduct} size="large">
+      <IconButton disabled={isFetching || isLoading} onClick={removeProduct} size="large">
         <Remove color={'secondary'} />
       </IconButton>
       <Typography align="center">{cartItem.count}</Typography>
-      <IconButton disabled={isFetching} onClick={addProduct} size="large">
+      <IconButton disabled={isFetching || isLoading} onClick={addProduct} size="large">
         <Add color={'secondary'} />
       </IconButton>
     </>
   ) : (
-    <IconButton disabled={isFetching} onClick={addProduct} size="large">
+    <IconButton disabled={isFetching || isLoading} onClick={addProduct} size="large">
       <CartIcon color={'secondary'} />
     </IconButton>
   );
