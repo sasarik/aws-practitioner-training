@@ -39,6 +39,7 @@ export const createAvailableProduct = async (product: AvailableProduct) => {
   const output = await dynamo.send(transactionalInsert);
   return { product: { ...product, id: productId }, output };
 };
+
 export const updateAvailableProduct = async (product: AvailableProduct) => {
   const transactionalInsert = new ExecuteTransactionCommand({
     TransactStatements: [
@@ -93,7 +94,8 @@ export const getAvailableProductItems = async () => {
     };
   });
 };
-export const getProductById = async (id: string) => {
+
+export const getProductById = async (id: string): Promise<AvailableProduct> => {
   if (!id) return undefined;
 
   const [product, stock] = await Promise.all([
@@ -116,7 +118,7 @@ export const getProductById = async (id: string) => {
   ]);
 
   if (!product.Item) return undefined;
-  return {
+  return <AvailableProduct>{
     ...unmarshallDbItem(product.Item),
     count: unmarshallDbItem(stock.Item)?.count ?? 0,
   };
