@@ -45,7 +45,7 @@
       "options": {
         "cwd": "stacks/cart-service",
         "color": true,
-        "command": "sls offline"
+        "command": "AWS_PROFILE=training sls offline"
       }
     },
     "deploy": {

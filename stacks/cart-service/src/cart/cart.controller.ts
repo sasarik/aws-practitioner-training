@@ -18,13 +18,14 @@ export class CartController {
   @Get()
   async findUserCart(@Param() user: UserDTO) {
     this.logger.log(`findUserCart(${user.userId})...`);
-    const cart = await this.cartService.findOrCreateByUserId(user.userId);
+    const userCart = await this.cartService.findOrCreateByUserId(user.userId);
+
     return {
       statusCode: HttpStatus.OK,
       message: 'OK',
       userCart: {
         userId: user.userId,
-        cart,
+        cart: userCart,
         // total: calculateCartTotal(cart),
       },
     };
@@ -36,14 +37,14 @@ export class CartController {
   @Put()
   async updateUserCart(@Param() user: UserDTO, @Body() cartItem: CartItemDTO) {
     this.logger.log(`updateUserCart(${user.userId})...`);
-    const cart = await this.cartService.updateByUserId(user.userId, cartItem);
+    const userCart = await this.cartService.updateByUserId(user.userId, cartItem);
 
     return {
       statusCode: HttpStatus.OK,
       message: 'OK',
       userCart: {
         userId: user.userId,
-        cart,
+        cart: userCart,
         // total: calculateCartTotal(cart),
       },
     };
