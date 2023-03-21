@@ -76,7 +76,7 @@ export class CartService {
                 SET count = EXCLUDED.count`
         : `DELETE FROM cart_items WHERE cart_id = '${userCart.id}' and product_id = '${cartItem.product.id}'`;
     await this.dbClient.transactQuery<{ id: string; user_id: string }>([sqlStatement]);
-    return userCart;
+    return await this.findByUserId(userId);
   }
 
   private async createByUserId(userId: string): Promise<CartDTO> {
