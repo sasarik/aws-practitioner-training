@@ -12,6 +12,7 @@ const serverlessConfiguration = <AWS>{
     iam: {
       role: {
         name: `${SERVICE_NAME}--${baseServerlessConfiguration.provider.region}--${baseServerlessConfiguration.provider.stage}--LambdasRole`,
+        managedPolicies: ['arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess'],
         statements: [
           {
             Effect: 'Allow',
