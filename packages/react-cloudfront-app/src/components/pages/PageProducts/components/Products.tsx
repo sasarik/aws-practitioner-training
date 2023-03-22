@@ -32,6 +32,7 @@ export default function Products() {
             </CardContent>
             <CardActions>
               <AddProductToCart product={product} />
+              <Typography>{`Max: ${product.count}`}</Typography>
             </CardActions>
           </Card>
         </Grid>

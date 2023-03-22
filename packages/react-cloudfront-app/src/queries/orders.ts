@@ -5,6 +5,8 @@ import API_PATHS from '~/constants/apiPaths';
 import { OrderStatus } from '~/constants/order';
 import { Order } from '~/models/Order';
 import { useGetAuthorizationToken } from '~/queries/authorization';
+import { useGetCurrentUser } from '~/queries/user';
+import { apiRoutes } from '~/constants/apiRoutes';
 
 export function useOrders() {
   return useQuery<Order[], AxiosError>('orders', async () => {
@@ -31,9 +33,10 @@ export function useUpdateOrderStatus() {
 }
 
 export function useSubmitOrder() {
+  const userId = useGetCurrentUser();
   const authToken = useGetAuthorizationToken();
   return useMutation((values: Omit<Order, 'id'>) => {
-    return axios.put<Omit<Order, 'id'>>(`${API_PATHS.order}/order`, values, {
+    return axios.post<Omit<Order, 'id'>>(apiRoutes.orderCheckoutByUserId(userId), values, {
       headers: {
         Authorization: `Basic ${authToken}`,
       },
