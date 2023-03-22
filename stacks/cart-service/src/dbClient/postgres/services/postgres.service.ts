@@ -40,13 +40,19 @@ export class PostgresService implements IDbClientService {
   }
 
   async transactQuery<T>(queryStrings: string[]): Promise<IDbQueryResult<T>> {
-    await this.connect();
-    const sql = ['BEGIN', queryStrings.join(''), 'COMMIT'].join(';\n');
-    const result = await this.query<T>(sql);
-    return {
-      rows: result.rows,
-      rowsCount: result.rows?.length ?? 0,
-      fields: result.fields ?? [],
-    };
+    try {
+      await this.connect();
+      await this.client.query('BEGIN');
+      const result = await this.query<T>(queryStrings.join(';\n'));
+      await this.client.query('COMMIT');
+      return {
+        rows: result.rows,
+        rowsCount: result.rows?.length ?? 0,
+        fields: result.fields ?? [],
+      };
+    } catch (e) {
+      await this.client.query('ROLLBACK');
+      throw e;
+    }
   }
 }

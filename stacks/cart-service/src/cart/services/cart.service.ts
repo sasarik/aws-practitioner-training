@@ -18,7 +18,8 @@ export class CartService {
       const result = await this.dbClient.query<{ id: string; user_id: string }>(`
         SELECT c.id, c.user_id
             FROM carts c
-                WHERE c.user_id = '${userId}'
+                WHERE c.status = 'OPEN'
+                    and c.user_id = '${userId}'
     `);
       if (result.rowsCount === 1) {
         const itemsResult = await this.dbClient.query<{
