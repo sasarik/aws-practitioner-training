@@ -33,6 +33,7 @@ const serverlessConfiguration = <AWS>{
     },
     environment: {
       ...baseServerlessConfiguration.provider.environment,
+      PgArn: process.env.PG_ARN,
       PgHost: process.env.PG_HOST,
       PgPort: process.env.PG_PORT,
       PgDataBase: process.env.PG_DATABASE,

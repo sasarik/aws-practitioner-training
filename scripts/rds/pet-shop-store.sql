@@ -70,7 +70,8 @@ create table if not exists cart_items (
 	primary KEY(id),
 	constraint fk_carts
 		foreign key(cart_id)
-			references carts(id)
+			references carts(id),
+	unique (cart_id, product_id)		
 )
 
 
@@ -87,6 +88,25 @@ drop table cart_items
 CREATE TYPE OrderStatus AS ENUM ('OPEN', 'APPROVED', 'CONFIRMED','SENT','COMPLETED','CANCELLED');
 
 
+create table if not exists orders (
+	id uuid not null default uuid_generate_v4(),
+	user_id uuid not null,
+	cart_id uuid not null,
+	status  OrderStatus not null default 'OPEN',
+	delivery json not null,
+	primary KEY(id),
+	constraint fk_carts
+		foreign key(cart_id)
+			references carts(id),
+	constraint fk_users
+		foreign key(user_id)
+			references users(id),
+    unique (user_id, cart_id)			
+)
+
+delete from orders
+
+drop table orders
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 SELECT c.id, c.user_id
@@ -98,3 +118,20 @@ INSERT INTO CARTS(user_id,created_at,updated_at)
       VALUES ('',CURRENT_DATE,CURRENT_DATE)
       RETURNING id
 
+
+delete from orders
+
+delete from cart_items
+
+delete from carts
+
+
+INSERT INTO cart_items(cart_id, product_id, count)
+            VALUES('d0a2ea2c-b6b4-4bb1-a9b8-b9ff5b60fd69','7567ec4b-b10c-48c5-9345-fc73c48a80aa',1)
+
+UPDATE carts SET status='ORDERED' WHERE id = 'e4fb8895-068a-42c2-866a-1e144eeb13f5';
+        INSERT INTO orders(user_id, cart_id, status, delivery)
+            VALUES('12b9f0b8-ab6b-4c61-b240-00b86edfcdda','e4fb8895-068a-42c2-866a-1e144eeb13f5','OPEN','{"comment":"Put under flower","address":"Gdansk, to Me","lastName":"Radvanska","firstName":"Olga"}')
+                RETURNING id, user_id, cart_id
+      
+      
