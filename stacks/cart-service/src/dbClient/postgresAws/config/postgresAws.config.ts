@@ -1,9 +1,7 @@
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('pgAwsConfig', () => ({
-  host: process.env.PgHost,
-  port: +process.env.PgPort,
-  user: process.env.PgUserName,
-  password: process.env.PgUserPassword,
+  arn: process.env.PgArn,
+  region: process.env.AwsRegion,
   database: process.env.PgDataBase,
 }));

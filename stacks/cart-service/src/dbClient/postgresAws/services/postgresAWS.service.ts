@@ -21,8 +21,8 @@ export class PostgresAWSService implements IDbClientService {
 
   async connect() {
     if (!this.client) {
-      this.client = new RDSDataClient({ region: 'eu-west-1' });
-      this.logger.log('pgDbClient::connected');
+      this.client = new RDSDataClient({ region: this.dbConfig.region });
+      this.logger.log('RDSDataClient::Created');
     }
   }
 
@@ -31,12 +31,12 @@ export class PostgresAWSService implements IDbClientService {
     const res = await this.client.send(
       new ExecuteStatementCommand({
         sql: queryString,
-        resourceArn: 'arn:aws:rds:eu-west-1:064582090880:db:aws-training-db-instance',
+        resourceArn: this.dbConfig.arn,
         database: this.dbConfig.database,
-        secretArn: 'todo',
+        secretArn: 'tododo',
       })
     );
-    this.logger.log(res, 'query');
+    this.logger.log(res, queryString);
     return undefined; // TODO impl
   }
 
