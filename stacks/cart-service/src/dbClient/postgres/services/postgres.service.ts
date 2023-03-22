@@ -32,6 +32,14 @@ export class PostgresService implements IDbClientService {
   async query<T>(queryString: string): Promise<IDbQueryResult<T>> {
     await this.connect();
     const result = await this.client.query(queryString);
+    if (Array.isArray(result)) {
+      const lastResult = result.pop();
+      return {
+        rows: lastResult.rows,
+        rowsCount: lastResult.rows?.length ?? 0,
+        fields: lastResult.fields ?? [],
+      };
+    }
     return {
       rows: result.rows,
       rowsCount: result.rows?.length ?? 0,
@@ -45,11 +53,7 @@ export class PostgresService implements IDbClientService {
       await this.client.query('BEGIN');
       const result = await this.query<T>(queryStrings.join(';\n'));
       await this.client.query('COMMIT');
-      return {
-        rows: result.rows,
-        rowsCount: result.rows?.length ?? 0,
-        fields: result.fields ?? [],
-      };
+      return result;
     } catch (e) {
       await this.client.query('ROLLBACK');
       throw e;
