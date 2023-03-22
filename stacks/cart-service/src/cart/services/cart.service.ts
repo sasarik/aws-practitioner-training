@@ -1,4 +1,4 @@
-import { Inject, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { DB_CLIENT_SERVICE, IDbClientService } from '../../dbClient/interfaces';
 import { CartDTO } from '../../shared/dto/CartDTO';
 import { CartItemDTO } from '../../shared/dto/CartItemDTO';
@@ -14,6 +14,7 @@ export class CartService {
   private readonly logger = new Logger(this.constructor.name);
 
   async findByUserId(userId: string): Promise<CartDTO> {
+    this.logger.log(`findByUserId(${userId})...`);
     try {
       const result = await this.dbClient.query<{ id: string; user_id: string }>(`
         SELECT c.id, c.user_id
@@ -22,6 +23,7 @@ export class CartService {
                     and c.user_id = '${userId}'
     `);
       if (result.rowsCount === 1) {
+        this.logger.log(`findByUserId(${userId})::CartFound, populate Items...`);
         const itemsResult = await this.dbClient.query<{
           id: string;
           cart_id: string;
@@ -37,13 +39,22 @@ export class CartService {
             id: item.product_id,
           },
         }));
-        const items = await this.updateItemsByProductData(dbItems);
-        items.sort((a, b) => a.product.price - b.product.price);
+        this.logger.log(`findByUserId(${userId})::(${dbItems.length} Cart Items Found)`);
+        if (dbItems.length > 0) {
+          this.logger.log(`updateItemsByProductData(...)`);
+          const items = await this.updateItemsByProductData(dbItems);
+          items.sort((a, b) => a.product.price - b.product.price);
+          return {
+            id: result.rows[0].id,
+            items,
+          };
+        }
         return {
           id: result.rows[0].id,
-          items,
+          items: dbItems,
         };
       }
+      this.logger.log(`findByUserId(${userId})::NOTFound`);
       return undefined;
     } catch (error: unknown) {
       this.logger.error(error);
@@ -56,23 +67,25 @@ export class CartService {
   }
 
   async findOrCreateByUserId(userId: string): Promise<CartDTO> {
+    this.logger.log(`findOrCreateByUserId(${userId})...`);
     const userCart = await this.findByUserId(userId);
-
     if (userCart) {
-      this.logger.log(`findOrCreateByUserId(${userId}):Found`);
       return userCart;
     }
-    this.logger.log(`findOrCreateByUserId(${userId}):NotFound, creating a new one`);
     return await this.createByUserId(userId);
   }
 
   async updateByUserId(userId: string, cartItem: CartItemDTO): Promise<CartDTO> {
+    const availableProduct = await getProductById(cartItem.product.id);
+    if (availableProduct.count - cartItem.count < 0) {
+      throw new HttpException('Store: Not Found', HttpStatus.NOT_FOUND);
+    }
     const userCart = await this.findOrCreateByUserId(userId);
     const sqlStatement =
       cartItem.count > 0
         ? `INSERT INTO cart_items(cart_id, product_id, count)
             VALUES('${userCart.id}','${cartItem.product.id}',${cartItem.count})
-                ON CONFLICT ON CONSTRAINT cart_items_product_id_key
+                ON CONFLICT ON CONSTRAINT cart_items_cart_id_product_id_key
                 DO UPDATE
                 SET count = EXCLUDED.count`
         : `DELETE FROM cart_items WHERE cart_id = '${userCart.id}' and product_id = '${cartItem.product.id}'`;
@@ -95,7 +108,6 @@ export class CartService {
   }
 
   private async updateItemsByProductData(cartItems: CartItemDTO[]): Promise<CartItemDTO[]> {
-    this.logger.log(`updateItemsByProductData(${cartItems.length} item(s))...`);
     for (const userCartItem of cartItems) {
       const product = await getProductById(userCartItem.product.id);
       userCartItem.product.title = product.title;

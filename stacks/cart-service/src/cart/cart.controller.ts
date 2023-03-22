@@ -1,11 +1,11 @@
 import { Body, Controller, Delete, Get, HttpStatus, Logger, Param, Post, Put, Req } from '@nestjs/common';
-
 // import { BasicAuthGuard, JwtAuthGuard } from '../auth';
 import { OrderService } from '../order';
 import { AppRequest, getUserIdFromRequest } from '../shared';
 import { CartService } from './services';
 import { UserDTO } from '../shared/dto/UserDTO';
 import { CartItemDTO } from '../shared/dto/CartItemDTO';
+import { CheckoutDTO } from '../shared/dto/CheckoutDTO';
 
 @Controller('api/profile/cart/:userId')
 export class CartController {
@@ -26,7 +26,6 @@ export class CartController {
       userCart: {
         userId: user.userId,
         cart: userCart,
-        // total: calculateCartTotal(cart),
       },
     };
   }
@@ -45,13 +44,13 @@ export class CartController {
       userCart: {
         userId: user.userId,
         cart: userCart,
-        // total: calculateCartTotal(cart),
       },
     };
   }
 
   // @UseGuards(JwtAuthGuard)
   // @UseGuards(BasicAuthGuard)
+  // TODO remove it ?
   @Delete()
   clearUserCart(@Req() req: AppRequest) {
     this.cartService.removeByUserId(getUserIdFromRequest(req));
@@ -65,30 +64,23 @@ export class CartController {
   // @UseGuards(JwtAuthGuard)
   // @UseGuards(BasicAuthGuard)
   @Post('checkout')
-  async checkout(@Req() req: AppRequest, @Body() body) {
-    const userId = getUserIdFromRequest(req);
-    const cart = await this.cartService.findByUserId(userId);
-
+  async checkout(@Param() user: UserDTO, @Body() orderCheckout: CheckoutDTO) {
+    const cart = await this.cartService.findByUserId(user.userId);
     if (!(cart && cart.items.length)) {
-      const statusCode = HttpStatus.BAD_REQUEST;
-      req.statusCode = statusCode;
-
       return {
-        statusCode,
-        message: 'Cart is empty',
+        statusCode: HttpStatus.BAD_REQUEST,
+        message: 'No Cart Found or Cart is empty',
       };
     }
 
-    const { id: cartId, items } = cart;
-    const total = 0; //calculateCartTotal(cart);
-    const order = this.orderService.create({
-      ...body, // TODO: validate and pick only necessary data
-      userId,
-      cartId,
-      items,
-      total,
+    const order = await this.orderService.createByUserId(user.userId, {
+      userId: user.userId,
+      cartId: cart.id,
+      delivery: orderCheckout.address,
     });
-    this.cartService.removeByUserId(userId);
+    this.cartService.removeByUserId(user.userId);
+
+    // TODO update products count in stock
 
     return {
       statusCode: HttpStatus.OK,
