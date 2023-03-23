@@ -1,4 +1,6 @@
 create extension if not exists "uuid-ossp";
+create extension if not exists "json_agg";
+
 
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -65,7 +67,7 @@ drop table carts
 create table if not exists cart_items (
 	id uuid not null default uuid_generate_v4(),
 	cart_id uuid not null,
-	product_id uuid unique not null,
+	product_id uuid not null,
 	count integer,
 	primary KEY(id),
 	constraint fk_carts
@@ -94,6 +96,7 @@ create table if not exists orders (
 	cart_id uuid not null,
 	status  OrderStatus not null default 'OPEN',
 	delivery json not null,
+	status_history json not null,
 	primary KEY(id),
 	constraint fk_carts
 		foreign key(cart_id)
@@ -108,6 +111,27 @@ delete from orders
 
 drop table orders
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+SELECT to_json(ci) FROM cart_items ci
+ where ci.cart_id == o.cart_id
+
+SELECT o.id, o.user_id as userId, o.cart_id as cartId, o.status as status, o.delivery as address, o.status_history as "statusHistory",
+		(SELECT  json_agg(ci) FROM cart_items ci where ci.cart_id = o.cart_id) as items
+FROM orders o WHERE o.user_id = '12b9f0b8-ab6b-4c61-b240-00b86edfcdda'
+
+
+
+SELECT c.id, c.user_id as "userId",
+            (SELECT  json_agg(ci) FROM cart_items ci where ci.cart_id = c.id) as items
+            FROM carts c
+                WHERE c.status = 'OPEN'
+                    and c.user_id = '12b9f0b8-ab6b-4c61-b240-00b86edfcdda'
+
+
+SELECT o.id, o.user_id as userId, o.cart_id as cartId, o.status as status, o.delivery as address,
+FROM orders o, cart_items ci  WHERE o.user_id = '12b9f0b8-ab6b-4c61-b240-00b86edfcdda' and o.cart_id = cart_items.ci
+
+
 
 SELECT c.id, c.user_id
 FROM carts c
@@ -126,12 +150,13 @@ delete from cart_items
 delete from carts
 
 
-INSERT INTO cart_items(cart_id, product_id, count)
-            VALUES('d0a2ea2c-b6b4-4bb1-a9b8-b9ff5b60fd69','7567ec4b-b10c-48c5-9345-fc73c48a80aa',1)
 
-UPDATE carts SET status='ORDERED' WHERE id = 'e4fb8895-068a-42c2-866a-1e144eeb13f5';
-        INSERT INTO orders(user_id, cart_id, status, delivery)
-            VALUES('12b9f0b8-ab6b-4c61-b240-00b86edfcdda','e4fb8895-068a-42c2-866a-1e144eeb13f5','OPEN','{"comment":"Put under flower","address":"Gdansk, to Me","lastName":"Radvanska","firstName":"Olga"}')
-                RETURNING id, user_id, cart_id
-      
-      
+INSERT INTO cart_items(cart_id, product_id, count)
+            VALUES('3639702c-0642-42e2-9be4-4bd383b6bd60','7567ec4b-b10c-48c5-9345-fc73c48a80aa',1)            
+            ON CONFLICT ON CONSTRAINT cart_items_cart_id_product_id_key
+                DO UPDATE
+                SET count = EXCLUDED.count
+
+               
+SELECT '{"bar": "baz", "balance": 7.77, "active":false}'::json;
+
