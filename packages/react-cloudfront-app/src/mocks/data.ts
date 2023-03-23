@@ -1,6 +1,7 @@
-import { OrderStatus } from '~/constants/order';
-import { Order } from '~/models/Order';
+import { OrderStatus } from "~/constants/order";
+import { Order } from "~/models/Order";
 
+// TODO del then
 export const orders: Order[] = [
   {
     id: '1',

@@ -12,10 +12,8 @@ export function useCart() {
   return useQuery<CartItem[], AxiosError>('cart', async () => {
     const res = await axios.get<{
       userCart: {
-        cart: {
-          id: string;
-          items: CartItem[];
-        };
+        id: string;
+        items: CartItem[];
         total: number;
       };
     }>(apiRoutes.cartByUserId(userId), {
@@ -24,7 +22,7 @@ export function useCart() {
       },
     });
     console.log(`useCart(${userId}):result`, res.data);
-    return res.data.userCart.cart.items ?? [];
+    return res.data.userCart.items ?? [];
   });
 }
 

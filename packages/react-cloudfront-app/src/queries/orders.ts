@@ -9,9 +9,16 @@ import { useGetCurrentUser } from '~/queries/user';
 import { apiRoutes } from '~/constants/apiRoutes';
 
 export function useOrders() {
+  const userId = useGetCurrentUser();
+  const authToken = useGetAuthorizationToken();
   return useQuery<Order[], AxiosError>('orders', async () => {
-    const res = await axios.get<Order[]>(`${API_PATHS.order}/order`);
-    return res.data;
+    const res = await axios.get<{ userOrders: Order[] }>(apiRoutes.ordersByUserId(userId), {
+      headers: {
+        Authorization: `Basic ${authToken}`,
+      },
+    });
+    console.log(`useOrders(${userId}):result`, res.data);
+    return res.data.userOrders ?? [];
   });
 }
 

@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import { useDeleteOrder, useInvalidateOrders, useOrders } from '~/queries/orders';
 
 export default function Orders() {
-  const { data } = useOrders();
+  const { data: orders = [] } = useOrders();
   const invalidateOrders = useInvalidateOrders();
   const { mutate: deleteOrder } = useDeleteOrder();
 
@@ -27,7 +27,7 @@ export default function Orders() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data?.map((order) => (
+          {orders?.map((order) => (
             <TableRow key={order.id}>
               <TableCell component="th" scope="row">
                 {order.address?.firstName} {order.address?.lastName}

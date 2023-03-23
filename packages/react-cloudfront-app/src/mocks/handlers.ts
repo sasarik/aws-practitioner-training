@@ -1,12 +1,12 @@
 import { rest } from 'msw';
 import API_PATHS from '~/constants/apiPaths';
 import { orders } from '~/mocks/data';
-import { Order } from '~/models/Order';
 
 export const handlers = [
-  rest.get(`${API_PATHS.order}/order`, (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.delay(), ctx.json<Order[]>(orders));
-  }),
+  // TODO del then
+  // rest.get(`${API_PATHS.order}/order`, (_req, res, ctx) => {
+  //   return res(ctx.status(200), ctx.delay(), ctx.json<Order[]>(order));
+  // }),
   rest.put(`${API_PATHS.order}/order`, (_req, res, ctx) => {
     return res(ctx.status(200));
   }),

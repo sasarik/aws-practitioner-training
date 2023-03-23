@@ -1,2 +1,2 @@
-export const VERSION = 'v.8.3.110';
+export const VERSION = 'v.8.3.222';
 export const TITLE = '"Pet Shop Store"';

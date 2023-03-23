@@ -9,4 +9,5 @@ export const apiRoutes = {
   productFileImport: () => `${HTTP_PRODUCTS_IMPORT_API_GATEWAY}/import`,
   cartByUserId: (userId: string) => `${HTTP_CART_SERVICE_API_GATEWAY}/api/profile/cart/${userId}`,
   orderCheckoutByUserId: (userId: string) => `${HTTP_CART_SERVICE_API_GATEWAY}/api/profile/cart/${userId}/checkout`,
+  ordersByUserId: (userId: string) => `${HTTP_CART_SERVICE_API_GATEWAY}/api/profile/order/${userId}`,
 };
