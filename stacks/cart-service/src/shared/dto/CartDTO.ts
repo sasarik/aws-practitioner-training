@@ -7,6 +7,9 @@ export class CartDTO {
   @IsUUID()
   public id: string;
 
+  @IsUUID()
+  public userId: string;
+
   @IsNotEmpty()
   @IsArray()
   @ValidateNested({ each: true })
