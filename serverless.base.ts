@@ -14,6 +14,7 @@ export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
     esbuild: {
       bundle: true,
       minify: true,
+      keepNames: true,
       target: 'node18',
       sourcemap: true,
       sourcesContent: false,
