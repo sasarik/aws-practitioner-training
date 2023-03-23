@@ -75,6 +75,7 @@ export class CartRepository implements ICartRepository {
 
   private async updateItemsWithProductData(cartItems: CartItemDTO[]): Promise<CartItemDTO[]> {
     this.logger.log(`updateItemsWithProductData(${cartItems.length} item(s))...`);
+    // TODO get them batch / bulk from dynamoDb.... from products Repository :)
     for (const userCartItem of cartItems) {
       const product = await getProductById(userCartItem.product.id);
       userCartItem.product.title = product.title;

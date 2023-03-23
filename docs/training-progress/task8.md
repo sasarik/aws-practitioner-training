@@ -16,8 +16,7 @@
 - [x] Connect to database instance via a tool called [DBeaver](https://dbeaver.io/download/) or any other similar tools
   like DataGrip/PgAdmin
 - [x] Create the following tables: User, Cart and Cart Item models
-
-- [x] Write SQL script to fill tables with test examples. Store it in your Github repository. Execute it for your DB to
+- [x] Write SQL script to fill tables with test examples. Store it in your GitHub repository. Execute it for your DB to
   fill data.
 
 ---
@@ -26,7 +25,7 @@
 
 - [x] Change logic in application to use PostgreSQL
 - [x] Integrate with RDS
-- [x] It's recommended to use [pg](https://www.npmjs.com/package/pg) module to connect the database from the code.
+- [x] The use [pg](https://www.npmjs.com/package/pg) module to connect the database from the code.
 - [x] Extend your `serverless.yml` file with credentials to your database instance and pass it to lambda’s environment
   variables section.
 
@@ -54,20 +53,7 @@ Reviewers should verify the lambda functions by invoking them through provided U
 
 ---
 
-- [ ] **+20** **(All languages)** - Create orders table and integrated with it Order model:
-
-```
-  orders:
-    id - uuid
-    user_id - uuid
-    cart_id - uuid (Foreign key from carts.id)
-    payment - JSON
-    delivery - JSON
-    comments - text
-    status - ENUM or text
-    total - number
-```
-
+- [x] **+20** **(All languages)** - Create orders table and integrated with it Order model:
 - [x] **+4** **(All languages)** - Create users table and integrate with it
-- [ ] **+3** **(All languages)** - Transaction based creation of checkout
+- [x] **+3** **(All languages)** - Transaction based creation of checkout
 - [x] **+3** **(All languages)** - Integrate Cart service with FE repository

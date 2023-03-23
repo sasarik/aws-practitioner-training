@@ -9,7 +9,7 @@ export class OrderService {
     private readonly orders: IOrderRepository
   ) {}
 
-  async findOrdersByUserId(userId: string): Promise<OrderDTO[]> {
+  async findByUserId(userId: string): Promise<OrderDTO[]> {
     return this.orders.find({ userId });
   }
 
@@ -17,6 +17,7 @@ export class OrderService {
     return this.orders.create(order);
   }
 
+  // TODO rename or remove ?
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   update(_orderId, _data) {
     return undefined;

@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CartDTO } from '../../shared/dto/CartDTO';
 import { CartItemDTO } from '../../shared/dto/CartItemDTO';
 import { CART_REPOSITORY, ICartRepository } from '../../repository/interfaces';
@@ -10,15 +10,12 @@ export class CartService {
     private readonly carts: ICartRepository
   ) {}
 
-  private readonly logger = new Logger(this.constructor.name);
-
   // TODO rename or remove
   async findUserCart(userId: string): Promise<CartDTO> {
     return await this.carts.find({ userId });
   }
 
   async upsertUserCart(userId: string): Promise<CartDTO> {
-    this.logger.log(`upsertUserCart(${userId})...`);
     const userCart = await this.carts.find({ userId });
     if (userCart) {
       return userCart;
@@ -30,6 +27,7 @@ export class CartService {
     await this.carts.update({ userId }, cartItem);
   }
 
+  // TODO rename or remove
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   removeByUserId(_userId): void {
     // this.userCarts[userId] = null;
