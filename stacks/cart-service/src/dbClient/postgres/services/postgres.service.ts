@@ -31,7 +31,24 @@ export class PostgresService implements IDbClientService {
 
   async query<T>(queryString: string): Promise<IDbQueryResult<T>> {
     await this.connect();
-    const result = await this.client.query(queryString);
+    return await this.executeSqlStatement<T>(queryString);
+  }
+
+  async transactQuery<T>(queryStrings: string[]): Promise<IDbQueryResult<T>> {
+    try {
+      await this.connect();
+      await this.executeSqlStatement('BEGIN');
+      const result = await this.executeSqlStatement<T>(queryStrings.join(';\n'));
+      await this.executeSqlStatement('COMMIT');
+      return result;
+    } catch (e) {
+      await this.executeSqlStatement('ROLLBACK');
+      throw e;
+    }
+  }
+
+  private async executeSqlStatement<T>(sql: string): Promise<IDbQueryResult<T>> {
+    const result = await this.client.query(sql);
     if (Array.isArray(result)) {
       const lastResult = result.pop();
       return {
@@ -45,18 +62,5 @@ export class PostgresService implements IDbClientService {
       rowsCount: result.rows?.length ?? 0,
       fields: result.fields ?? [],
     };
-  }
-
-  async transactQuery<T>(queryStrings: string[]): Promise<IDbQueryResult<T>> {
-    try {
-      await this.connect();
-      await this.client.query('BEGIN');
-      const result = await this.query<T>(queryStrings.join(';\n'));
-      await this.client.query('COMMIT');
-      return result;
-    } catch (e) {
-      await this.client.query('ROLLBACK');
-      throw e;
-    }
   }
 }
