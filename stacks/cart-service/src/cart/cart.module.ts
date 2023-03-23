@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { OrderModule } from '../order/order.module';
 import { CartController } from './cart.controller';
 import { CartService } from './services';
-import { PostgresDbModule } from '../dbClient/postgres/postgresDb.module';
+import { RepositoryModule } from '../repository/repository.module';
 
 @Module({
-  imports: [OrderModule, PostgresDbModule],
+  imports: [OrderModule, RepositoryModule],
   providers: [CartService],
   controllers: [CartController],
 })

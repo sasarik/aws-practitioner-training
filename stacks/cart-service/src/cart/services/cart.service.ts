@@ -1,121 +1,33 @@
-import { HttpException, HttpStatus, Inject, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
-import { DB_CLIENT_SERVICE, IDbClientService } from '../../dbClient/interfaces';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { CartDTO } from '../../shared/dto/CartDTO';
 import { CartItemDTO } from '../../shared/dto/CartItemDTO';
-import { getProductById } from '@helpers/db-client';
+import { CART_REPOSITORY, ICartRepository } from '../../repository/interfaces';
 
 @Injectable()
 export class CartService {
   constructor(
-    @Inject(DB_CLIENT_SERVICE)
-    private readonly dbClient: IDbClientService
+    @Inject(CART_REPOSITORY)
+    private readonly carts: ICartRepository
   ) {}
 
   private readonly logger = new Logger(this.constructor.name);
 
-  async findByUserId(userId: string): Promise<CartDTO> {
-    this.logger.log(`findByUserId(${userId})...`);
-    try {
-      const result = await this.dbClient.query<{ id: string; user_id: string }>(`
-        SELECT c.id, c.user_id
-            FROM carts c
-                WHERE c.status = 'OPEN'
-                    and c.user_id = '${userId}'
-    `);
-      if (result.rowsCount === 1) {
-        this.logger.log(`findByUserId(${userId})::CartFound, populate Items...`);
-        const itemsResult = await this.dbClient.query<{
-          id: string;
-          cart_id: string;
-          product_id: string;
-          count: number;
-        }>(`
-        SELECT i.id, i.cart_id, i.product_id, i.count
-            FROM cart_items i
-                WHERE i.cart_id = '${result.rows[0].id}'`);
-        const dbItems = itemsResult.rows.map((item) => ({
-          count: item.count,
-          product: {
-            id: item.product_id,
-          },
-        }));
-        this.logger.log(`findByUserId(${userId})::(${dbItems.length} Cart Items Found)`);
-        if (dbItems.length > 0) {
-          this.logger.log(`updateItemsByProductData(...)`);
-          const items = await this.updateItemsByProductData(dbItems);
-          items.sort((a, b) => a.product.price - b.product.price);
-          return {
-            id: result.rows[0].id,
-            items,
-          };
-        }
-        return {
-          id: result.rows[0].id,
-          items: dbItems,
-        };
-      }
-      this.logger.log(`findByUserId(${userId})::NOTFound`);
-      return undefined;
-    } catch (error: unknown) {
-      this.logger.error(error);
-      if (error instanceof Error) {
-        throw new InternalServerErrorException(String(error), { cause: error });
-      } else {
-        throw new InternalServerErrorException(String(error));
-      }
-    }
+  // TODO rename or remove
+  async findUserCart(userId: string): Promise<CartDTO> {
+    return await this.carts.find({ userId });
   }
 
-  async findOrCreateByUserId(userId: string): Promise<CartDTO> {
-    this.logger.log(`findOrCreateByUserId(${userId})...`);
-    const userCart = await this.findByUserId(userId);
+  async upsertUserCart(userId: string): Promise<CartDTO> {
+    this.logger.log(`upsertUserCart(${userId})...`);
+    const userCart = await this.carts.find({ userId });
     if (userCart) {
       return userCart;
     }
-    return await this.createByUserId(userId);
+    return await this.carts.create({ userId });
   }
 
-  async updateByUserId(userId: string, cartItem: CartItemDTO): Promise<CartDTO> {
-    const availableProduct = await getProductById(cartItem.product.id);
-    if (availableProduct.count - cartItem.count < 0) {
-      throw new HttpException('Store: Not Found', HttpStatus.NOT_FOUND);
-    }
-    const userCart = await this.findOrCreateByUserId(userId);
-    const sqlStatement =
-      cartItem.count > 0
-        ? `INSERT INTO cart_items(cart_id, product_id, count)
-            VALUES('${userCart.id}','${cartItem.product.id}',${cartItem.count})
-                ON CONFLICT ON CONSTRAINT cart_items_cart_id_product_id_key
-                DO UPDATE
-                SET count = EXCLUDED.count`
-        : `DELETE FROM cart_items WHERE cart_id = '${userCart.id}' and product_id = '${cartItem.product.id}'`;
-    await this.dbClient.transactQuery<{ id: string; user_id: string }>([sqlStatement]);
-    return await this.findByUserId(userId);
-  }
-
-  private async createByUserId(userId: string): Promise<CartDTO> {
-    const result = await this.dbClient.query<{ id: string; user_id: string }>(
-      `
-      INSERT INTO CARTS(user_id,created_at,updated_at)
-      VALUES ('${userId}',CURRENT_DATE,CURRENT_DATE)
-      RETURNING id, user_id
-      `
-    );
-    return {
-      id: result.rows[0].id,
-      items: [],
-    };
-  }
-
-  private async updateItemsByProductData(cartItems: CartItemDTO[]): Promise<CartItemDTO[]> {
-    for (const userCartItem of cartItems) {
-      const product = await getProductById(userCartItem.product.id);
-      userCartItem.product.title = product.title;
-      userCartItem.product.description = product.description;
-      userCartItem.product.price = product.price;
-      userCartItem.product.count = product.count;
-    }
-    return cartItems;
+  async updateUserCartItem(userId: string, cartItem: CartItemDTO): Promise<void> {
+    await this.carts.update({ userId }, cartItem);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

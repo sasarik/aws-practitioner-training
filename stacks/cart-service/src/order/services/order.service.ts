@@ -1,42 +1,20 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
-
-import { Order } from '../models';
-import { DB_CLIENT_SERVICE, IDbClientService } from '../../dbClient/interfaces';
+import { Inject, Injectable } from '@nestjs/common';
 import { OrderDTO } from '../../shared/dto/OrderDTO';
+import { IOrderRepository, ORDER_REPOSITORY } from '../../repository/interfaces';
 
 @Injectable()
 export class OrderService {
   constructor(
-    @Inject(DB_CLIENT_SERVICE)
-    private readonly dbClient: IDbClientService
+    @Inject(ORDER_REPOSITORY)
+    private readonly orders: IOrderRepository
   ) {}
 
-  private readonly logger = new Logger(this.constructor.name);
-
-  // private orders: Record<string, Order> = {};
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  findById(_orderId: string): Order {
-    // return this.orders[orderId];
-    return undefined;
+  async findOrdersByUserId(userId: string): Promise<OrderDTO[]> {
+    return this.orders.find({ userId });
   }
 
-  async createByUserId(userId: string, order: OrderDTO) {
-    this.logger.log(`Create order(user:"${userId}", cart:"${order.cartId}")...`);
-    const deliveryAddress = JSON.stringify(order.delivery);
-    const result = await this.dbClient.transactQuery<{ id: string; user_id: string; cart_id: string }>([
-      `UPDATE carts SET status='ORDERED' WHERE id = '${order.cartId}'`,
-      `
-        INSERT INTO orders(user_id, cart_id, status, delivery)
-            VALUES('${userId}','${order.cartId}','OPEN','${deliveryAddress}')
-                RETURNING id, user_id, cart_id
-    `,
-    ]);
-    return {
-      id: result.rows[0].id,
-      userId: result.rows[0].user_id,
-      cartId: result.rows[0].cart_id,
-    };
+  async createByUserId(order: Omit<OrderDTO, 'id'>) {
+    return this.orders.create(order);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -48,7 +26,7 @@ export class OrderService {
     //   throw new Error('Order does not exist.');
     // }
     //
-    // this.orders[orderId] = {
+    // this.order[orderId] = {
     //   ...data,
     //   id: orderId,
     // };

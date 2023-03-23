@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, HttpStatus, Logger, Param, Post, Put, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Logger,
+  Param,
+  Post,
+  Put,
+  Req,
+} from '@nestjs/common';
 // import { BasicAuthGuard, JwtAuthGuard } from '../auth';
 import { OrderService } from '../order';
 import { AppRequest, getUserIdFromRequest } from '../shared';
@@ -6,6 +18,8 @@ import { CartService } from './services';
 import { UserDTO } from '../shared/dto/UserDTO';
 import { CartItemDTO } from '../shared/dto/CartItemDTO';
 import { CheckoutDTO } from '../shared/dto/CheckoutDTO';
+import { getProductById } from '@helpers/db-client';
+import { CartDTO } from '../shared/dto/CartDTO';
 
 @Controller('api/profile/cart/:userId')
 export class CartController {
@@ -16,17 +30,14 @@ export class CartController {
   // @UseGuards(JwtAuthGuard)
   // @UseGuards(BasicAuthGuard)
   @Get()
-  async findUserCart(@Param() user: UserDTO) {
-    this.logger.log(`findUserCart(${user.userId})...`);
-    const userCart = await this.cartService.findOrCreateByUserId(user.userId);
+  async getUserCart(@Param() user: UserDTO) {
+    this.logger.log(`getUserCart(${user.userId})...`);
+    const cart: CartDTO = await this.cartService.upsertUserCart(user.userId);
 
     return {
       statusCode: HttpStatus.OK,
       message: 'OK',
-      userCart: {
-        userId: user.userId,
-        cart: userCart,
-      },
+      userCart: cart,
     };
   }
 
@@ -36,15 +47,17 @@ export class CartController {
   @Put()
   async updateUserCart(@Param() user: UserDTO, @Body() cartItem: CartItemDTO) {
     this.logger.log(`updateUserCart(${user.userId})...`);
-    const userCart = await this.cartService.updateByUserId(user.userId, cartItem);
+    const cartItemProductInfo = await getProductById(cartItem.product.id);
+    if (cartItemProductInfo.count - cartItem.count < 0) {
+      throw new HttpException('Store: Not Found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.cartService.updateUserCartItem(user.userId, cartItem);
 
     return {
       statusCode: HttpStatus.OK,
-      message: 'OK',
-      userCart: {
-        userId: user.userId,
-        cart: userCart,
-      },
+      message: 'OK, Updated',
+      ref: `api/profile/cart/${user.userId}`,
     };
   }
 
@@ -65,7 +78,7 @@ export class CartController {
   // @UseGuards(BasicAuthGuard)
   @Post('checkout')
   async checkout(@Param() user: UserDTO, @Body() orderCheckout: CheckoutDTO) {
-    const cart = await this.cartService.findByUserId(user.userId);
+    const cart = await this.cartService.findUserCart(user.userId);
     if (!(cart && cart.items.length)) {
       return {
         statusCode: HttpStatus.BAD_REQUEST,
@@ -73,10 +86,13 @@ export class CartController {
       };
     }
 
-    const order = await this.orderService.createByUserId(user.userId, {
+    const order = await this.orderService.createByUserId({
       userId: user.userId,
       cartId: cart.id,
-      delivery: orderCheckout.address,
+      address: orderCheckout.address,
+      items: cart.items,
+      status: 'OPEN',
+      statusHistory: [{ status: 'OPEN', timestamp: new Date().getTime(), comment: 'New order' }],
     });
     this.cartService.removeByUserId(user.userId);
 

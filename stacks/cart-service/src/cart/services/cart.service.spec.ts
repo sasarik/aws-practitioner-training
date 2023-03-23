@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CartService } from './cart.service';
-import { PostgresDbModule } from '../../dbClient/postgres/postgresDb.module';
+import { RepositoryModule } from '../../repository/repository.module';
 
 describe('CartService', () => {
   let service: CartService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [PostgresDbModule],
+      imports: [RepositoryModule],
       providers: [CartService],
     }).compile();
 
