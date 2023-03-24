@@ -43,11 +43,15 @@ export function useSubmitOrder() {
   const userId = useGetCurrentUser();
   const authToken = useGetAuthorizationToken();
   return useMutation((values: Omit<Order, 'id'>) => {
-    return axios.post<Omit<Order, 'id'>>(apiRoutes.orderCheckoutByUserId(userId), values, {
-      headers: {
-        Authorization: `Basic ${authToken}`,
-      },
-    });
+    return axios.post<Omit<Order, 'id'>>(
+      apiRoutes.checkout(),
+      { ...values, userId },
+      {
+        headers: {
+          Authorization: `Basic ${authToken}`,
+        },
+      }
+    );
   });
 }
 

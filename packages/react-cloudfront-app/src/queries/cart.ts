@@ -16,7 +16,7 @@ export function useCart() {
         items: CartItem[];
         total: number;
       };
-    }>(apiRoutes.cartByUserId(userId), {
+    }>(apiRoutes.getCartByUserId(userId), {
       headers: {
         Authorization: `Basic ${authToken}`,
       },
@@ -40,10 +40,14 @@ export function useUpsertCart() {
   const userId = useGetCurrentUser();
   const authToken = useGetAuthorizationToken();
   return useMutation((values: CartItem) =>
-    axios.put<CartItem[]>(apiRoutes.cartByUserId(userId), values, {
-      headers: {
-        Authorization: `Basic ${authToken}`,
-      },
-    })
+    axios.put<CartItem[]>(
+      apiRoutes.cartsService(),
+      { ...values, userId },
+      {
+        headers: {
+          Authorization: `Basic ${authToken}`,
+        },
+      }
+    )
   );
 }
