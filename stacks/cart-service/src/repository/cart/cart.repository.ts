@@ -1,8 +1,8 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { DB_CLIENT_SERVICE, IDbClientService } from '../../dbClient/interfaces';
 import { ICartRepository, UseByUserIdOption } from '../interfaces';
-import { CartDTO } from '../../shared/dto/CartDTO';
-import { CartItemDTO } from '../../shared/dto/CartItemDTO';
+import { CartDTO } from '../../shared/dto/cart/CartDTO';
+import { CartItemDTO } from '../../shared/dto/cart/CartItemDTO';
 import { getProductById } from '@helpers/db-client';
 
 @Injectable()

@@ -1,6 +1,6 @@
-import { OrderDTO } from '../../shared/dto/OrderDTO';
-import { CartDTO } from '../../shared/dto/CartDTO';
-import { CartItemDTO } from '../../shared/dto/CartItemDTO';
+import { OrderDTO } from '../../shared/dto/order/OrderDTO';
+import { CartDTO } from '../../shared/dto/cart/CartDTO';
+import { CartItemDTO } from '../../shared/dto/cart/CartItemDTO';
 
 export const ORDER_REPOSITORY = 'OrderEntityRepository';
 

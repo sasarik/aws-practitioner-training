@@ -1,7 +1,7 @@
 import { IsArray, IsNotEmpty, IsString, IsUUID, ValidateNested } from 'class-validator';
 import { DeliveryAddressDTO } from './DeliveryAddressDTO';
 import { Type } from 'class-transformer';
-import { CartItemDTO } from './CartItemDTO';
+import { CartItemDTO } from '../cart/CartItemDTO';
 import { OrderStatusHistoryDTO } from './OrderStatusHistoryDTO';
 
 export class OrderDTO {

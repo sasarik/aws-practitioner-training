@@ -1,6 +1,6 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { IOrderRepository, UseByUserIdOption } from '../interfaces';
-import { OrderDTO } from '../../shared/dto/OrderDTO';
+import { OrderDTO } from '../../shared/dto/order/OrderDTO';
 import { DB_CLIENT_SERVICE, IDbClientService } from '../../dbClient/interfaces';
 
 @Injectable()

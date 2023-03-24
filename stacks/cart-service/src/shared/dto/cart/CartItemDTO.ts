@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsNumber, Min, ValidateNested } from 'class-validator';
-import { ProductDTO } from './ProductDTO';
+import { ProductDTO } from '../product/ProductDTO';
 import { Type } from 'class-transformer';
 
 export class CartItemDTO {

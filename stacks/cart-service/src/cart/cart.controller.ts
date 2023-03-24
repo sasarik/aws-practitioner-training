@@ -1,26 +1,26 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Logger, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, HttpStatus, Logger, Post, Put, Query } from '@nestjs/common';
 // import { BasicAuthGuard, JwtAuthGuard } from '../auth';
-import { OrderService } from "../order";
-import { CartService } from "./services";
-import { UserIdParamDTO } from "../shared/dto/UserIdParamDTO";
-import { CartItemDTO } from "../shared/dto/CartItemDTO";
-import { CheckoutDTO } from "../shared/dto/CheckoutDTO";
-import { getProductById } from "@helpers/db-client";
-import { CartDTO } from "../shared/dto/CartDTO";
+import { OrderService } from '../order';
+import { CartService } from './services';
+import { QueryDTO } from '../shared/dto/query/QueryDTO';
+import { CheckoutDTO } from '../shared/dto/cart/CheckoutDTO';
+import { getProductById } from '@helpers/db-client';
+import { CartDTO } from '../shared/dto/cart/CartDTO';
+import { UserCartItemDTO } from '../shared/dto/cart/UserCartItemDTO';
 
-// TODO Ask Ilia for such kind of apis are correct ?
-@Controller('api/profile/cart/:userId')
+@Controller('api/carts')
 export class CartController {
   constructor(private cartService: CartService, private orderService: OrderService) {}
 
+  // TODO inject Logger via interface
   private readonly logger = new Logger(this.constructor.name);
 
   // @UseGuards(JwtAuthGuard)
   // @UseGuards(BasicAuthGuard)
   @Get()
-  async getUserCart(@Param() user: UserIdParamDTO) {
-    this.logger.log(`getUserCart(${user.userId})...`);
-    const cart: CartDTO = await this.cartService.upsertUserCart(user.userId);
+  async getUserCart(@Query() query: QueryDTO) {
+    this.logger.log(`getUserCart(${query.userId})...`);
+    const cart: CartDTO = await this.cartService.upsertUserCart(query.userId);
 
     return {
       statusCode: HttpStatus.OK,
@@ -33,20 +33,19 @@ export class CartController {
   // @UseGuards(JwtAuthGuard)
   // @UseGuards(BasicAuthGuard)
   @Put()
-  async updateUserCartItem(@Param() user: UserIdParamDTO, @Body() cartItem: CartItemDTO) {
-    this.logger.log(`updateUserCart(${user.userId})...`);
+  async updateUserCartItem(@Body() userCartItem: UserCartItemDTO) {
+    this.logger.log(`updateUserCart(${userCartItem.userId})...`);
     // TODO get it from products Repository :)
-    const cartItemProductInfo = await getProductById(cartItem.product.id);
-    if (cartItemProductInfo.count - cartItem.count < 0) {
+    const cartItemProductInfo = await getProductById(userCartItem.product.id);
+    if (cartItemProductInfo.count - userCartItem.count < 0) {
       throw new HttpException('Store: Not Found', HttpStatus.NOT_FOUND);
     }
 
-    await this.cartService.updateUserCartItem(user.userId, cartItem);
+    await this.cartService.updateUserCartItem(userCartItem.userId, userCartItem);
 
     return {
       statusCode: HttpStatus.OK,
-      message: 'OK, Updated',
-      ref: `api/profile/cart/${user.userId}`,
+      message: 'OK, Did update',
     };
   }
 
@@ -66,8 +65,8 @@ export class CartController {
   // @UseGuards(JwtAuthGuard)
   // @UseGuards(BasicAuthGuard)
   @Post('checkout')
-  async checkout(@Param() user: UserIdParamDTO, @Body() orderCheckout: CheckoutDTO) {
-    const cart = await this.cartService.findUserCart(user.userId);
+  async checkout(@Body() orderCheckout: CheckoutDTO) {
+    const cart = await this.cartService.findUserCart(orderCheckout.userId);
     if (!(cart && cart.items.length)) {
       return {
         statusCode: HttpStatus.BAD_REQUEST,
@@ -76,21 +75,21 @@ export class CartController {
     }
 
     const order = await this.orderService.createByUserId({
-      userId: user.userId,
+      userId: orderCheckout.userId,
       cartId: cart.id,
       address: orderCheckout.address,
       items: cart.items,
       status: 'OPEN',
       statusHistory: [{ status: 'OPEN', timestamp: new Date().getTime(), comment: 'New order' }],
     });
-    this.cartService.removeByUserId(user.userId);
+    this.cartService.removeByUserId(orderCheckout.userId);
 
-    // TODO update products count in stock
+    //  TODO update products count in stock
 
     return {
       statusCode: HttpStatus.OK,
       message: 'OK',
-      data: { order },
+      order,
     };
   }
 }
