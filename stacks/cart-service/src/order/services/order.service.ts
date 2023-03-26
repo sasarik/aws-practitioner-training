@@ -9,27 +9,20 @@ export class OrderService {
     private readonly orders: IOrderRepository
   ) {}
 
+  async findById(id: string): Promise<OrderDTO> {
+    const orders = await this.orders.find({ id });
+    return orders[0];
+  }
+
   async findByUserId(userId: string): Promise<OrderDTO[]> {
-    return this.orders.find({ userId });
+    return await this.orders.find({ userId });
   }
 
-  async createByUserId(order: Omit<OrderDTO, 'id'>) {
-    return this.orders.create(order);
+  async createByUserId(order: Omit<OrderDTO, 'id'>): Promise<OrderDTO> {
+    return await this.orders.create(order);
   }
 
-  // TODO rename or remove ?
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  update(_orderId, _data) {
-    return undefined;
-    // const order = this.findById(orderId);
-    //
-    // if (!order) {
-    //   throw new Error('Order does not exist.');
-    // }
-    //
-    // this.order[orderId] = {
-    //   ...data,
-    //   id: orderId,
-    // };
+  async update(order: OrderDTO): Promise<void> {
+    await this.orders.update(order);
   }
 }

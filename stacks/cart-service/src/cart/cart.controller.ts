@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpException, HttpStatus, Logger, Post, Put, Qu
 // import { BasicAuthGuard, JwtAuthGuard } from '../auth';
 import { OrderService } from '../order';
 import { CartService } from './services';
-import { QueryDTO } from '../shared/dto/query/QueryDTO';
+import { UserQueryDTO } from '../shared/dto/params/UserQueryDTO';
 import { CheckoutDTO } from '../shared/dto/cart/CheckoutDTO';
 import { getProductById } from '@helpers/db-client';
 import { CartDTO } from '../shared/dto/cart/CartDTO';
@@ -18,7 +18,7 @@ export class CartController {
   // @UseGuards(JwtAuthGuard)
   // @UseGuards(BasicAuthGuard)
   @Get()
-  async getUserCart(@Query() query: QueryDTO) {
+  async getUserCart(@Query() query: UserQueryDTO) {
     this.logger.log(`getUserCart(${query.userId})...`);
     const cart: CartDTO = await this.cartService.upsertUserCart(query.userId);
 
@@ -38,7 +38,7 @@ export class CartController {
     // TODO get it from products Repository :)
     const cartItemProductInfo = await getProductById(userCartItem.product.id);
     if (cartItemProductInfo.count - userCartItem.count < 0) {
-      throw new HttpException('Store: Not Found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Cart: Not Found', HttpStatus.NOT_FOUND);
     }
 
     await this.cartService.updateUserCartItem(userCartItem.userId, userCartItem);
@@ -88,7 +88,7 @@ export class CartController {
 
     return {
       statusCode: HttpStatus.OK,
-      message: 'OK',
+      message: 'OK, Did Checkout',
       order,
     };
   }

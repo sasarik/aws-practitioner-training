@@ -5,6 +5,15 @@ import { CartDTO } from '../../shared/dto/cart/CartDTO';
 import { CartItemDTO } from '../../shared/dto/cart/CartItemDTO';
 import { getProductById } from '@helpers/db-client';
 
+type CartDbItem = { id: string; cart_id: string; product_id: string; count: number };
+
+const toCartItemDTO = ({ count, product_id }: CartDbItem): CartItemDTO => ({
+  count,
+  product: {
+    id: product_id,
+  },
+});
+
 @Injectable()
 export class CartRepository implements ICartRepository {
   constructor(
@@ -32,7 +41,7 @@ export class CartRepository implements ICartRepository {
     const result = await this.dbClient.query<{
       id: string;
       userId: string;
-      cartDbItems: { id: string; cart_id: string; product_id: string; count: number }[];
+      cartDbItems: CartDbItem[];
       items: CartItemDTO[];
     }>(`
         SELECT
@@ -44,12 +53,7 @@ export class CartRepository implements ICartRepository {
     if (result.rowsCount === 1) {
       this.logger.log(`find(${userId}) -> Cart Found`);
       const cart = result.rows[0];
-      cart.items = (cart.cartDbItems ?? []).map((item) => ({
-        count: item.count,
-        product: {
-          id: item.product_id,
-        },
-      }));
+      cart.items = (cart.cartDbItems ?? []).map(toCartItemDTO);
       if (cart.items.length > 0) {
         cart.items = await this.updateItemsWithProductData(cart.items);
         cart.items.sort((a, b) => a.product.price - b.product.price);

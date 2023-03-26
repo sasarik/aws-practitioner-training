@@ -29,9 +29,9 @@ export class PostgresService implements IDbClientService {
     }
   }
 
-  async query<T>(queryString: string): Promise<IDbQueryResult<T>> {
+  async query<T>(queryString: string, ...paramsValues): Promise<IDbQueryResult<T>> {
     await this.connect();
-    return await this.executeSqlStatement<T>(queryString);
+    return await this.executeSqlStatement<T>(queryString, ...paramsValues);
   }
 
   async transactQuery<T>(queryStrings: string[]): Promise<IDbQueryResult<T>> {
@@ -47,8 +47,8 @@ export class PostgresService implements IDbClientService {
     }
   }
 
-  private async executeSqlStatement<T>(sql: string): Promise<IDbQueryResult<T>> {
-    const result = await this.client.query(sql);
+  private async executeSqlStatement<T>(sql: string, ...paramsValues): Promise<IDbQueryResult<T>> {
+    const result = paramsValues.length > 0 ? await this.client.query(sql, paramsValues) : await this.client.query(sql);
     if (Array.isArray(result)) {
       const lastResult = result.pop();
       return {
