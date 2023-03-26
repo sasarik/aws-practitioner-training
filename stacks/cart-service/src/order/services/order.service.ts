@@ -25,4 +25,8 @@ export class OrderService {
   async update(order: OrderDTO): Promise<void> {
     await this.orders.update(order);
   }
+
+  async remove(order: OrderDTO): Promise<void> {
+    await this.orders.remove(order);
+  }
 }

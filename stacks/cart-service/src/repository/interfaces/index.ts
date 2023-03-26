@@ -10,6 +10,7 @@ export type FindOptions = UseByUserIdOption | UseByIdOption;
 
 export interface IOrderRepository {
   create: (order: Omit<OrderDTO, 'id'>) => Promise<OrderDTO>;
+  remove: (order: OrderDTO) => Promise<void>;
   update: (order: OrderDTO) => Promise<void>;
   find: (options: FindOptions) => Promise<OrderDTO[]>;
 }

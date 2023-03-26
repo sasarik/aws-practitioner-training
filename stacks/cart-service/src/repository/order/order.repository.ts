@@ -69,10 +69,16 @@ export class OrderRepository implements IOrderRepository {
     const statusHistory = JSON.stringify(order.statusHistory);
     await this.dbClient.query<OrderDTO & { cartDbItems: CartDbItem[] }>(
       `UPDATE orders SET status = $1, status_history = to_json($2::json) WHERE id = $3`,
-      order.status,
-      statusHistory,
-      order.id
+      [order.status, statusHistory, order.id]
     );
+  }
+
+  async remove(order: OrderDTO): Promise<void> {
+    await this.dbClient.transactQuery([
+      `DELETE FROM orders WHERE id = '${order.id}'`,
+      `DELETE FROM cart_items WHERE cart_id = '${order.cartId}'`,
+      `DELETE FROM carts WHERE id = '${order.cartId}'`,
+    ]);
   }
 
   private async findByUserId(userId): Promise<OrderDTO[]> {

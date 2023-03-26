@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Logger, Param, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Param, Put, Query } from '@nestjs/common';
 import { OrderService } from './services';
 import { UserQueryDTO } from '../shared/dto/params/UserQueryDTO';
 import { OrderStatusHistoryDTO } from '../shared/dto/order/OrderStatusHistoryDTO';
@@ -52,6 +52,22 @@ export class OrderController {
     return {
       statusCode: HttpStatus.OK,
       message: 'OK, Did Update',
+    };
+  }
+
+  @Delete(':id')
+  async deleteOrder(@Param('id') orderId: string) {
+    this.logger.log(`deleteOrder("${orderId}")...`);
+    const order = await this.orderService.findById(orderId);
+    if (!order) {
+      throw new HttpException('Order: Not Found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.orderService.remove(order);
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'OK, Did Delete',
     };
   }
 }
