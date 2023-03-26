@@ -1,7 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import React from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import API_PATHS from '~/constants/apiPaths';
 import { OrderStatus } from '~/constants/order';
 import { Order } from '~/models/Order';
 import { useGetAuthorizationToken } from '~/queries/authorization';
@@ -12,13 +11,13 @@ export function useOrders() {
   const userId = useGetCurrentUser();
   const authToken = useGetAuthorizationToken();
   return useQuery<Order[], AxiosError>('orders', async () => {
-    const res = await axios.get<{ userOrders: Order[] }>(apiRoutes.ordersByUserId(userId), {
+    const res = await axios.get<{ orders: Order[] }>(apiRoutes.getUserOrders(userId), {
       headers: {
         Authorization: `Basic ${authToken}`,
       },
     });
     console.log(`useOrders(${userId}):result`, res.data);
-    return res.data.userOrders ?? [];
+    return res.data.orders ?? [];
   });
 }
 
@@ -28,14 +27,19 @@ export function useInvalidateOrders() {
 }
 
 export function useUpdateOrderStatus() {
+  const userId = useGetCurrentUser();
   const authToken = useGetAuthorizationToken();
   return useMutation((values: { id: string; status: OrderStatus; comment: string }) => {
     const { id, ...data } = values;
-    return axios.put(`${API_PATHS.order}/order/${id}/status`, data, {
-      headers: {
-        Authorization: `Basic ${authToken}`,
-      },
-    });
+    return axios.put(
+      apiRoutes.orderStatusById(id),
+      { ...data, userId },
+      {
+        headers: {
+          Authorization: `Basic ${authToken}`,
+        },
+      }
+    );
   });
 }
 
@@ -63,10 +67,11 @@ export function useInvalidateOrder() {
   );
 }
 
+//  TODO  order delete
 export function useDeleteOrder() {
   const authToken = useGetAuthorizationToken();
   return useMutation((id: string) =>
-    axios.delete(`${API_PATHS.order}/order/${id}`, {
+    axios.delete(apiRoutes.orderById(id), {
       headers: {
         Authorization: `Basic ${authToken}`,
       },

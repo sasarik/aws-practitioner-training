@@ -112,6 +112,12 @@ delete from orders
 drop table orders
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
+
+select * from pg_prepared_statements;
+
+
+
+
 SELECT to_json(ci) FROM cart_items ci
  where ci.cart_id == o.cart_id
 
@@ -119,7 +125,11 @@ SELECT o.id, o.user_id as userId, o.cart_id as cartId, o.status as status, o.del
 		(SELECT  json_agg(ci) FROM cart_items ci where ci.cart_id = o.cart_id) as items
 FROM orders o WHERE o.user_id = '12b9f0b8-ab6b-4c61-b240-00b86edfcdda'
 
+SELECT quote_ident('A''''AA');
 
+SELECT quote_literal('s');
+
+delete from orders where id = '6a126c54-3e44-4a63-80ca-1b11fc2ed3c9'
 
 SELECT c.id, c.user_id as "userId",
             (SELECT  json_agg(ci) FROM cart_items ci where ci.cart_id = c.id) as items
@@ -143,7 +153,7 @@ INSERT INTO CARTS(user_id,created_at,updated_at)
       RETURNING id
 
 
-delete from orders
+delete from orders where id = '4e96bbd7-6a47-4185-8e14-d9cbd4034f6a'
 
 delete from cart_items
 

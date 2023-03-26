@@ -16,7 +16,7 @@ export function useCart() {
         items: CartItem[];
         total: number;
       };
-    }>(apiRoutes.getCartByUserId(userId), {
+    }>(apiRoutes.getUserCart(userId), {
       headers: {
         Authorization: `Basic ${authToken}`,
       },

@@ -5,7 +5,7 @@ export const useSetCurrentUser = (userId: string) =>
     localStorage.setItem('currentUserId', userId);
     return () => {
       // cleanup
-      localStorage.removeItem('currentUserId');
+      // localStorage.removeItem('currentUserId');
     };
   }, [userId]);
 

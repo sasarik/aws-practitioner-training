@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import PaperLayout from '~/components/PaperLayout/PaperLayout';
 import Typography from '@mui/material/Typography';
-import API_PATHS from '~/constants/apiPaths';
 import { CartItem } from '~/models/CartItem';
 import ReviewOrder from '~/components/pages/PageCart/components/ReviewOrder';
 import { ORDER_STATUS_FLOW, OrderStatus } from '~/constants/order';
@@ -23,6 +22,7 @@ import Box from '@mui/material/Box';
 import { useQueries } from 'react-query';
 import { useInvalidateOrder, useUpdateOrderStatus } from '~/queries/orders';
 import { fetchAvailableProducts } from '~/queries/products';
+import { apiRoutes } from '~/constants/apiRoutes';
 
 type FormValues = {
   status: OrderStatus;
@@ -35,8 +35,9 @@ export default function PageOrder() {
     {
       queryKey: ['order', { id }],
       queryFn: async () => {
-        const res = await axios.get<Order>(`${API_PATHS.order}/order/${id}`);
-        return res.data;
+        console.log('getOrder:', id);
+        const res = id ? await axios.get<{ order: Order }>(apiRoutes.orderById(id)) : undefined;
+        return res?.data?.order;
       },
     },
     {
@@ -50,7 +51,7 @@ export default function PageOrder() {
   const cartItems: CartItem[] = React.useMemo(() => {
     if (order && products) {
       return order.items.map((item: OrderItem) => {
-        const product = products.find((p) => p.id === item.productId);
+        const product = products.find((p) => p.id === item.product.id);
         if (!product) {
           throw new Error('Product not found');
         }
@@ -74,7 +75,7 @@ export default function PageOrder() {
       <ReviewOrder address={order.address} items={cartItems} />
       <Typography variant="h6">Status:</Typography>
       <Typography variant="h6" color="primary">
-        {lastStatusItem?.status.toUpperCase()}
+        {lastStatusItem.status.toUpperCase()}
       </Typography>
       <Typography variant="h6">Change status:</Typography>
       <Box py={2}>
@@ -133,7 +134,7 @@ export default function PageOrder() {
           </TableHead>
           <TableBody>
             {statusHistory.map((statusHistoryItem) => (
-              <TableRow key={order.id}>
+              <TableRow key={`${statusHistoryItem.status}::${statusHistoryItem.timestamp}`}>
                 <TableCell component="th" scope="row">
                   {statusHistoryItem.status.toUpperCase()}
                 </TableCell>
