@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { theme } from '~/theme';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { Alert, AlertColor, Snackbar, SnackbarOrigin } from '@mui/material';
 import React, { useEffect } from 'react';
 
@@ -39,7 +39,7 @@ const Main = () => {
       function (error) {
         setAlertOptions({
           isDisplayed: true,
-          message: error instanceof AxiosError ? error.message : String(error),
+          message: error instanceof Error ? error.message : error.toString(),
           severity: 'error',
         });
       }
