@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Logger, Param, Put, Query } from '@nestjs/common';
 import { OrderService } from './services';
-import { UserQueryDTO } from '../shared/dto/params/UserQueryDTO';
-import { OrderStatusHistoryDTO } from '../shared/dto/order/OrderStatusHistoryDTO';
+import { UserQueryDTO } from '@domains/nest-dto';
+import { OrderStatusHistoryDTO } from '@domains/nest-dto';
 
 @Controller('api/orders')
 export class OrderController {

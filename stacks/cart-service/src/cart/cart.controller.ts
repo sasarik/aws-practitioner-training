@@ -2,11 +2,10 @@ import { Body, Controller, Get, HttpException, HttpStatus, Logger, Post, Put, Qu
 // import { BasicAuthGuard, JwtAuthGuard } from '../auth';
 import { OrderService } from '../order';
 import { CartService } from './services';
-import { UserQueryDTO } from '../shared/dto/params/UserQueryDTO';
-import { CheckoutDTO } from '../shared/dto/cart/CheckoutDTO';
+import { CheckoutDTO, UserQueryDTO } from '@domains/nest-dto';
 import { getProductById } from '@helpers/db-client';
-import { CartDTO } from '../shared/dto/cart/CartDTO';
-import { UserCartItemDTO } from '../shared/dto/cart/UserCartItemDTO';
+import { CartDTO } from '@domains/nest-dto';
+import { UserCartItemDTO } from '@domains/nest-dto';
 
 @Controller('api/carts')
 export class CartController {

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { OrderRepository } from './order/order.repository';
 import { CART_REPOSITORY, ORDER_REPOSITORY } from './interfaces';
-import { PostgresDbModule } from '../dbClient/postgres/postgresDb.module';
+import { PostgresDbModule } from '@db-client/postgress';
 import { CartRepository } from './cart/cart.repository';
 
 @Module({

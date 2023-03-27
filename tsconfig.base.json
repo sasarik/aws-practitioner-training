@@ -17,7 +17,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@db-client/aws-postgress": ["packages/db-clients/postgress-aws-db-client/src/index.ts"],
+      "@db-client/dynamo-db": ["packages/db-clients/dynamo-db-client/src/index.ts"],
+      "@db-client/postgress": ["packages/db-clients/postgress-db-client/src/index.ts"],
       "@domains/db-client": ["packages/domains/db-client/src/index.ts"],
+      "@domains/nest-dto": ["packages/domains/nest-dto/src/index.ts"],
       "@helpers/authorization": ["packages/serverless-utils/src/lib/authorization/index.ts"],
       "@helpers/common": ["packages/serverless-utils/src/lib/common/index.ts"],
       "@helpers/db-client": ["packages/serverless-utils/src/lib/db-client/index.ts"],

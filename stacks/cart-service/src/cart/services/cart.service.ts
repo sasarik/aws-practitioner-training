@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CartDTO } from '../../shared/dto/cart/CartDTO';
-import { CartItemDTO } from '../../shared/dto/cart/CartItemDTO';
+import { CartDTO } from '@domains/nest-dto';
+import { CartItemDTO } from '@domains/nest-dto';
 import { CART_REPOSITORY, ICartRepository } from '../../repository/interfaces';
 
 @Injectable()
