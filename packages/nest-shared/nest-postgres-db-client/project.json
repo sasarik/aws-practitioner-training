@@ -1,5 +1,5 @@
 {
-  "name": "db-clients-postgres-db-client",
+  "name": "nest-shared-nest-postgres-db-client",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "/src",
   "projectType": "library",
@@ -11,7 +11,7 @@
       ],
       "options": {
         "lintFilePatterns": [
-          "packages/db-clients/postgres-db-client/**/*.ts"
+          "packages/nest-shared/nest-postgres-db-client/**/*.ts"
         ]
       }
     },
@@ -21,7 +21,7 @@
         "{workspaceRoot}/coverage/{projectRoot}"
       ],
       "options": {
-        "jestConfig": "packages/db-clients/postgres-db-client/jest.config.ts",
+        "jestConfig": "packages/nest-shared/nest-postgres-db-client/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
