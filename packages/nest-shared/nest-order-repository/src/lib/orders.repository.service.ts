@@ -60,6 +60,7 @@ export class OrdersRepositoryService implements IOrderRepository {
     }
 
     this.exhaustiveCheck(options);
+    return [];
   }
 
   async update(order: OrderDTO): Promise<void> {
@@ -80,7 +81,7 @@ export class OrdersRepositoryService implements IOrderRepository {
     ]);
   }
 
-  private async findByUserId(userId): Promise<OrderDTO[]> {
+  private async findByUserId(userId: string): Promise<OrderDTO[]> {
     this.logger.log(`findByUserId("${userId}")...`);
     const result = await this.dbClient.query<OrderDTO & { cartDbItems: CartDbItem[] }>(`
         SELECT  o.id, o.user_id as "userId", o.cart_id as "cartId", o.status as "status",
@@ -102,7 +103,7 @@ export class OrdersRepositoryService implements IOrderRepository {
     });
   }
 
-  private async findById(orderId): Promise<OrderDTO[]> {
+  private async findById(orderId: string): Promise<OrderDTO[]> {
     this.logger.log(`findById("${orderId}")...`);
     const result = await this.dbClient.query<OrderDTO & { cartDbItems: CartDbItem[] }>(`
         SELECT  o.id, o.user_id as "userId", o.cart_id as "cartId", o.status as "status",

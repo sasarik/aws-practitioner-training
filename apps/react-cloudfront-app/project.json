@@ -1,15 +1,17 @@
 {
   "name": "react-cloudfront-app",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/react-cloudfront-app/src",
+  "sourceRoot": "src",
   "projectType": "application",
   "targets": {
     "build": {
       "executor": "@nrwl/vite:build",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "development",
       "options": {
-        "outputPath": "packages/react-cloudfront-app/dist"
+        "outputPath": "apps/react-cloudfront-app/dist"
       },
       "configurations": {
         "development": {
@@ -54,23 +56,29 @@
     },
     "test": {
       "executor": "@nrwl/vite:test",
-      "outputs": ["coverage/packages/react-cloudfront-app"],
+      "outputs": [
+        "coverage/apps/react-cloudfront-app"
+      ],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/packages/react-cloudfront-app"
+        "reportsDirectory": "../../coverage/apps/react-cloudfront-app"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["packages/react-cloudfront-app/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "apps/react-cloudfront-app/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "packages/react-cloudfront-app",
+        "cwd": "apps/react-cloudfront-app",
         "color": true,
         "command": "sls client deploy --no-config-change --no-policy-change --no-cors-change --no-confirm"
       }
@@ -78,7 +86,7 @@
     "invalidateCloudFrontCache": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "packages/react-cloudfront-app",
+        "cwd": "apps/react-cloudfront-app",
         "color": true,
         "command": "sls invalidateCloudFrontCache"
       }
@@ -86,7 +94,7 @@
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "packages/react-cloudfront-app",
+        "cwd": "apps/react-cloudfront-app",
         "color": true,
         "commands": [
           "sls client deploy --no-config-change --no-policy-change --no-cors-change --no-confirm",
