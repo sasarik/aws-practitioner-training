@@ -25,8 +25,8 @@
       "options": {
         "target": "node",
         "compiler": "tsc",
-        "outputPath": "stacks/cart-service/.dist",
-        "main": "stacks/cart-service/src/main.ts",
+        "outputPath": "stacks/cart-service/dist/stacks/cart-service",
+        "main": "stacks/cart-service/src/handler.ts",
         "tsConfig": "stacks/cart-service/tsconfig.app.json",
         "isolatedConfig": true,
         "webpackConfig": "stacks/cart-service/webpack.config.js"

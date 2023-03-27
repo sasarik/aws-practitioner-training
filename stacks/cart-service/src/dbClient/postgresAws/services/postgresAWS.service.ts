@@ -1,6 +1,6 @@
 import { ConsoleLogger, Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import { IDbClientService, IDbQueryResult } from '../../interfaces';
+import { IDbClientService, IDbQueryResult } from '@domains/db-client';
 import { ExecuteStatementCommand, RDSDataClient } from '@aws-sdk/client-rds-data';
 import postgresAwsConfig from '../config/postgresAws.config';
 

@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { DB_CLIENT_SERVICE, IDbClientService } from '../../dbClient/interfaces';
+import { DB_CLIENT_SERVICE, IDbClientService } from '@domains/db-client';
 import { ICartRepository, UseByUserIdOption } from '../interfaces';
 import { CartDTO } from '../../shared/dto/cart/CartDTO';
 import { CartItemDTO } from '../../shared/dto/cart/CartItemDTO';

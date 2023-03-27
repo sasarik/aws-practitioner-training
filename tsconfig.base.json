@@ -12,36 +12,21 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@helpers/authorization": [
-        "packages/serverless-utils/src/lib/authorization/index.ts"
-      ],
-      "@helpers/common": [
-        "packages/serverless-utils/src/lib/common/index.ts"
-      ],
-      "@helpers/db-client": [
-        "packages/serverless-utils/src/lib/db-client/index.ts"
-      ],
-      "@helpers/schemas": [
-        "packages/serverless-utils/src/lib/schemas/index.ts"
-      ],
-      "@helpers/validation": [
-        "packages/serverless-utils/src/lib/validation/index.ts"
-      ]
+      "@domains/db-client": ["packages/domains/db-client/src/index.ts"],
+      "@helpers/authorization": ["packages/serverless-utils/src/lib/authorization/index.ts"],
+      "@helpers/common": ["packages/serverless-utils/src/lib/common/index.ts"],
+      "@helpers/db-client": ["packages/serverless-utils/src/lib/db-client/index.ts"],
+      "@helpers/schemas": ["packages/serverless-utils/src/lib/schemas/index.ts"],
+      "@helpers/validation": ["packages/serverless-utils/src/lib/validation/index.ts"]
     },
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "removeComments": true
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

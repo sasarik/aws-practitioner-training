@@ -5,7 +5,7 @@ export interface IDbClientService {
 
   connect(): Promise<void>;
 
-  query<T>(queryString: string, ...paramsValues): Promise<IDbQueryResult<T>>;
+  query<T>(queryString: string, paramsValues?: unknown[]): Promise<IDbQueryResult<T>>;
 
   transactQuery<T>(queryStrings: string[]): Promise<IDbQueryResult<T>>;
 }

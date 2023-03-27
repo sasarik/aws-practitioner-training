@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import dynamoDbConfig from './config/dynamoDb.config';
 import { DynamoDbService } from './services/dynamoDb.service';
-import { DB_CLIENT_SERVICE } from '../interfaces';
+import { DB_CLIENT_SERVICE } from '@domains/db-client';
 
 @Module({
   imports: [ConfigModule.forFeature(dynamoDbConfig)],
