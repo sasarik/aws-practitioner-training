@@ -25,11 +25,26 @@
       "options": {
         "target": "node",
         "compiler": "tsc",
-        "outputPath": "stacks/cart-service/dist/stacks/cart-service",
-        "main": "stacks/cart-service/src/handler.ts",
+        "outputPath": "stacks/cart-service/.dist",
+        "main": "stacks/cart-service/src/main.ts",
         "tsConfig": "stacks/cart-service/tsconfig.app.json",
         "isolatedConfig": true,
         "webpackConfig": "stacks/cart-service/webpack.config.js"
+      }
+    },
+    "start": {
+      "executor": "@nrwl/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "cart-service:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "cart-service:build:development"
+        },
+        "production": {
+          "buildTarget": "cart-service:build:production"
+        }
       }
     },
     "package": {

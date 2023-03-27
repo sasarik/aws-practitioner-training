@@ -33,12 +33,12 @@ const serverlessConfiguration = <AWS>{
     },
     environment: {
       ...baseServerlessConfiguration.provider.environment,
-      PgArn: process.env.PG_ARN,
-      PgHost: process.env.PG_HOST,
-      PgPort: process.env.PG_PORT,
-      PgDataBase: process.env.PG_DATABASE,
-      PgUserName: process.env.PG_USERNAME,
-      PgUserPassword: process.env.PG_PASSWORD,
+      PG_ARN: process.env.PG_ARN,
+      PG_HOST: process.env.PG_HOST,
+      PG_PORT: process.env.PG_PORT,
+      PG_DATABASE: process.env.PG_DATABASE,
+      PG_USERNAME: process.env.PG_USERNAME,
+      PG_PASSWORD: process.env.PG_PASSWORD,
     },
   },
   functions: {
