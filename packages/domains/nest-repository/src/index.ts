@@ -18,5 +18,5 @@ export const CART_REPOSITORY = 'CartEntityRepository';
 export interface ICartRepository {
   create: (options: UseByUserIdOption) => Promise<CartDTO>;
   update: (options: UseByUserIdOption, cartItem: CartItemDTO) => Promise<void>;
-  find: (options: UseByUserIdOption) => Promise<CartDTO>;
+  find: (options: UseByUserIdOption) => Promise<CartDTO | undefined>;
 }

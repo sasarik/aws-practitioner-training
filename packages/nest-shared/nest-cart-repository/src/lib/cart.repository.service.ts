@@ -34,7 +34,7 @@ export class CartRepositoryService implements ICartRepository {
     return newCart;
   }
 
-  async find({ userId }: UseByUserIdOption): Promise<CartDTO> {
+  async find({ userId }: UseByUserIdOption): Promise<CartDTO | undefined> {
     this.logger.log(`find(${userId})...`);
 
     const result = await this.dbClient.query<{
@@ -60,6 +60,7 @@ export class CartRepositoryService implements ICartRepository {
       return cart;
     }
     this.logger.log(`find(${userId}) -> Cart Not Found`);
+    return undefined;
   }
 
   async update({ userId }: UseByUserIdOption, cartItem: CartItemDTO): Promise<void> {
