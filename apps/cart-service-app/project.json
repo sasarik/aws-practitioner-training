@@ -1,0 +1,91 @@
+{
+  "name": "cart-service-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/cart-service-app/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "apps/cart-service-app/dist",
+        "main": "apps/cart-service-app/src/main.ts",
+        "tsConfig": "apps/cart-service-app/tsconfig.app.json",
+        "assets": [
+          "apps/cart-service-app/src/assets"
+        ],
+        "isolatedConfig": true,
+        "generatePackageJson": true,
+        "webpackConfig": "apps/cart-service-app/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "buildImage": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/cart-service-app",
+        "color": true,
+        "command": "docker build -f Dockerfile . -t cart-service-app"
+      }
+    },
+    "runImage": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": ".",
+        "color": true,
+        "command": "docker run --env-file=.env -p 4000:3333 cart-service-app"
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "cart-service-app:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "cart-service-app:build:development"
+        },
+        "production": {
+          "buildTarget": "cart-service-app:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/cart-service-app/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/cart-service-app/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
