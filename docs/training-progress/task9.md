@@ -2,7 +2,7 @@
 
 ---
 
-### Task 8.1
+### Task 9.1
 
 - [x] The nestJs cart-orders-service RDS application from Task 8 is used
 - [x] **Created** Dockerfile that will build a docker image to run the Cart Service.
@@ -13,65 +13,53 @@
 
 - [x] Minimize docker image size to be `less than 500 MB`.
 - [x] Optimize image build times. Dockerfile commands that run npm install should not depend on typescript files.
-- [x] _OPTIONAL: add more folders to `.dockerignore` with explanations_
 - [x] _OPTIONAL: Minimize docker image size to `about 100 MB`._
 - [x] _OPTIONAL: Optimize build times by utilizing multistage builds._
 - [x] _OPTIONAL: Lint Dockerfile._
 
-### Task 8.2
+### Task 9.2
 
 1. Prepare Cart Service infrastructure with Elastic Beanstalk.
 
-- **Use** a `Dockerfile` from previous subtask to deploy your Cart Service using AWS Beanstalk CLI.
-- **Initiate** an Elastic Beanstalk application using the `eb init` command. Application name must follow the following
-  convention `{yours_github_account_login}-cart-api`.
-- **Create** a new environment using the `eb create` command. An environment name must be short _but not less then four
-  signs_ (e.g _develop_, _test_, _prod_, etc). Use the `--cname`
+- [x] **Use** a `Dockerfile` from previous subtask to deploy your Cart Service using AWS Beanstalk CLI.
+- [x] **Initiate** an Elastic Beanstalk application using the `eb init` command. Application name must follow the
+  following convention `{yours_github_account_login}-cart-api`.
+- [x] **Create** a new environment using the `eb create` command. An environment name must be short _but not less then
+  four signs_ (e.g _develop_, _test_, _prod_, etc). Use the `--cname`
   option `{yours_github_account_login}-cart-api-{environment_name}` so that Elastic Beanstalk will use it to create a
   proper domain name. Use the `--single` option to not use any Load Balancer for this environment.
 
 2. Deploy Cart Service with Elastic Beanstalk
 
-- **Investigate** AWS Elastic Beanstalk service in the AWS Console.
-- **Walk through** EC2 resources that were created by Elastic Beanstalk
-- **Update** the app and deploy changes using the `eb deploy` command.
+- [x] **Investigate** AWS Elastic Beanstalk service in the AWS Console.
+- [x] **Walk through** EC2 resources that were created by Elastic Beanstalk
+- [x] **Update** the app and deploy changes using the `eb deploy` command.
 
 3. Update FE app
 
-- **Pull** the latest version of the app from repo
-- **Replace** Cart Service placeholder in `src/constants/apiPaths.ts` using a Cart Service API URL you get after
+- [x] **Pull** the latest version of the app from repo
+- [x] **Replace** Cart Service placeholder in `src/constants/apiPaths.ts` using a Cart Service API URL you get after
   successful deployment.
-- **Make sure** your app starts to call Cart Service API when you add or remove items.
-
-_NOTE: Now after page refresh cart’s content might remain the same._
-
-### Task 8.3
-
-1. Commit all your work to separate branch (e.g. `task-8` from the latest `master`) in your own repository.
-2. Create a pull request to the `master` branch.
-3. Submit the link to the pull request for crosscheck
+- [x] **Make sure** your app starts to call Cart Service API when you add or remove items.
+- [x] _NOTE: Now after page refresh cart’s content might remain the same._
 
 ## Evaluation criteria (70 points for covering all criteria)
 
 ---
 
-- `Dockerfile` is prepared, image is building. Image size is minimized to be less than 500 MB.
-- `Dockerfile` is optimized. Files that change more often and commands that depend on them should be included later,
+- [x] `Dockerfile` is prepared, image is building. Image size is minimized to be less than 500 MB.
+- [x] `Dockerfile` is optimized. Files that change more often and commands that depend on them should be included later,
   files and commands that change less should be at the top.
-- Folders are added to .dockerignore, with explanations. At least 2 big directories should be excluded from build
+- [x] Folders are added to .dockerignore, with explanations. At least 2 big directories should be excluded from build
   context. Elastic Beanstalk application is initialized.
 
 ## Additional (optional) tasks
 
 ---
 
-- **15** - Environment is created and the app is deployed to the AWS cloud. You must provide a link to your GitHub repo
+- [x] **15** - Environment is created and the app is deployed to the AWS cloud. You must provide a link to your GitHub
+  repo
   with Cart Service API or PR with created `Dockerfile` and related configurations.
-- **15** - FE application is updated with Cart API endpoint. You must provide a PR with updates in your FE repository
+- [x] **15** - FE application is updated with Cart API endpoint. You must provide a PR with updates in your FE
+  repository
   and OPTIONALLY link to deployed front-end app which makes proper API calls to your Cart Service.
-
-## Description Teamplate for PRs
-
----
-
-The follwoing should be present in PR's description field:
