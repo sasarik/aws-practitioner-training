@@ -1,0 +1,17 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "essential": true,
+      "image": "epamoleksandrradvanskyi/cart-service-app:latest",
+      "memory": 512,
+      "name": "cart-service-app",
+      "portMappings": [
+        {
+          "containerPort": 3333,
+          "hostPort": 3333
+        }
+      ]
+    }
+  ]
+}

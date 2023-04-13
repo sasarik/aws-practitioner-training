@@ -21,7 +21,7 @@ export const baseServerlessConfiguration: Omit<AWS, 'service'> = {
       exclude: [
         'aws-sdk',
         'aws-lambda',
-        '@aws-sdk/lib-dynamodb',
+        '@aws-sdk/service-dynamodb',
         '@aws-sdk/client-dynamodb',
         '@aws-sdk/util-dynamodb',
         '@aws-sdk/client-s3',
